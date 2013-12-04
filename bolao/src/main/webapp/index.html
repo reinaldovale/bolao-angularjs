@@ -1,0 +1,46 @@
+<!doctype html>
+<html ng-app="bolao">
+<head>
+<script src="angular.js"></script>
+<script src="ui-bootstrap-tpls-0.6.0.js"></script>
+<!-- script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.3.0/ui-bootstrap-tpls.min.js"></script -->
+<script src="example.js"></script>
+<link href="bootstrap-combined.min.css" rel="stylesheet">
+
+<style type="text/css">
+.accordion-heading a:hover {
+text-decoration: none;
+}
+
+</style>
+
+</head>
+<body>
+
+	<div ng-controller="ClassificacaoCtrl"
+		style="width: 500px; height: 100px; position: absolute; left: 50%; top: 50px; margin-left: -250px;">
+
+		<accordion 
+			close-others="true"> 
+			<accordion-group ng-repeat="boleiro in boleiros" is-open="boleiro.verDetalhe"> 
+				<accordion-heading style="a:hover {text-decoration: none};">
+					
+						<span><img style="width: 50px" ng-src="{{boleiro.img}}" /></span>
+						<span class="label label-primary">{{boleiro.nome}}</span>
+				        <span class="label label-success">Pontos <span class="badge">{{boleiro.pontos}}</span></span>
+				        <span class="label label-info">Placares <span class="badge">{{boleiro.placares}}</span></span>
+				        <span class="pull-right" ng-class="{'icon-chevron-down': boleiro.verDetalhe, 'icon-chevron-right': !boleiro.verDetalhe}"></span>
+				      
+					
+				</accordion-heading>
+				{{boleiro | json}}
+				<p>The body of the accordion group grows to fit the contents</p>
+				<button class="btn btn-small" ng-click="addItem()">Add Item</button>
+				<div ng-repeat="item in items">{{item}}</div>
+			</accordion-group>
+		</accordion>
+	</div>
+	
+	 
+</body>
+</html>

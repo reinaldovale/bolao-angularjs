@@ -1,0 +1,89 @@
+<!doctype html>
+<html ng-app="myApp">
+  <head>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>  
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+
+    <script>
+
+    var myApp = angular.module('myApp', []);
+
+
+    myApp.controller('AccordionDemoCtrl', ['$scope', 'dataService', function ($scope, dataService) {
+        $scope.oneAtATime = true;
+
+        $scope.mainTemplate = '';
+
+        $scope.groups = [
+          {
+            id: "001",
+            title: "Dynamic Group Header - 1",
+            content: "Dynamic Group Body - 1",
+            template: "panel1.html"
+          },
+          {
+            id: "002",
+            title: "Dynamic Group Header - 2",
+            content: "Dynamic Group Body - 2",
+            template: "panel2.html"
+
+          }
+        ];
+
+    }]);
+
+    myApp.factory('dataService', [ '$http', function($http){
+      return {
+          getData: function() {
+            return // you AJAX content data here;
+          }
+      }
+    }]);
+
+    myApp.directive('accordionToggle', [function () {
+      return {
+        restrict: 'C',
+         scope: {
+         mainTemplate: '=',
+         panelTemplate: '@'
+       },
+       link: function (scope, element, iAttrs) {
+
+         element.bind('click', function(e){
+
+           scope.mainTemplate = scope.panelTemplate;
+
+           scope.$apply();
+
+         });
+       }
+     };
+   }]);
+
+
+    </script>
+
+  </head>
+  <body ng-controller="AccordionDemoCtrl">
+
+  <div class="accordion" id="accordionParent">
+    <div class="accordion-group" ng-repeat="group in groups" >
+     <div class="accordion-heading">
+        <a class="accordion-toggle" main-template="$parent.mainTemplate" panel-template="{{ group.template }}" data-toggle="collapse" data-parent="#accordionParent" href="#collapse{{ $parent.group.id }}">
+         Collapsible Group Item {{ $parent.group.id }}
+       </a>
+     </div>
+     <div id="collapse{{ group.id }}" class="accordion-body collapse">
+       <div class="accordion-inner">
+         <div class="include-example" ng-include="mainTemplate"></div>
+       </div>
+     </div>
+   </div>
+ </div>
+
+   </body>
+  </html>
