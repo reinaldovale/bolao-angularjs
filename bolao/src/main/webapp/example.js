@@ -12,6 +12,11 @@ function ClassificacaoCtrl($scope) {
 		img : "daniel.png",
 		pontos : 60,
 		placares : 50
+	} , {
+		nome : "Russo",
+		img : "daniel.png",
+		pontos : 10,
+		placares : 4
 	} ];
 
 	$scope.$watch('boleiro.verDetalhe', function(newValue, oldValue) {
