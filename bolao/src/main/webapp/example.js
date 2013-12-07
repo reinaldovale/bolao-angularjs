@@ -1,15 +1,15 @@
 angular.module('bolao', [ 'ui.bootstrap' ]);
 function ClassificacaoCtrl($scope) {
-	$scope.oneAtATime = true;
+	$scope.oneAtATime = false;
 
 	$scope.boleiros = [ {
-		nome : "Reinaldo Vale",
+		nome : "Reinaldo Valee",
 		img : "daniel.png",
 		pontos : 100,
 		placares : 50
 	}, {
 		nome : "Zeneto",
-		img : "daniel.png",
+		img : "caracu.jpg",
 		pontos : 60,
 		placares : 50
 	} , {
@@ -17,17 +17,39 @@ function ClassificacaoCtrl($scope) {
 		img : "daniel.png",
 		pontos : 10,
 		placares : 4
-	} ];
+	} , {
+		nome : "Diel do Vale",
+		img : "boca.png",
+		pontos : 10,
+		placares : 4
+	}];
 
-	$scope.$watch('boleiro.verDetalhe', function(newValue, oldValue) {
-		$scope.newValue = newValue;
-		$scope.oldValue = oldValue;
-	});
-
-	$scope.items = [ 'Item 1', 'Item 2', 'Item 3' ];
-
-	$scope.addItem = function() {
-		var newItemNo = $scope.items.length + 1;
-		$scope.items.push('Item ' + newItemNo);
-	};
+	
+	
+	
+	
+	
+	
+	 $scope.myInterval = 5000;
+  var slides = $scope.slides = [];
+  $scope.addSlide = function() {
+    var newWidth = 200 + ((slides.length + (25 * slides.length)) % 150);
+    slides.push({
+      image: 'http://placekitten.com/' + newWidth + '/200',
+      text: ['More','Extra','Lots of','Surplus'][slides.length % 4] + ' ' +
+        ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 4]
+    });
+  };
+  for (var i=0; i<4; i++) {
+    $scope.addSlide();
+  }
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

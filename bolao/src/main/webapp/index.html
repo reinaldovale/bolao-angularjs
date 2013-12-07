@@ -8,39 +8,96 @@
 <link href="bootstrap-combined.min.css" rel="stylesheet">
 
 <style type="text/css">
+
+.pagina-classificacao {
+	width: 500px; 
+	height: 100px;
+/* INICIO: centralizar na página */
+	position: absolute; 
+	left: 50%; 
+	top: 50px; 
+	margin-left: -250px;"
+/* FIM: centralizar na página */
+}
+
+/* INICIO: Constomizações Bootstrap */
 .accordion-heading a:hover {
 text-decoration: none;
+}
+
+.accordion-toggle:hover {
+background-color: antiquewhite;
+}
+/* FIM: Constomizações Bootstrap */
+
+.img-conteiner {
+	width: 40px;
+	height: 40px;
+	border:2px solid;
+	border-radius:50%;
+	-moz-border-radius:50%;
+	-webkit-border-radius:50%;
 }
 
 </style>
 
 </head>
-<body style="
-	background:
-		#FFEFF1 
-		url(data:image/png;base64,R0lGODlhFAAUAJEDAMDAwN7c3P///////yH/C05FVFNDQVBFMi4wAwEAAAAh+QQFCAADACwAAAAAFAAUAAACN0QUqQntftZ6FCDJKsRZmyt5TYSJH2eSoahOLOh6rZLC9MsFOCrbtzb7VYKdoa9IIep6uV1JUwAAIfkEBQgAAwAsAAAAABQAFAAAAjeEI6Gr5o8YezTKRp29+aUbdBoYisA2mehinp/Urpgol/Sb3mCMs2rv69RsmeGPdNzplELgzFEAACH5BAUIAAMALAAAAAAUABQAAAI0hB0Sy3uPVGPwpUlrxE6Dy3mfhIkAOZlc54Gp6DYqmrU0q8V1fgdzCOv9gLxV0GhDFomAAgAh+QQFCAADACwAAAAAFAAUAAACNoQPIcHNCJVzEMn5qrlY74UFXgJ2HjeNKDWWqRqKqtuMZGiv2Unvmi7j4WZDocl4rACDyl6mAAAh+QQFCAADACwAAAAAFAAUAAACNYR/IcHNCJVzEMn5qrlY74UFHsBNY0l5aHOCneqaY5yqodiGI0lnsJ57/YSaFW4oQ9aKPUYBACH5BAUIAAMALAAAAAAUABQAAAI2DI4ZEu2W4novKkabRTPD3WXbEVIjUFZj6pystmJi7H3Wa1uy6dYnumu5gjDazMhDqpRCZqAAACH5BAUIAAMALAAAAAAUABQAAAI2jIGpIeanInsuykaDXThvNGXaF3pkR31AmZ7iuLGPKleuSKPzbX66TXqpVj9YrDisGS3KJKoAACH5BAUIAAMALAAAAAAUABQAAAI1jA2pG3K/ImjvSOZquIpqnngVOGUfJ46oqV4ptGpILIOvRZ8uC+/ylmtdeDjUj3QDBou+QAEAIfkEBQgAAwAsAAAAABQAFAAAAjSMH6DLIXiYBA6a2Z7Fq25OaRAYWgnojaioYmk7vchqni47c3Kk4/xdo5mEH+AQ5LuggqsCACH5BAUIAAMALAAAAAAUABQAAAI1VI4Hy53fIgjmBekqxIvay01aEopf6VnoiKxnmKpcvGE0ObNt/oG2ruC9fj0Y0Ce57YhDTAEAOw==) 
-		no-repeat 20px 20px;
-	border:1px solid #d77;
-	border-color:#f30;
-	color:#000;">
+<body>
 
-	<div ng-controller="ClassificacaoCtrl"
-		style="width: 500px; height: 100px; position: absolute; left: 50%; top: 50px; margin-left: -250px;">
+	<div class="pagina-classificacao" ng-controller="ClassificacaoCtrl">
 
 		<accordion 
-			close-others="true"> 
+			close-others="false"> 
 			<accordion-group ng-repeat="boleiro in boleiros" is-open="boleiro.verDetalhe"> 
 				<accordion-heading style="a:hover {text-decoration: none};">					
-					<span><img style="width: 40px" ng-src="{{boleiro.img}}" /></span>
+					<span><img class="img-conteiner" ng-src="{{boleiro.img}}" /></span>
 					<span class="label label-primary">{{boleiro.nome}}</span>
 			        <span class="label label-success">Pontos <span class="badge">{{boleiro.pontos}}</span></span>
 			        <span class="label label-info">Placares <span class="badge">{{boleiro.placares}}</span></span>
 			        <span class="pull-right" ng-class="{'icon-chevron-down': boleiro.verDetalhe, 'icon-chevron-right': !boleiro.verDetalhe}"></span>
 				</accordion-heading>
-				{{boleiro | json}}
-				<p>The body of the accordion group grows to fit the contents</p>
-				<button class="btn btn-small" ng-click="addItem()">Add Item</button>
-				<div ng-repeat="item in items">{{item}}</div>
+			
+			
+			
+					
+				
+				
+				
+
+	  
+	  
+      			
+<div ng-controller="ClassificacaoCtrl">
+  <carousel interval="myInterval">
+    <slide ng-repeat="slide in slides" active="slide.active">
+      <img ng-src="{{slide.image}}" style="margin:auto;">
+      <div class="carousel-caption">
+        <h4>Slide {{$index}}</h4>
+        <p>{{slide.text}}</p>
+      </div>
+    </slide>
+  </carousel>
+  <div class="row-fluid">
+    <div class="span6">
+      <ul>
+        <li ng-repeat="slide in slides">
+          <button class="btn btn-mini" ng-class="{'btn-info': !slide.active, 'btn-success': slide.active}" ng-disabled="slide.active" ng-click="slide.active = true">select</button>
+          {{$index}}: {{slide.text}}
+        </li>
+      </ul>
+      <a class="btn" ng-click="addSlide()">Add Slide</a>
+    </div>
+    <div class="span6">
+      Interval, in milliseconds: <input type="number" ng-model="myInterval">
+      <br />Enter a negative number to stop the interval.
+    </div>
+  </div>
+</div>
+	
+			
+				
+				
+				
 			</accordion-group>
 		</accordion>
 	</div>
