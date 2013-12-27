@@ -220,7 +220,6 @@ background-color: antiquewhite;
 <body>
 
 <div class="pagina-classificacao" ng-controller="ClassificacaoCtrl">
-
 	<accordion close-others="oneAtATime"> 
 		<accordion-group ng-repeat="boleiro in boleiros" is-open="boleiro.verDetalhe"> 
 			<accordion-heading style="a:hover {text-decoration: none};">					
@@ -234,55 +233,32 @@ background-color: antiquewhite;
 			<div ng-controller="RodadaCtrl">
 		
 		  		<carousel interval="myInterval">
-					<slide ng-repeat="rodada in rodadas" active="rodada.active">
-			
-					<div class="rodada-tabela" ng-mouseenter="carouselCaption=false" ng-mouseleave="carouselCaption=true">
-						<table >                    
-							<tr>
-								<td>Jogo</td>
-								<td>Mandante</td>
-								<td>Convidado</td>
-								<td>Resultado</td>
-							</tr>					
-							<tr ng-repeat="jogo in rodada.jogos">
-								<td>{{rodada.data}}</td>
-								<td>{{jogo.mandante}}</td>
-								<td>{{jogo.convidado}}</td>
-								<td>0 x 0</td>
-							</tr>                    
-						</table>
-					</div>
-					<div class="carousel-caption check-element animate-show" ng-show="carouselCaption" >
-						<h4>{{rodada.numero}}º Rodada ({{rodada.data}})</h4>
-						<p>Diferença para o campeão: 50 pontos e 4 placares</p>
-			  		</div>
+					<slide ng-repeat="rodada in rodadas" active="rodada.active">			
+						<div class="rodada-tabela" ng-mouseenter="carouselCaption=false" ng-mouseleave="carouselCaption=true">
+							<table >                    
+								<tr>
+									<td>Jogo</td>
+									<td>Mandante</td>
+									<td>Convidado</td>
+									<td>Resultado</td>
+								</tr>					
+								<tr ng-repeat="jogo in rodada.jogos">
+									<td>{{rodada.data}}</td>
+									<td>{{jogo.mandante}}</td>
+									<td>{{jogo.convidado}}</td>
+									<td>0 x 0</td>
+								</tr>                    
+							</table>
+						</div>
+						<div class="carousel-caption check-element animate-show" ng-show="carouselCaption" >
+							<h4>{{rodada.numero}}º Rodada ({{rodada.data}})</h4>
+							<p>Diferença para o campeão: 50 pontos e 4 placares</p>
+						</div>
 					</slide>
-		 		</carousel>
-				 
-			</div>			
-				
+		 		</carousel>				 
+			</div>				
 		</accordion-group>
-	</accordion>
-	
-	
-	Click me: <input type="checkbox" ng-model="checked"><br/>
-	<div class="check-element animate-show" ng-show="checked">
-		<h4>º Rodada ()</h4>
-		<p>Diferença para o campeão: 50 pontos e 4 placares</p>
-	</div>
-	
-	    <script id="template/carousel/carousel.html" type="text/ng-template">
-      <div ng-mouseenter="pause()" ng-mouseleave="play()" class="carousel">
-          <ol class="carousel-indicators" ng-show="slides().length > 1">
-              <li ng-repeat="slide in slides()" ng-class="{active: isActive(slide)}" ng-click="select(slide)"></li>
-          </ol>
-          <div class="carousel-inner" ng-transclude set-ng-animate="$parent.animate"></div>
-          <a ng-click="prev()" class="carousel-control left" ng-show="slides().length > 1">&lsaquo;</a>
-          <a ng-click="next()" class="carousel-control right" ng-show="slides().length > 1">&rsaquo;</a>
-      </div>
-    </script>
-
-	
+	</accordion>	
 </div>
 
 </body>
