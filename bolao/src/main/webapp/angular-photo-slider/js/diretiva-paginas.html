@@ -1,0 +1,15 @@
+<div 
+    ng-transclude
+    ng-class="'animate-' + direction" 
+    class="slide animacao" 
+    ng-mouseleave="detalheVisivel = true"
+    ng-click="detalheVisivel = false"
+    ng-hide="!isCurrentSlideIndex()">
+</div>
+
+<div ng-show="alternarDetalhe()" ng-click="detalheVisivel = false" class="detalhe">
+    <p style="color:white; font-size:20px;"> 
+        Detalhes da Rodada <span class="info">det - {{mostrarDetalhe}}, des - {{mostrarDescricao}}, tes - {{teste}}, rod - {{$parent.rodada.description}}, idx - {{$parent.$index}}</span>
+    </p>
+</div>
+        
