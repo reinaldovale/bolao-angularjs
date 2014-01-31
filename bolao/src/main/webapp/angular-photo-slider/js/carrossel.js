@@ -5,7 +5,7 @@ angular.module('bolao.diretivas.carrossel', ['ngAnimate'])
         return {
             restrict: 'E',
             transclude: true,
-//             replace: true,
+            replace: true,
             templateUrl: 'js/diretiva-carrossel.html' ,
             scope: false,
             controller: function ($scope) {
@@ -20,12 +20,22 @@ angular.module('bolao.diretivas.carrossel', ['ngAnimate'])
                   slides.push(pagina);                  
                 };
         
-                $scope.setCurrentSlideIndex = function (index) {
+                $scope.setCurrentSlideIndex = eu.setCurrentSlideIndex = function (index) {
+                  index--;
                     index = parseInt(index);        		
-                    if(typeof index === 'number' && isFinite(index) && index <= $scope.slides.length) {
+                    if(typeof index === 'number' && isFinite(index) && index > -1 && index < $scope.slides.length) {
+                      if($scope.currentIndex < index) {
+                        $scope.currentIndex = index - 1;
+                        $scope.nextSlide();
+                      }
+                      else {
+                        $scope.currentIndex = index + 1;
+                        $scope.prevSlide();
+                      }
+                      
                             
-                         $scope.direction = eu.direction = (index > $scope.currentIndex) ? 'left' : 'right';
-                        $scope.currentIndex = index;
+//                          $scope.direction = eu.direction = (index > $scope.currentIndex) ? 'left' : 'right';
+//                         $scope.currentIndex = index;
                     }
                     
                 };
@@ -75,6 +85,10 @@ angular.module('bolao.diretivas.carrossel', ['ngAnimate'])
       link: function(scope, element, attrs, carrosselControle) {
         scope.isCurrentSlideIndex = function () {
           return carrosselControle.isCurrentSlideIndex(scope.$parent.$index);
+        };
+        
+        scope.setCurrentSlideIndex = function () {
+          carrosselControle.setCurrentSlideIndex(scope.$parent.$index);
         };
         
         carrosselControle.adicionarPagina(scope, element);

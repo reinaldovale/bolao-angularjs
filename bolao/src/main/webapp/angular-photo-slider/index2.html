@@ -10,8 +10,8 @@
 
 <body ng-controller="RodadaControle">
 
-<carrossel rotacao-automatica="false">
-    <pagina ng-repeat="rodada in rodadas" mostrar-descricao="alternar">
+<carrossel>
+    <pagina ng-repeat="rodada in rodadas">
         <img ng-src="{{rodada.image}}">
     </pagina>
 </carrossel>
