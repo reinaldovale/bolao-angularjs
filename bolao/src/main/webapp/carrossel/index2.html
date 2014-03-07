@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="bolao">
+<head>
+    <meta charset="utf-8">
+    <title>AngularJS Animate Slider</title>
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body ng-controller="RodadaControle">
+
+<carrossel>
+    <pagina ng-repeat="rodada in rodadas">
+        <img ng-src="{{rodada.image}}">
+    </pagina>
+</carrossel>
+
+<script src="../js/angular-1.2.7.js"></script>
+<script src="../js/angular-animate-1.2.7.js"></script>
+<script src="js/carrossel.js"></script>
+<script src="js/carrossel-provedor.js"></script>
+<script src="js/bolao.js"></script>
+
+
+</body>
+</html>
