@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="common/css/styles.css">
+<div class="container slider">
+    <nav class="nav">
+        <div class="wrapper">
+        	<input class="pull-left" ng-keyup="setCurrentSlideIndex(index+1);" type="text" style="width: 10px;" ng-model="index">
+            <ul class="dots">
+                <li class="dot" ng-repeat="slide in slides">                
+                    <a href="#" ng-class="{'active':isCurrentSlideIndex($index)}"
+                       ng-click="setCurrentSlideIndex($index);">{{slide.description}}</a></li>
+            </ul>
+        </div>
+    </nav>    
+    
+    <div ng-transclude></div>
+    
+    <a class="arrow prev" href="#" ng-click="prevSlide()"></a>
+    <a class="arrow next" href="#" ng-click="nextSlide()"></a>
+</div>

@@ -1,1 +1,0 @@
-angular.module('bolao', ['bolao.diretivas.carrossel']);
