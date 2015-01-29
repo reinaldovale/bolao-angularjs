@@ -4,7 +4,7 @@
             <ul class="pontos">
                 <li class="ponto" ng-repeat="pagina in paginas">                
                     <a  href="#" 
-                        ng-class="{'ativo':ehIndicePaginaAtual($index)}"
+                        ng-class="{'ativo':indicePaginaAtual($index)}"
                         ng-click="atualizarIndice($index);">{{pagina.descricao}}
                     </a>
                  </li>

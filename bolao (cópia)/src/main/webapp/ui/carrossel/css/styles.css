@@ -15,6 +15,12 @@
 
 }
 
+/* img { 
+    max-width:100%; 
+    max-height:100%; 
+    margin:auto; 
+} */
+
 @media screen and (min-width:320px) {
     .bolao {
         width: 300px;
@@ -215,27 +221,18 @@ NAV
     top: 0;
     left: 0;
     text-align:center;
-    width:100%;
-    opacity: 0.5;
-}
-
-.pagina img { 
-/*     max-width:100%;  */
-/*     max-height:100%;  */
-       max-height:139px;
-    margin:auto; 
 }
 
 .pagina.esquerda {
     transition: all linear 3s;
+    -webkit-transition: all linear 3s;
 /*     border-left: 20px solid white; */
     height:100%;
-    width:0%;
 }
 
-/* .pagina.esquerda.ng-hide {    
+.pagina.esquerda.ng-hide {
     height:10%;
-} */
+}
 
 .pagina.direita {
     transition: all linear 3s;

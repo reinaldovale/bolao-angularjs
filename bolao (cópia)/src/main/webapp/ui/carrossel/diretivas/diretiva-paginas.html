@@ -1,7 +1,7 @@
 <div 
-    class="pagina"
     ng-transclude
-    ng-class="(direcao == 'esquerda' && !visivel) ? 'esquerda' : (direcao == 'direita') ? 'direita' : ' '"
+    ng-class="direcao == 'esquerda' ? 'esquerda' : 'direita'"
+    class="pagina" 
     ng-mouseleave="detalheVisivel = true"
     ng-click="alternarDetalhe()"
     ng-hide="!visivel">    
