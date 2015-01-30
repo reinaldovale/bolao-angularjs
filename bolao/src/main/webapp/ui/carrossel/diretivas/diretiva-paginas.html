@@ -1,22 +1,15 @@
 <div 
-    class="pagina"
+    class="pagina {{direcao}}"
     ng-transclude
-    ng-class="(direcao == 'esquerda' && !visivel) ? 'esquerda' : (direcao == 'direita') ? 'direita' : ' '"
-    ng-mouseleave="detalheVisivel = true"
     ng-click="alternarDetalhe()"
     ng-hide="!visivel">    
 </div>
 
 <div 
-    ng-show="detalheVisivel" 
     ng-click="alternarDetalhe()" 
-    class="detalhe">
-    
+    class="detalhe"
+    ng-class="{ocultar : !detalheVisivel}">    
     <p>Detalhes da Rodada</p>
-    <br>
     <label>Número </label><input class="caixa-texto" type="text" disabled="true" value="{{$parent.$index}}"></input>
-    <br>
-    <label>Descrição </label><input class="caixa-texto" type="text" disabled="true" value="{{conteudo.descricao}}"></input>
-        
+    <label>Descrição </label><input class="caixa-texto" type="text" disabled="true" value="{{conteudo.descricao}}"></input>        
 </div>
-        

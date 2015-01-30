@@ -1,13 +1,11 @@
 'use strict';
-
-// angular.module('bolao.carrossel', ['ngAnimate'])
 angular.module('bolao.carrossel', [])
     .directive('carrossel', function() {
         return {
             restrict: 'E',
             transclude: true,
 //             replace: true,
-            templateUrl: 'ui/carrossel/diretivas/diretiva-carrossel.html' ,
+            templateUrl: 'ui/carrossel/diretivas/diretiva-carrossel.html',
             scope: true,
             controller: function ($scope) {
               
@@ -17,12 +15,15 @@ angular.module('bolao.carrossel', [])
                 
                 eu.adicionarPagina = function(pagina) {
                   if($scope.paginas.length === 0) {
-                    pagina.exibir("esquerda");
+                    pagina.exibir('esquerda');
                   }
                   $scope.paginas.push(pagina);                  
                 };
         
                 $scope.atualizarIndice = function (indice, direcao) {
+                  if(direcao === undefined) {
+                    direcao = ($scope.indiceAtual >= indice) ? "esquerda" : "direita";
+                  }
                   $scope.paginas[$scope.indiceAtual].ocultar();                  
                   $scope.paginas[indice].exibir(direcao);
                   $scope.indiceAtual = indice;
@@ -56,7 +57,8 @@ angular.module('bolao.carrossel', [])
         conteudo: '='
       },
       link: function(scope, element, attrs, carrosselControle) {
-        
+        scope.direcao = "esquerda";
+        scope.detalheVisivel = false;
         scope.exibir = function(direcao) {          
             scope.visivel = true;
             scope.direcao = direcao;
@@ -70,7 +72,6 @@ angular.module('bolao.carrossel', [])
                                   
         scope.alternarDetalhe = function() {          
             scope.detalheVisivel = !scope.detalheVisivel;
-            return scope.detalheVisivel;
         };
 
         scope.ocultar();

@@ -1,4 +1,3 @@
-
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
 }
@@ -8,10 +7,10 @@
     background-color: blue;
     width: 960px;
     height: 670px;
-/*     top: 50px; 
-    left: 50px; */
-    //margin-left: -25%; /* HALF OF THE WIDTH */
-    //margin-top: -25%; /* HALF OF THE HEIGHT */       
+    top: 50%; 
+    left: 50%;
+    margin-left: -25%; /* HALF OF THE WIDTH */
+    margin-top: -25%; /* HALF OF THE HEIGHT */       
 
 }
 
@@ -67,8 +66,8 @@
 /*     overflow: hidden; */
     position: relative;
     background: #e6e6e6;
-    //border: 0.1em solid red;
-   // display:none;    
+/*    border: 0.1em solid red;
+   display:none;     */
 
 }
 
@@ -182,15 +181,66 @@ NAV
     background-color: transparent;
 }
 
-.detalhe {
+/**************************** MEU CSS PARA ANIMAÇÃO */
+
+/* Ativa a animação */
+
+.pagina {
+    transition: all linear 1s;
+    position: absolute;
+    top: 0;
+    text-align:center;
+    width:100%;
+    height: 100%;
+    opacity: 0.5;
+    overflow: hidden;
+}
+
+.pagina img {
+    max-height:100%;
+    max-width: 100%;
+    width:100%;
+    margin:auto;
+}
+
+.pagina.esquerda {
+    right: 0;
+}
+
+.pagina.esquerda.ng-hide {
+    display: block !important;
+    width: 0px;
+    left:0;
+}
+
+.pagina.direita.ng-hide {
+    display: block !important;
+    width: 0px;
+    right:0;
+}
+
+
+
+/* Detalhes */
+
+pagina {
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.detalhe {        
+    transition: all linear 0.5s;
     background-color: black;
-/*     border: 1px solid red; */
+    border: 1px solid red;
     position: absolute;
     height: 20%;
     width: 100%;
     bottom: 0px;
-    z-index: 1002;
+    z-index: 1000;
     opacity: 0.8;
+    overflow: hidden;
 
     color:white;
     font-size:0.8em;
@@ -201,132 +251,7 @@ NAV
     height: 5%
 }
 
-
-
-
-
-
-/**************************** MEU CSS PARA ANIMAÇÃO */
-
-/* Ativa a animação */
-
-.pagina {
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align:center;
-    width:100%;
-    opacity: 0.5;
-}
-
-.pagina img { 
-/*     max-width:100%;  */
-/*     max-height:100%;  */
-       max-height:139px;
-    margin:auto; 
-}
-
-.pagina.esquerda {
-    transition: all linear 3s;
-/*     border-left: 20px solid white; */
-    height:100%;
-    width:0%;
-}
-
-/* .pagina.esquerda.ng-hide {    
-    height:10%;
-} */
-
-.pagina.direita {
-    transition: all linear 3s;
-    display:none;
-}
-
-/* pagina.animacao.animacao-esquerda {
-
-} */
-
-/* pagina.animacao.ng-hide {
-    left:-100%
+.detalhe.ocultar {
 /*     display: block !important; */
-} */
-
-
-/* Animação slide para esquerda */
-
-.animacao-esquerda.ng-hide {
-    left: -100%;
-    opacity: 1;
-}
-
-.animacao-esquerda.ng-hide-add-active {
-    left: -100%;
-    opacity: 0;
-}
-
-.animacao-esquerda.ng-hide-remove {
-    left: 100%;
-    opacity: 0.2;
-/*     border-left: 20px solid white; */
-}
-
-.animacao-esquerda.ng-hide-remove-active {
-    left: 0;
-    opacity: 1;
-}
-
-/* Animação slide para direita */
-
-.animacao-direita.ng-hide-add {
-    left: 0;
-    opacity: 1;
-}
-
-.animacao-direita.ng-hide-add-active {
-    left: 100%;
-    opacity: 0;
-}
-
-.animacao-direita.ng-hide-remove {
-    left: -100%;
-    opacity: 0.2;
-/*     border-right: 20px solid white; */
-}
-
-.animacao-direita.ng-hide-remove-active {
-    left: 0;
-    opacity: 1;
-}
-
-/* Detalhes */
-/* .info {
-    opacity: 1;
-    height: 30px;
-    width: 300px;
-    z-index: 1003;
-    background-color: blue;
-} */
-
-// Animação de Detalhes
-
-.detalhe.ng-hide-add,
-.detalhe.ng-hide-remove {
-    transition: bottom linear 0.5s;
-    display: block !important;
-}
-
-.detalhe.ng-hide-add {
-    bottom: -50px;
-}
-
-.detalhe.ng-hide-add-active {
-    bottom: -32px;
-}
-
-.detalhe.ng-hide-remove {
-    bottom: -32px;
-}
-
-.detalhe.ng-hide-remove-active {
-    bottom: 0px;
+    bottom: -20%;    
 }
