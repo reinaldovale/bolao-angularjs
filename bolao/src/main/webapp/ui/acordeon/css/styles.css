@@ -1,0 +1,42 @@
+.acordeon {
+    width: 85%;
+    height: 90%;
+    position: relative;
+    top: 18px;
+    left: 37px;
+    background-color: white;
+}
+
+.item {
+    transition: all linear 0.5s;
+    border: 0.1em solid red;
+    overflow: hidden;
+    left: 10px;
+    position: relative;
+    top: 10px;
+}
+
+.item-cabecalho {
+    width: 95%;
+    height: 30px;
+    left: 10px;
+    top:5px;
+    background: yellow;
+    position: relative;
+}
+
+.item-aberto {
+    width: 95%;
+    height: 300px;
+    background: green;
+    border: 0.1em solid red;
+    overflow: hidden;
+}
+
+.item-fechado {
+    width: 95%;
+    height: 40px;
+    background: red;
+    border: 0.1em solid blue;
+    overflow: hidden;
+}
