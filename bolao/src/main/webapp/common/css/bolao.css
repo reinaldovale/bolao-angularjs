@@ -1,0 +1,31 @@
+.bolao {
+    position: absolute;
+    background-color: blue;
+    width: 2024px;
+    height: 1024px;
+    top: 50%; 
+    left: 50%;
+    margin-left: -1024px; /* HALF OF THE WIDTH */
+    margin-top: -512px; /* HALF OF THE HEIGHT */       
+
+}
+
+@media screen and (min-width:600px) {
+    .bolao {
+        width: 590px;
+        height: 700px;
+        top: 50%; 
+        left: 50%;
+        margin-left: -295px; /* HALF OF THE WIDTH */
+        margin-top: -350px; /* HALF OF THE HEIGHT */ 
+    } 
+}
+
+.boleiro {    
+    position: relative;
+    top: 5%; 
+    left: 2%;
+    background-color: black;
+    width: 96%;
+    height: 90%;
+}

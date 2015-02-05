@@ -5,25 +5,23 @@
     <title>Bolão</title>    
     <link rel="stylesheet" href="common/css/bolao.css" >
 	<link rel="stylesheet" href="ui/carrossel/css/styles.css">
+	<link rel="stylesheet" href="ui/acordeon/css/styles.css">
 </head>
 
 <body>
 <div class="bolao">
-	<div class="boleiro" ng-controller="RodadaControle">		
+	<div class="boleiro" ng-controller="RodadaControle">
 		<carrossel>
-			<pagina ng-repeat="rodada in rodadas" conteudo="rodada"> 
+			<pagina ng-repeat="rodada in boleiros[0].rodadas" conteudo="rodada"> 
 				<img ng-src="{{rodada.image}}">
-<!-- 				<div>
-                    {{rodada.descricao}}
-				</div> -->
 			</pagina>
 		</carrossel>
 	</div>	
 </div>
 
 <script src="common/js/angular.js"></script>
-<script src="common/js/angular-animate.js"></script>
 <script src="ui/carrossel/js/carrossel.js"></script>
+<script src="ui/acordeon/js/acordeon.js"></script>
 <script src="common/js/bolao.js"></script>
 
 

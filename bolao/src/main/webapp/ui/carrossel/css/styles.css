@@ -1,74 +1,7 @@
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-    display: none !important;
-}
-
-.bolao {
-    position: absolute;
-    background-color: blue;
-    width: 960px;
-    height: 670px;
-    top: 50%; 
-    left: 50%;
-    margin-left: -25%; /* HALF OF THE WIDTH */
-    margin-top: -25%; /* HALF OF THE HEIGHT */       
-
-}
-
-@media screen and (min-width:320px) {
-    .bolao {
-        width: 300px;
-        height: 200px;
-    } 
-}
-@media screen and (min-width:480px) {
-    .bolao {
-        width: 470px;
-        height: 300px;
-    } 
-}
-@media screen and (min-width:600px) {
-    .bolao {
-        width: 590px;
-        height: 400px;
-    } 
-}
-@media screen and (min-width:768px) {
-    .bolao {
-        width: 742px;
-        height: 500px;
-    } 
-}
-@media screen and (min-width:992px) {
-    .bolao {
-        width: 982px;
-        height: 600px;
-    } 
-}
-
-.boleiro {    
-    position: relative;
-    top: 5%; 
-    left: 5%;
-    display: block;
-    
-/*         background: url(images/background.png) no-repeat center center; */
-    background-color: black;
-    width: 90%;
-    height: 90%;
-    
-
-/*         overflow:hidden; */
-}
-
 .carrossel {
     width: 100%;
     height: 100%;
-/*     overflow: hidden; */
-    position: relative;
     background: #e6e6e6;
-/*    border: 0.1em solid red;
-   display:none;     */
-
 }
 
 .seta {
@@ -79,7 +12,7 @@
     height: 100%;
     outline: none;
     cursor: pointer;
-    background: url(../assets/img/blank.gif) no-repeat center center;
+    background: url(../img/blank.gif) no-repeat center center;
 /*     background-position-y: center;     */
     background-color: black;    
     opacity: 0.1;
@@ -88,24 +21,24 @@
 
 .seta.anterior {
     left: 1%;
-    background-image: url(../assets/img/paddle_prev_999.png);
+    background-image: url(../img/paddle_prev_999.png);
     transition: 0.2s linear all;
 }
 
 .seta.proxima {
     right: 1%;
-    background-image: url(../assets/img/paddle_next_999.png);
+    background-image: url(../img/paddle_next_999.png);
     transition: 0.2s linear all;
 }
 
 .seta.anterior:hover {
     opacity: 0.8;
-    background-image: url(../assets/img/paddle_prev_fff.png);
+    background-image: url(../img/paddle_prev_fff.png);
 }
 
 .seta.proxima:hover {
     opacity: 0.8;
-    background-image: url(../assets/img/paddle_next_fff.png);
+    background-image: url(../img/paddle_next_fff.png);
 }
 
 /*---------------------------------------------------------
@@ -113,32 +46,21 @@ NAV
 ---------------------------------------------------------*/
 
 .navegacao {
+    width: 100%;
     text-align: center;
     display: block;
     position: absolute;
     z-index: 1002;
-    left: 0;
-/*     top: 4px; */
-    right: 0;
-    height: 48px;
-}
-
-/* .navegacao .navegacao-manual {
-    position: absolute;
-    left: 0px;
-    width: 16px;
-    float: left;
-} */
-
-.navegacao .envelope {
-    margin: 0 auto;
-    width: 100%;
     padding: 1em 0 .8em;
+    /* left: 0; */
+    /* right: 0; */
 }
 
 .navegacao ul {
-    margin: 0;
-    width: 100%;
+    /* margin: 0; */
+    /* width: 100%; */
+    /* margin-right: 49px; */
+    left: -8px;
 }
 
 .navegacao .ponto,.navegacao .ponto a {
@@ -186,7 +108,7 @@ NAV
 /* Ativa a animação */
 
 .pagina {
-    transition: all linear 1s;
+    transition: all linear 0.5s;
     position: absolute;
     top: 0;
     text-align:center;
