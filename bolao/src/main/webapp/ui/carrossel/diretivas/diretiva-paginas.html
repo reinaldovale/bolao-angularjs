@@ -1,15 +1,15 @@
-<div 
-    class="pagina {{direcao}}"
-    ng-transclude
-    ng-click="alternarDetalhe()"
-    ng-hide="!visivel">
-</div>
+<div class="pagina" ng-hide="!visivel">
+    <div
+        ng-transclude
+        ng-click="alternarDetalhe()">
+    </div>
 
-<div 
-    ng-click="alternarDetalhe()" 
-    class="detalhe"
-    ng-class="{ocultar : !detalheVisivel}">    
-    <p>Detalhes da Rodada</p>
-    <label>Número </label><input class="caixa-texto" type="text" disabled="true" value="{{$parent.$index}}"></input>
-    <label>Descrição </label><input class="caixa-texto" type="text" disabled="true" value="{{conteudo.descricao}}"></input>        
+    <div 
+        ng-click="alternarDetalhe()" 
+        class="detalhe"
+        ng-class="{ocultar : !detalheVisivel}">    
+        <p>Detalhes da Rodada</p>
+        <label>Número </label><input class="caixa-texto" type="text" value="{{$parent.$index}}"></input>
+        <label>Descrição </label><input class="caixa-texto" type="text" value="{{conteudo.descricao}}"></input>        
+    </div>
 </div>

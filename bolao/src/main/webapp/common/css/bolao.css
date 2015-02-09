@@ -21,6 +21,17 @@
     } 
 }
 
+/* @media screen and (min-width:350px) {
+    .bolao {
+        width: 240px;
+        height: 400px;
+        top: 50%; 
+        left: 50%;
+        margin-left: -120px; /* HALF OF THE WIDTH */
+        margin-top: -200px; /* HALF OF THE HEIGHT */ 
+    } 
+} */
+
 .boleiro {    
     position: relative;
     top: 5%; 

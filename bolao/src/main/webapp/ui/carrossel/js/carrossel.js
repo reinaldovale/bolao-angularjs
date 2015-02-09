@@ -4,44 +4,46 @@ angular.module('bolao.carrossel', [])
         return {
             restrict: 'E',
             transclude: true,
-//             replace: true,
+            replace: true,
             templateUrl: 'ui/carrossel/diretivas/diretiva-carrossel.html',
             scope: true,
             controller: function ($scope) {
               
-                var eu = this;
-                $scope.paginas = [];
-                $scope.indiceAtual = 0;
+                var eu = this,
+                indiceAtual = 0;
+                $scope.direcao = "esquerda";
+                $scope.paginas = [];                
                 
                 eu.adicionarPagina = function(pagina) {
-                  if($scope.paginas.length === 0) {
-                    pagina.exibir('esquerda');
+                  if($scope.paginas.length === 0) {                    
+                    pagina.exibir();
                   }
                   $scope.paginas.push(pagina);                  
                 };
         
                 $scope.atualizarIndice = function (indice, direcao) {
-                  if(direcao === undefined) {
-                    direcao = ($scope.indiceAtual >= indice) ? "esquerda" : "direita";
+                  if($scope.direcao === undefined) {
+                    $scope.direcao = (indiceAtual >= indice) ? "esquerda" : "direita";
                   }
-                  $scope.paginas[$scope.indiceAtual].ocultar();                  
-                  $scope.paginas[indice].exibir(direcao);
-                  $scope.indiceAtual = indice;
+                  $scope.paginas[indiceAtual].ocultar();                  
+                  $scope.paginas[indice].exibir();
+                  indiceAtual = indice;
+                  $scope.direcao = direcao
                 };
         
                 $scope.ehIndicePaginaAtual = function (indice) {                    
-                    return $scope.indiceAtual === indice;
+                    return indiceAtual === indice;
                 };
         
                 $scope.proximaPagina = function () {  
-                  var indiceAtual = $scope.indiceAtual,           
-                  novoIndiceAtual = (indiceAtual < $scope.paginas.length - 1) ? ++indiceAtual : 0;
+                  var indice = indiceAtual,           
+                  novoIndiceAtual = (indice < $scope.paginas.length - 1) ? ++indice : 0;
                     $scope.atualizarIndice(novoIndiceAtual, "direita");
                 };
         
                 $scope.paginaAnterior = function () {
-                    var indiceAtual = $scope.indiceAtual,
-                    novoIndiceAtual = (indiceAtual > 0) ? --indiceAtual : $scope.paginas.length - 1;                    
+                    var indice = indiceAtual,
+                    novoIndiceAtual = (indice > 0) ? --indice : $scope.paginas.length - 1;                    
                     $scope.atualizarIndice(novoIndiceAtual, "esquerda");
                 };
             }            
@@ -52,16 +54,14 @@ angular.module('bolao.carrossel', [])
       require: '^carrossel',
       restrict: 'E',
       transclude: true,
-//       replace: true,
+      replace: true,
       scope: {
         conteudo: '='
       },
-      link: function(scope, element, attrs, carrosselControle) {
-        scope.direcao = "esquerda";
+      link: function(scope, element, attrs, carrosselControle) {        
         scope.detalheVisivel = false;
-        scope.exibir = function(direcao) {          
+        scope.exibir = function() {          
             scope.visivel = true;
-            scope.direcao = direcao;
             scope.detalheVisivel = true;
         }
 

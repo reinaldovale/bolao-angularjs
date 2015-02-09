@@ -9,14 +9,12 @@
 </head>
 
 <body>
-<div class="bolao">
-	<div class="boleiro" ng-controller="RodadaControle">
-		<carrossel>
-			<pagina ng-repeat="rodada in boleiros[0].rodadas" conteudo="rodada"> 
-				<img ng-src="{{rodada.image}}">
-			</pagina>
-		</carrossel>
-	</div>	
+<div class="bolao" ng-controller="RodadaControle">
+	<carrossel>
+		<pagina ng-repeat="rodada in boleiros[0].rodadas" conteudo="rodada"> 
+			<img ng-src="{{rodada.image}}">
+		</pagina>
+	</carrossel>	
 </div>
 
 <script src="common/js/angular.js"></script>
