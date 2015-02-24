@@ -1,9 +1,9 @@
 .acordeon {
     width: 90%;
     height: 90%;
-    position: absolute;
+    position: relative;
     margin-left: 5%;
-    margin-top: 5%;
+    /* margin-top: 5%; */
     background-color: white;
     /* border: 2px solid red; */
     overflow: hidden;
@@ -19,7 +19,7 @@
     position: relative;
     /* top: 0.5%; */
     /* float: left; */
-    margin: 1%;
+    /* margin: 1%; */
 }
 
 .item-fechado {
@@ -28,6 +28,7 @@
     /* border: 0.1em solid blue; */
     /* overflow: hidden; */
     /* margin: 1%; */
+    z-index: 1001;
 }
 
 .item-aberto {
@@ -38,16 +39,23 @@
     /* position: absolute; */
     /* top: 0; */
     /* left: 0; */
-    z-index: 1003;
+    /* z-index: 1003; */
 }
 
 .item-cabecalho {
     width: 98%;
     /* left: 0%; */
 /*     top:5px; */
-    /* background: yellow; */
-    position: relative;
-    margin: 1%;
+    background: yellow;
+    position: absolute;
+    /* margin: 1%; */
+    /* z-index: 1001; */
+}
+
+.item-cabecalho p {
+    width:100%;
+    position: absolute;
+    top: -14px
 }
 
 .item-cabecalho.item-aberto {
@@ -55,6 +63,17 @@
 
     background-color: yellow;
 
+    width: 10%;
+    overflow: hidden;
+    background: url(../img/pitr-green-menu-icon-set-2.png) no-repeat;
+    background-size: 100%;
+    z-index: 1003;
+}
+
+.item-cabecalho.item-aberto p {    
+    width: 0px;
+    height: 0px;
+    overflow: hidden;
 }
 
 .item-cabecalho.item-fechado {
