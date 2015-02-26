@@ -11,14 +11,13 @@ angular.module('bolao.acordeon', [])
             
             var eu = this,
             indiceAtual = 0;
-
-            $scope.itens = [];            
+            $scope.itens = [];          
             
             eu.adicionarItem = function(item) {
                 $scope.itens.push(item);
             };
-            
-            eu.abrir = function(indice) {                
+                        
+            eu.abrir = function(indice) {
                 if(indice === indiceAtual) {
                     if($scope.itens[indiceAtual].visivel) {
                         $scope.itens[indice].ocultar();
@@ -47,9 +46,9 @@ angular.module('bolao.acordeon', [])
             indice: '@'
         },
         link: function(scope, element, attrs, acordeonControle) {
-            scope.direcao = "esquerda";
+            scope.direcao = "esquerda";       
 
-            scope.exibir = function(direcao) {
+            scope.exibir = function() {
                 scope.visivel = true;
                 scope.situacao = "item-aberto";
             }
@@ -60,10 +59,9 @@ angular.module('bolao.acordeon', [])
             
             scope.ocultar = function() {
                 scope.visivel = false;
-                scope.situacao = "item-fechado";
+                scope.situacao = "item-fechado";                
             }
-            
-            scope.ocultar();
+            scope.ocultar();  
             acordeonControle.adicionarItem(scope);
         },
         templateUrl: 'ui/acordeon/diretivas/diretiva-item.html'

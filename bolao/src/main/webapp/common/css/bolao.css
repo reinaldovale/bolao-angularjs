@@ -1,43 +1,48 @@
 .bolao {
-    position: absolute;
-    background-color: blue;
+    position: absolute;    
     width: 2024px;
-    height: 100%;
+    height: 80%;
+    /* background-color: black; */
     /* top: 50%; */ 
-    left: 50%;
-    margin-left: -1024px; /* HALF OF THE WIDTH */
+    /* left: 50%; */
+    /* margin-left: -1024px; /* HALF OF THE WIDTH */
     /* margin-top: -512px; */ /* HALF OF THE HEIGHT */       
 
 }
 
-@media screen and (min-width:600px) {
+/* styles for browsers larger than 960px; */
+@media only screen and (min-width:550px){
     .bolao {
-        width: 590px;
-        height: 100%
-        /* height: 700px; */
-        /* top: 50%; */ 
-        left: 50%;
-        margin-left: -295px; /* HALF OF THE WIDTH */
-        /* margin-top: -350px; */ /* HALF OF THE HEIGHT */ 
-    } 
+        width: 540px;
+        height: 75%;
+    }
 }
 
-/* @media screen and (min-width:350px) {
+/* styles for browsers larger than 960px; */
+@media only screen and (min-width:960px){
     .bolao {
-        width: 240px;
-        height: 400px;
-        top: 50%; 
+        width: 950px;
+        height: 126%;        
         left: 50%;
-        margin-left: -120px; /* HALF OF THE WIDTH */
-        margin-top: -200px; /* HALF OF THE HEIGHT */ 
-    } 
-} */
+        margin-left: -475px;
+    }
+}
 
-.boleiro {    
-    position: relative;
-    top: 5%; 
-    left: 2%;
-    background-color: black;
-    width: 96%;
-    height: 90%;
+@media only screen and (max-device-width:320px){
+   /* styles for mobile browsers smaller than 480px; (iPhone) */
+   .bolao {
+        width: 310px;
+        height: 65%;
+    }
+}
+
+/* different techniques for iPad screening */
+@media only screen and (min-device-width: 600px) and (max-device-width: 900px) and (orientation:portrait) {
+  /* For portrait layouts only */
+  .bolao {
+        width: 590px;
+        height: 75%;
+        left: 50%;
+        margin-left: -295px;
+    }
 }

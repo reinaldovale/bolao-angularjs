@@ -1,22 +1,21 @@
-.carrossel {
+ .carrossel {
     width: 100%;
     height: 100%;
     background: #e6e6e6;
-    border: 1px solid blue;
 }
 
 .seta {
     position: absolute;
-    /* z-index: 1000; */
+    top: 25%;
     display: block;
     width: 10%;
-    height: 100%%;
+    height: 50%;
     outline: none;
     cursor: pointer;
     background: url(../img/blank.gif) no-repeat center center;
     background-color: black;    
     opacity: 0.1;
-    border-radius: 20%;
+    border-radius: 50%;
 }
 
 .seta.anterior {
@@ -96,9 +95,9 @@ NAV
     background-color: transparent;
 }
 
-/**************************** MEU CSS PARA ANIMAÃ‡ÃƒO */
+/**************************** MEU CSS PARA ANIMAÃƒÆ’Ã¢â‚¬Â¡ÃƒÆ’Ã†â€™O */
 
-/* Ativa a animaÃ§Ã£o */
+/* Ativa a animaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o */
 
 .paginas {    
     position: absolute;
@@ -106,12 +105,11 @@ NAV
     text-align:center;
     width:100%;
     height: 100%;
-    /* opacity: 0.5; */
     overflow: hidden;
 }
 
 .pagina {
-    transition: all linear 2s;
+    transition: all linear 0.5s;
     width:100%;    
     position: absolute;
     top: 0;
@@ -145,28 +143,33 @@ NAV
 /* Detalhes */
 
 .detalhe {        
-    transition: bottom linear 2s;
+    transition: bottom linear 0.5s;
     background-color: black;
-    border: 1px solid red;
     position: absolute;
     height: 20%;
     width: 100%;
     bottom: 0px;
-    /* z-index: 1000; */
     opacity: 0.8;
     overflow: hidden;
     color:white;
     font-size: 1em;
 }
 
-.detalhe .caixa-texto {
-    width: 20%; 
-    height: 15%;
-    z-index: 1005;
+.detalhe .titulo {    
+    /* position: absolute; */
+    /* height: 14%; */
+    /* top: 0px; */
+    border: 1px solid red;
 }
 
-.detalhe.ocultar {
-/* display: block !important; */
-    
+.detalhe .caixa-texto {
+    width: 25%; 
+    height: 30%;
+    z-index: 1005;
+    /* margin: -9px 6px 0px 0%; */
+    font-size: 1em;
+}
+
+.detalhe.ocultar {    
 bottom: -20%;    
 }

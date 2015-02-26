@@ -8,8 +8,8 @@
         ng-click="alternarDetalhe()" 
         class="detalhe"
         ng-class="{ocultar : !detalheVisivel}">    
-        <p>Detalhes da Rodada</p>
-        <label>Número </label><input class="caixa-texto" type="text" value="{{$parent.$index}}"></input>
-        <label>Descrição </label><input class="caixa-texto" type="text" value="{{conteudo.descricao}}"></input>        
+        <div>Detalhes da Rodada</div>
+        <label>Número </label><input class="caixa-texto" type="text" ng-click="$event.stopPropagation();" value="{{$parent.$index}}"></input>
+        <label>Descrição </label><input class="caixa-texto" type="text" ng-click="$event.stopPropagation();" value="{{conteudo.descricao}}"></input>        
     </div>
 </div>

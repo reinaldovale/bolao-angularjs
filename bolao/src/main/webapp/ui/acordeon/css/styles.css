@@ -1,73 +1,56 @@
 .acordeon {
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     position: relative;
-    margin-left: 5%;
-    /* margin-top: 5%; */
-    background-color: white;
-    /* border: 2px solid red; */
-    overflow: hidden;
-    /* float: left; */
+    /* background-color: black; */
 }
 
 .item {
     transition: all linear 0.5s;
-    width: 98%;
-    /* border: 0.1em solid red; */
+    width: 100%;
     overflow: hidden;
-    /* left: 0.5%; */
     position: relative;
-    /* top: 0.5%; */
-    /* float: left; */
-    /* margin: 1%; */
+        cursor: pointer;
+
 }
 
 .item-fechado {
-    height: 5%;   
-    background: red;
-    /* border: 0.1em solid blue; */
-    /* overflow: hidden; */
-    /* margin: 1%; */
+    height: 10%;
+    background-color: white;
     z-index: 1001;
+/*     border-bottom: ridge wheat; */
 }
 
 .item-aberto {
-    height: 79%;
-    background: green;
-    /* border: 0.1em solid red; */
-    /* overflow: hidden; */
-    /* position: absolute; */
-    /* top: 0; */
-    /* left: 0; */
-    /* z-index: 1003; */
+    height: 60%;
+    /* background: green; */
+    border-radius: 7%;
 }
 
 .item-cabecalho {
-    width: 98%;
-    /* left: 0%; */
-/*     top:5px; */
-    background: yellow;
+    width: 100%;
+    /* background: yellow; */
     position: absolute;
-    /* margin: 1%; */
-    /* z-index: 1001; */
+    /* float: left; */
 }
 
-.item-cabecalho p {
-    width:100%;
-    position: absolute;
-    top: -14px
+.item-cabecalho img {
+    background-color: black;
+    border-radius: 50%;
+    /* margin:1%; */
+/*     z-index:1004; */
+    float: left;
 }
 
 .item-cabecalho.item-aberto {
-    height: 10%;
-
-    background-color: yellow;
-
+    height: 16%;
     width: 10%;
     overflow: hidden;
-    background: url(../img/pitr-green-menu-icon-set-2.png) no-repeat;
-    background-size: 100%;
     z-index: 1003;
+}
+
+.item-cabecalho.item-aberto img {
+    width:100%;
 }
 
 .item-cabecalho.item-aberto p {    
@@ -77,6 +60,26 @@
 }
 
 .item-cabecalho.item-fechado {
-    height: 70%;
-    background-color: blue;
+    height: 100%;
+}
+
+.item-cabecalho.item-fechado img {
+    width:10%;
+}
+
+
+.item-cabecalho.item-fechado p {
+    background-color: black;
+    border-radius: 20%;
+    margin:1%;
+    color: wheat;
+    float: left;
+    margin: 1%;
+    padding: 2%;
+    text-align: center;
+    width: 23%;
+    font-weight: bold;
+    font-size: 0.8em;
+    text-align: center;
+    text-decoration: none;
 }
