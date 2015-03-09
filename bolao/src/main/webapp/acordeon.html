@@ -15,8 +15,16 @@
 		<item ng-repeat="boleiro in boleiros" indice="{{$index}}" boleiro="boleiro"> 
 <!-- 				<p>{{boleiro.placares}}</p> -->
 			<carrossel>
-				<pagina ng-repeat="rodada in boleiro.rodadas" conteudo="rodada"> 
-					<img ng-src="{{rodada.image}}">
+				<pagina ng-repeat="rodada in boleiro.rodadas" conteudo="rodada"> 				
+					<div class="rodada" ng-repeat="jogo in rodada.jogos">
+						<img ng-src="{{jogo.mandante.escudo}}"/>
+						<span>{{jogo.mandante.nome}}</span>
+						<span>{{jogo.mandante.gols}}</span>
+						<span> x </span>
+						<span>{{jogo.visitante.gols}}</span>
+						<span>{{jogo.visitante.nome}}</span>
+						<img ng-src="{{jogo.visitante.escudo}}"/>
+					</div>
 				</pagina>
 			</carrossel>
 		</item>

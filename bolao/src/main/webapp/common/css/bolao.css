@@ -46,3 +46,14 @@
         margin-left: -295px;
     }
 }
+
+
+.rodada {
+  text-align: center;
+  border: 1px solid red;  
+}
+
+
+.rodada img {
+    max-width: 5%;
+}
