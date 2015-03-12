@@ -73,7 +73,7 @@ NAV
     position: relative;
     margin-left: 0%;
     width: 3.5%;
-    /* height: 8%; */
+    height: 8%;
     font-size: 0.6em;
     color: #ffd700;
     font-weight: bold;
@@ -97,7 +97,7 @@ NAV
     position: absolute;
     top: 0;
     text-align:center;
-    width:100%;
+    width: 100%;
     height: 100%;
     overflow: hidden;
 }
@@ -133,7 +133,9 @@ NAV
     top: 20%;
     position: inherit;
     width: 100%;
-    height: 78%;
+    /* margin-left: 10%; */
+    height: 80%;
+    font-size: 1em;
     /* border: 1px solid blue; */
 }
 
