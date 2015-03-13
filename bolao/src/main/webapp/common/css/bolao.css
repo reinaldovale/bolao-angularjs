@@ -49,48 +49,40 @@
 
 
 .rodada {
-  font-size: 100%;
+  font-size: 60%;
   background-color: #efe;
   border-collapse: collapse;
   empty-cells: show;
-  border: 1px solid #7a7;
+  /* border: 1px solid #7a7; */
   /* position: inherit; */
   /* text-align: center; */
-/*   width: 68%; */
 
+  width: 80%;
+
+  margin-left: 10%;
   /* border-bottom: 1px dotted #ffd700; */
   /* height: 73%; */
 }
 
-.rodada div {
-  width: 27%;
-  /* background-color: red; */
-  overflow: hidden;
-  float: left;
-}
-
-.rodada img {
-    /* max-width: 97%; */
-    /* float: left; */
-}
-
-.rodada td {
+/* .rodada td {
   text-align: right;
-  padding-right: .5em;
-  font-size: 75%;
-  /* border: 1px solid red; */
-/*   width: 30%; */
-  /* height: 24%; */
+  padding-right: 0.5em;
+  font-size: 100%;
+  border: 1px solid red;
   border-bottom: 1px dotted #ffd700;
-}
+} */
 
 .rodada td.direita {
   text-align: left;
 }
 
-.rodada td img {
-  width: 22%;
-  /* min-width: 50%; */
-  /* border: 1px solid red; */
-  /* height: 26%; */
-}
+/* table.rodada tr:first-child > td:first-child{
+  width: 15%;
+} */
+
+/* .rodada td img {
+  width: 78%;
+  min-width: 50%;
+  border: 1px solid red;
+  height: 26%;
+} */
