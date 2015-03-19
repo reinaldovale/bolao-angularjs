@@ -10,8 +10,7 @@
     /* width: 100%; */
     overflow: hidden;
     position: relative;
-        cursor: pointer;
-
+    cursor: pointer;
 }
 
 .item-fechado {
@@ -53,33 +52,41 @@
     width:100%;
 }
 
-.item-cabecalho.item-aberto p {    
+.item-cabecalho.item-aberto div {    
     width: 0px;
     height: 0px;
     overflow: hidden;
 }
 
-.item-cabecalho.item-fechado {
+.item-cabecalho.item-fechado {    
+    color: wheat;       
+    text-align: center;
+    font-weight: bold;
+    font-size: 1em;
+    text-align: center;
+    text-decoration: none;
     height: 100%;
 }
 
-.item-cabecalho.item-fechado img {
+.item-cabecalho.item-fechado img {    
     width:10%;
 }
 
 
-.item-cabecalho.item-fechado p {
-    background-color: black;
-    border-radius: 20%;
-    margin:1%;
-    color: wheat;
-    float: left;
-    margin: 1%;
+.item-cabecalho.item-fechado .nome {
+    margin: 2%;
     padding: 2%;
-    text-align: center;
-    width: 23%;
-    font-weight: bold;
-    font-size: 0.8em;
-    text-align: center;
-    text-decoration: none;
+    border-radius: 50%;
+    background-color: black;
+    float: left;
+    width: 34%;    
+}
+
+.item-cabecalho.item-fechado .valores {
+    margin: 1%;
+    padding: 1%;
+    border-radius: 30%;
+    background-color: black;
+    float: left;
+    width: 12%;   
 }

@@ -1,6 +1,6 @@
 var bolao = angular.module('bolao', ['bolao.carrossel', 'bolao.acordeon']);
 
-bolao.factory('BD', function($http) {
+bolao.factory('BD', ['$http', '$templateCache', function($http, $templateCache) {
 
     var boleiro,
     apiUrl = 'bd.json';
@@ -18,19 +18,40 @@ bolao.factory('BD', function($http) {
         // change the value of the "this" variable inside it
         // so we need to keep a reference to the current instance "this" :
         var self = this;
+        
+        return $http({
+                  method  : 'GET',
+                  url     : apiUrl,
+                  cache: $templateCache,
+                  headers : {'X-Api-Secret': 'xxx', 'Authorization': 'xxx', 'Content-Type': 'application/json', 'Accept-Encoding': 'gzip'}  
+                })
+                .then(function(response) {
+                  console.log(response);
+                  self.boleiros = response.data;
+                  return response;
+                });
 
-        return $http.get(apiUrl).then(function(response) {
+//         return $http.get(apiUrl).then(function(response) {
+// //         return 
+// //             $http({
+// //                 method:'GET', 
+// //                 url: apiUrl,
+// //                 cache: $templateCache,
+// //                 headers: { 'Accept-Encoding': 'gzip' }
+// //             }).then(function(response) {
+               
+//             console.log(response);
 
-            // when we get the results we store the data in user.profile
-            self.boleiros = response.data
+//             // when we get the results we store the data in user.profile
+//             self.boleiros = response.data
 
-            // promises success should always return something in order to allow chaining
-            return response;
+//             // promises success should always return something in order to allow chaining
+//             return response;
 
-        });
+//         });
     };
     return BD;
-});
+}]);
 
 
 //Uso futuro
