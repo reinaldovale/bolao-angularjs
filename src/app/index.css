@@ -1,0 +1,107 @@
+.bolao {
+    position: absolute;
+}
+
+.rodada {
+  background-color: #efe;
+  border-collapse: collapse;
+  empty-cells: show;
+  width: 80%;
+  margin-left: 10%;
+}
+
+.rodada .escudo {	
+	width: 10%;
+}
+
+.rodada .escudo img {
+  width: 100%;
+}
+
+@media (min-width: 200px) {
+	  .bolao {
+        width: 100%;
+        height: 60%;
+        font-size: 90%;
+	  }
+
+	  .rodada {	  	
+  		font-size: 90%;
+		width: 90%;
+		margin-left: 5%;
+	}
+}
+
+@media (min-width: 400px) {
+	  .bolao {
+        height: 80%;
+        font-size: 150%;
+	  }
+}
+
+@media (min-width: 650px) {
+	  .bolao {
+        height: 110%;
+        font-size: 200%;
+	  }
+}
+
+@media (min-width: 880px) {
+	  .bolao {
+        height: 150%;
+        font-size: 260%;
+	  }
+}
+
+
+@media (min-width: 1160px) {
+	  .bolao {
+        width: 1000px;
+        height: 135%;
+        left: 50%;
+        margin-left: -500px;
+        font-size: 250%;
+	  }
+}
+
+@media (min-width: 300px) and (min-height: 200px) and (orientation : landscape) {
+	.bolao {
+	  height: 200%;
+	  font-size: 150%;
+	  width: 100%;
+	}
+
+	.rodada .escudo img {
+	  width: 50%;
+	}
+
+	.item-cabecalho.item-fechado img {
+	  width: 10% !important;
+	}
+
+	.item-cabecalho.item-aberto img {
+	  width: 90% !important;
+	}
+}
+
+@media (min-width: 880px) and (min-height: 200px) and (orientation : landscape) {
+	.bolao {
+	  height: 200%;
+	  font-size: 150%;
+	  width: 880px;
+	  left: 50%;
+	  margin-left: -440px;
+	}
+
+	.rodada .escudo img {
+	  width: 50%;
+	}
+
+	.item-cabecalho.item-fechado img {
+	  width: 5% !important;
+	}
+
+	.item-cabecalho.item-aberto img {
+	  width: 50% !important;
+	}
+}

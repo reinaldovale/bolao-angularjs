@@ -1,4 +1,0 @@
-bolao-angularjs
-===============
-
-bolao-angularjs
