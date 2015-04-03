@@ -1,3 +1,7 @@
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
+}
+
 .bolao {
     position: absolute;
 }
@@ -8,6 +12,15 @@
   empty-cells: show;
   width: 80%;
   margin-left: 10%;
+  table-layout: fixed;  
+}
+
+.rodada td {
+	overflow: hidden;
+}
+
+.rodada .placar {
+	width:5%;
 }
 
 .rodada .escudo {	
@@ -21,7 +34,7 @@
 @media (min-width: 200px) {
 	  .bolao {
         width: 100%;
-        height: 60%;
+        height: 75%;
         font-size: 90%;
 	  }
 

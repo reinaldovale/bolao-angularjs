@@ -3,9 +3,9 @@
         <ul class="pontos">
             <li 
                 class="ponto"
-                ng-class="{'ativo':ehIndicePaginaAtual($index)}"
-                ng-repeat="pagina in paginas" 
-                ng-click="atualizarIndice($index);">
+                ng-class="{'ativo':ehPaginaAtual($index + 1)}"
+                ng-repeat="pagina in (0|number:totalPaginas - 2 ) track by $index" 
+                ng-click="atualizarPagina($index + 1);">
                 {{$index + 1}}
              </li>
         </ul>

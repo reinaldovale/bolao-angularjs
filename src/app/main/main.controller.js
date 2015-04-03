@@ -2,12 +2,18 @@
 
 angular.module('bolao')
   .controller('ControlePrincipal', ['$scope', 'BD', function($scope, BD) {
+
     $scope.boleiros = [];
 
-    var bd = new BD();
-    // fetch data and publish on scope
-    bd.pegarBoleiros().then(function() {
-        $scope.boleiros = bd.boleiros;
-    });
+//     var bd = new BD();
+//     bd.pegarBoleiros().then(function() {
+//         $scope.boleiros = bd.boleiros;
+//     });
+
+    
+    BD.pegarBoleiros()
+      .then(function(dados) {
+            $scope.boleiros = dados;            
+       });
     
 }]);

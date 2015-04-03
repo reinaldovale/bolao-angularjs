@@ -1,56 +1,96 @@
 'use strict';
 angular.module('bolao.carrossel', [])
-.directive('carrossel', function() {
-    return {
-        restrict: 'E',
-        transclude: 'true',
-        replace: 'true',
-        templateUrl: 'components/carrossel/diretivas/diretiva-carrossel.html',
-        scope: 'true',
-        controller: function($scope) {
-            
-            var eu = this, 
-            indiceAtual = 0;
-            $scope.direcao = 'esquerda';
-            $scope.paginas = [];
-            
-            eu.adicionarPagina = function(pagina) {
-                if ($scope.paginas.length === 0) {
-                    pagina.exibir();
-                }
-                $scope.paginas.push(pagina);
-            };
-            
-            $scope.atualizarIndice = function(indice, direcao) {
-                if (direcao === undefined) {
-                    $scope.direcao = (indiceAtual >= indice) ? 'esquerda' : 'direita';
-                } 
-                else {
-                    $scope.direcao = direcao;
-                }
-                $scope.paginas[indiceAtual].ocultar();
-                $scope.paginas[indice].exibir();
-                indiceAtual = indice;
-            };
-            
-            $scope.ehIndicePaginaAtual = function(indice) {
-                return indiceAtual === indice;
-            };
-            
-            $scope.proximaPagina = function() {
-                var indice = indiceAtual, 
-                novoIndiceAtual = (indice < $scope.paginas.length - 1) ? ++indice : 0;
-                $scope.atualizarIndice(novoIndiceAtual, 'direita');
-            };
-            
-            $scope.paginaAnterior = function() {
-                var indice = indiceAtual, 
-                novoIndiceAtual = (indice > 0) ? --indice : $scope.paginas.length - 1;
-                $scope.atualizarIndice(novoIndiceAtual, 'esquerda');
-            };
-        }
-    };
-})
+.directive('carrossel', ['BD', '$timeout', function(BD, $timeout) {
+        return {
+            restrict: 'E',
+            transclude: 'true',
+            replace: 'true',
+            templateUrl: 'components/carrossel/diretivas/diretiva-carrossel.html',
+            scope: {
+                totalPaginas: '=',
+                boleiro: '='
+            },
+            controller: function($scope) {
+                
+                $scope.direcao = 'esquerda';
+                $scope.paginas = [];
+                
+                var eu = this, 
+                
+                paginaAtual = 1, 
+                alternarPagina = function(paginaSelecionada) {
+                    angular.forEach($scope.paginas, function(pagina) {
+                        if (pagina.conteudo.id === paginaSelecionada) {
+                            pagina.exibir();
+                            return;
+                        }
+                    });
+                };
+                
+                $scope.atualizarPagina = function(paginaSelecionada, direcao) {
+                    
+                    if (direcao === undefined) {
+                        $scope.direcao = (paginaAtual >= paginaSelecionada) ? 'esquerda' : 'direita';
+                    } 
+                    else {
+                        $scope.direcao = direcao;
+                    }
+                    
+                    var novaRodada = true;
+                    var abortar = false;
+                    angular.forEach($scope.paginas, function(pagina) {
+                        if (pagina.conteudo.id === paginaAtual) {
+                            pagina.ocultar();
+                            abortar = true;
+                        }
+                        
+                        if (pagina.conteudo.id === paginaSelecionada) {
+                            novaRodada = false;
+                        }
+                        
+                        if (!novaRodada && abortar) {
+                            return;
+                        }
+                    });
+                    
+                    if (novaRodada) {
+                        $scope.boleiro.rodadas.push(BD.pegarRodada($scope.boleiro.id, paginaSelecionada));
+                    }
+                    
+                    $timeout(function() {
+                        alternarPagina(paginaSelecionada);
+                    }, 100);
+                    
+//                     $scope.$digest();
+                    
+                    paginaAtual = paginaSelecionada;
+                };
+                
+                $scope.ehPaginaAtual = function(paginaSelecionada) {
+                    return paginaAtual === paginaSelecionada;
+                };
+                
+                $scope.proximaPagina = function() {
+                    var pagina = paginaAtual, 
+                    paginaSelecionada = (pagina < $scope.totalPaginas) ? ++pagina : 1;
+                    $scope.atualizarPagina(paginaSelecionada, 'direita');
+                };
+                
+                $scope.paginaAnterior = function() {
+                    var pagina = paginaAtual, 
+                    paginaSelecionada = (pagina > 1) ? --pagina : $scope.totalPaginas;
+                    $scope.atualizarPagina(paginaSelecionada, 'esquerda');
+                };
+                
+                eu.adicionarPagina = function(pagina) {
+                    if (paginaAtual === 1) {
+                        pagina.exibir();
+                    }
+                    $scope.paginas.push(pagina);
+                };
+            }
+        };
+    }])
 .directive('pagina', function() {
     return {
         require: '^carrossel',
@@ -61,7 +101,7 @@ angular.module('bolao.carrossel', [])
             conteudo: '='
         },
         link: function(scope, element, attrs, carrosselControle) {
-            scope.detalheVisivel = false;
+            
             scope.exibir = function() {
                 scope.visivel = true;
                 scope.detalheVisivel = true;
