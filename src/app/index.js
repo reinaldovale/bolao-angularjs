@@ -5,10 +5,10 @@ angular.module('bolao', ['bolao.carrossel', 'bolao.acordeon']);
 angular.module('bolao')
 .factory('BD', ['$http', '$templateCache', function($http, $templateCache) {
         
-        var contador = 0, 
-        boleiros, 
-        apiUrl = 'bd.json', 
-        id, 
+        var boleiros, 
+        apiUrl = 'bd.json',
+
+        
         boleirosSemRodadas = function(boleiro) {
             boleiro.rodadas = [];
             return boleiro;

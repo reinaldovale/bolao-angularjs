@@ -1,6 +1,6 @@
 'use strict';
 angular.module('bolao.carrossel', [])
-.directive('carrossel', ['BD', '$timeout', '$rootScope', function(BD, $timeout, $rootScope) {
+.directive('carrossel', ['BD', '$timeout', function(BD, $timeout) {
         return {
             restrict: 'E',
             transclude: 'true',
