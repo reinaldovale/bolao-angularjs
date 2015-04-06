@@ -15,7 +15,6 @@ angular.module('bolao')
         }, 
         pegarBoleiroPor = function(id, boleiros) {
             for (var i = 0; i < boleiros.length; i++) {
-                console.log(boleiros[i].id);
                 if (boleiros[i].id === id) {
                     return boleiros[i];
                 }
@@ -23,7 +22,6 @@ angular.module('bolao')
         }, 
         pegarRodadaPor = function(id, rodadas) {
             for (var i = 0; i < rodadas.length; i++) {
-                console.log(rodadas[i].id);
                 if (rodadas[i].id === id) {
                     return rodadas[i];
                 }

@@ -1,6 +1,6 @@
 'use strict';
 angular.module('bolao.carrossel', [])
-.directive('carrossel', ['BD', '$timeout', function(BD, $timeout) {
+.directive('carrossel', ['BD', '$timeout', '$rootScope', function(BD, $timeout, $rootScope) {
         return {
             restrict: 'E',
             transclude: 'true',
@@ -18,6 +18,7 @@ angular.module('bolao.carrossel', [])
                 var eu = this, 
                 
                 paginaAtual = 1, 
+                
                 alternarPagina = function(paginaSelecionada) {
                     angular.forEach($scope.paginas, function(pagina) {
                         if (pagina.conteudo.id === paginaSelecionada) {
@@ -60,8 +61,6 @@ angular.module('bolao.carrossel', [])
                     $timeout(function() {
                         alternarPagina(paginaSelecionada);
                     }, 100);
-                    
-//                     $scope.$digest();
                     
                     paginaAtual = paginaSelecionada;
                 };
