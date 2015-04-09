@@ -62,25 +62,30 @@
     height: 100%;
 }
 
-.item-cabecalho.item-fechado img {    
-    width:10%;
-}
-
-
-.item-cabecalho.item-fechado .nome {
+.item-cabecalho.item-fechado div {
     margin: 1%;
     padding: 2%;
     border-radius: 50%;
     background-color: black;
     float: left;
-    width: 30%;    
+    overflow:hidden;
+}
+
+.item-cabecalho.item-fechado img { 
+    width:12%;
+}
+
+
+.item-cabecalho.item-fechado .nome {    
+    font-size: 110%;
+    width: 20%;    
 }
 
 .item-cabecalho.item-fechado .valores {
-    margin: 1%;
-    padding: 1%;
-    border-radius: 40%;
-    background-color: black;
-    float: left;
     width: 12%;   
+}
+
+.item-cabecalho.item-fechado .media {
+    width: 15%;
+    font-size: 75%;
 }

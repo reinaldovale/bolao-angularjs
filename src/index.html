@@ -30,14 +30,20 @@
 			  <carrossel total-paginas="boleiro.totalRodadas"  boleiro="boleiro">
 				  <pagina ng-repeat="rodada in boleiro.rodadas" conteudo="rodada"> 
 				    <table class="rodada">
+				      <tr class="cabecalho-pagina">
+				      	<td colspan="3">Mandante</td>
+				      	<td colspan="3">Visitante</td>
+				      	<td colspan="2">Pontos</td>
+				      </tr> 
 				      <tr ng-repeat="jogo in rodada.jogos">
-						  <td class="escudo"><img ng-src="{{jogo.mandante.escudo}}"></td>
-						  <td>{{jogo.mandante.nome}}</td>
-						  <td class="placar">{{jogo.mandante.gols}}</td>
-						  <td class="placar">x</td>
-						  <td class="placar">{{jogo.visitante.gols}}</td>
-						  <td>{{jogo.visitante.nome}}</td>
-						  <td class="escudo"><img ng-src="{{jogo.visitante.escudo}}"></td>
+						  <td class="time-escudo"><img ng-src="{{jogo.mandante.escudo}}"></td>
+						  <td class="time-nome">{{jogo.mandante.nome}}</td>
+						  <td class="time-placar">{{jogo.mandante.gols}}</td>
+						  <td>x</td>
+						  <td class="time-placar">{{jogo.visitante.gols}}</td>
+						  <td class="time-nome">{{jogo.visitante.nome}}</td>
+						  <td class="time-escudo"><img ng-src="{{jogo.visitante.escudo}}"></td>
+						  <td class="time-pontos">{{jogo.pontos}}</td>
 						</tr>
     				</table>
 				  </pagina>

@@ -8,9 +8,23 @@
     <div 
         ng-click="alternarDetalhe()" 
         class="detalhe"
-        ng-class="{ocultar : !detalheVisivel}">    
-        <div>Detalhes da Rodada</div>
-        <label>Número </label><input class="caixa-texto" type="text" ng-click="$event.stopPropagation();" value="{{$parent.$index}}"></input>
-        <label>Descrição </label><input class="caixa-texto" type="text" ng-click="$event.stopPropagation();" value="{{conteudo.descricao}}"></input>        
-    </div>
+        ng-class="{ocultar : !detalheVisivel}">
+		<table class="detalhe-rodada">
+		  <tr>
+			<td class="cabecalho-detalhe-rodada" colspan="4">Detalhes da Rodada</td>
+		  </tr> 
+		  <tr>
+			  <td class="esquerda">Número: </td>
+			  <td class="esquerda">{{conteudo.id}}</td>	
+			  <td class="esquerda">Total de Pontos: </td>
+			  <td class="direita">{{conteudo.pontos}}</td>		  
+			</tr>
+			<tr>
+			  <td class="esquerda">Data: </td>
+			  <td class="esquerda">{{conteudo.data  | date : 'dd/MM/yyyy'}}</td>			  
+			  <td class="esquerda">Total de Placares: </td>
+			  <td class="direita">{{conteudo.Placares}}</td>
+			</tr>
+		</table>
+	</div>
 </div>
