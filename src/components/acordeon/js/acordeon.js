@@ -14,6 +14,7 @@ angular.module('bolao.acordeon', [])
             $scope.itens = [];
             
             eu.adicionarItem = function(item) {
+                item.tipo = 'premiado';
                 $scope.itens.push(item);
             };
             

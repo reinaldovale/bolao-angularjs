@@ -31,9 +31,9 @@ angular.module('bolao')
                 //                     console.log(boleiro.nome, 'Rodada', rodada.id, 'jogo', j, '\n B.mand: ', jogoBoleiro.mandante.gols, 'B.vis: ', jogoBoleiro.visitante.gols, 'G.mand: ', jogoGabarito.mandante.gols, 'G.vis: ', jogoGabarito.visitante.gols, 'pontos: ', calcularPontuacao(jogoBoleiro, jogoGabarito));
                 }
             }
-            boleiro.pontos = boleiro.rodadas.reduce(function(r1, r2) {
-                return r1.pontos + r2.pontos;
-            });
+            boleiro.pontos = boleiro.rodadas.reduce(function(pontos, rodada) {
+                return pontos + rodada.pontos;
+            }, 0);
             
             for (var i = 0; i < boleiro.rodadas.length; i++) {
                 var jogos = boleiro.rodadas[i].jogos.filter(function(jogo) {
@@ -42,15 +42,15 @@ angular.module('bolao')
                     }
                 });
                 
-                boleiro.placares += boleiro.rodadas[i].placares = jogos.length;                
+                boleiro.placares += boleiro.rodadas[i].placares = jogos.length;
             }
             var rodadaConsideradas = boleiro.rodadas.filter(function(rodada) {
-                    return rodada.pontos > 0;
+                return rodada.pontos > 0;
             }).length;
             boleiro.mediaPontos = boleiro.pontos / rodadaConsideradas;
             boleiro.mediaPlacares = boleiro.placares / rodadaConsideradas;
             boleiro.totalRodadas = boleiro.rodadas.length;
-//             console.log(boleiro);
+            //             console.log(boleiro);
             return boleiro;
         }, 
         calcularPontuacao = function(jogoBoleiro, jogoGabarito) {
@@ -82,14 +82,14 @@ angular.module('bolao')
             var boleiro = boleiros.filter(function(b) {
                 if (b.id === id) {
                     return b;
-                }                
+                }
             });
             return boleiro[0];
-            //             for (var i = 0; i < boleiros.length; i++) {
-            //                 if (boleiros[i].id === id) {
-            //                     return boleiros[i];
-            //                 }
-            //             }            
+        //             for (var i = 0; i < boleiros.length; i++) {
+        //                 if (boleiros[i].id === id) {
+        //                     return boleiros[i];
+        //                 }
+        //             }            
         }, 
         pegarRodadaPor = function(id, rodadas) {
             for (var i = 0; i < rodadas.length; i++) {
