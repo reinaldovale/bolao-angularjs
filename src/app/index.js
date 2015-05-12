@@ -28,7 +28,7 @@ angular.module('bolao')
                     jogoBoleiro.pontos = calcularPontuacao(jogoBoleiro, jogoGabarito);
                     
                     rodada.pontos += jogoBoleiro.pontos;
-                //                     console.log(boleiro.nome, 'Rodada', rodada.id, 'jogo', j, '\n B.mand: ', jogoBoleiro.mandante.gols, 'B.vis: ', jogoBoleiro.visitante.gols, 'G.mand: ', jogoGabarito.mandante.gols, 'G.vis: ', jogoGabarito.visitante.gols, 'pontos: ', calcularPontuacao(jogoBoleiro, jogoGabarito));
+                    //console.log(boleiro.nome, 'Rodada', rodada.id, 'jogo', j, '\n B.mand: ', jogoBoleiro.mandante.gols, 'B.vis: ', jogoBoleiro.visitante.gols, 'G.mand: ', jogoGabarito.mandante.gols, 'G.vis: ', jogoGabarito.visitante.gols, 'pontos: ', calcularPontuacao(jogoBoleiro, jogoGabarito));
                 }
             }
             boleiro.pontos = boleiro.rodadas.reduce(function(pontos, rodada) {
@@ -113,8 +113,10 @@ angular.module('bolao')
                 })
                 .then(function(response) {
                     boleiros = response.data;
-                    var b = [];
-                    angular.copy(boleiros, b);
+                    //var b = boleiros;
+                    //var b = [];
+                    //angular.copy(boleiros, b);
+                    var b = JSON.parse(JSON.stringify(response.data))
                     return b.filter(removeGabarito).map(removeRodadas);
                 });
             },
