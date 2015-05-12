@@ -1,6 +1,5 @@
 'use strict';
-
-angular.module('bolao', ['bolao.carrossel', 'bolao.acordeon']);
+angular.module('bolao', ['bolao.carrossel', 'bolao.acordeon', 'ngTouch']);
 
 angular.module('bolao')
 .factory('BD', ['$http', '$templateCache', function($http, $templateCache) {
@@ -54,7 +53,7 @@ angular.module('bolao')
             return boleiro;
         }, 
         calcularPontuacao = function(jogoBoleiro, jogoGabarito) {
-            if (jogoGabarito.mandante.gols === "" || jogoGabarito.visitante.gols === "" || jogoBoleiro.mandante.gols === "" || jogoBoleiro.visitante.gols === "") {
+            if (jogoGabarito.mandante.gols === '' || jogoGabarito.visitante.gols === '' || jogoBoleiro.mandante.gols === '' || jogoBoleiro.visitante.gols === '') {
                 return 0;
             } 
             else if (jogoGabarito.mandante.gols === jogoBoleiro.mandante.gols && jogoGabarito.visitante.gols === jogoBoleiro.visitante.gols) {
@@ -116,7 +115,7 @@ angular.module('bolao')
                     //var b = boleiros;
                     //var b = [];
                     //angular.copy(boleiros, b);
-                    var b = JSON.parse(JSON.stringify(response.data))
+                    var b = JSON.parse(JSON.stringify(response.data));
                     return b.filter(removeGabarito).map(removeRodadas);
                 });
             },

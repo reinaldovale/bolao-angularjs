@@ -10,7 +10,11 @@
              </li>
         </ul>
     </nav>    
-    <div ng-transclude class="paginas {{direcao}}"></div>    
+    <div 
+        ng-transclude 
+        class="paginas {{direcao}}" 
+        ng-swipe-left="paginaAnterior()" 
+        ng-swipe-right="proximaPagina()"></div>    
     <a class="seta anterior" ng-click="paginaAnterior()"></a>
     <a class="seta proxima" ng-click="proximaPagina()"></a>
 </div>
