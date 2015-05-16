@@ -2,13 +2,17 @@
     <div
         class="item-cabecalho {{situacao}}"    
         ng-click="abrir(indice)">
-        <img ng-src="{{boleiro.foto}}">
+        <figure>
+            <img ng-src="{{boleiro.foto}}">
+            <img ng-src="{{boleiro.campeao.escudo}}">
+            <figcaption>Meu campeão: {{boleiro.campeao.pontos}} pontos</figcaption>        
+        </figure>
         <div class="nome">{{boleiro.nome}}</div>
         <div class="valores">Pontos<br> {{boleiro.pontos}}</div>
         <div class="valores">Placares<br> {{boleiro.placares}}</div>
-        <div class="media">Média <br> 
+        <!--div class="media">Média <br> 
             pt: {{boleiro.mediaPontos | number:1}} pl: {{boleiro.mediaPlacares | number:1}}
-        </div>
+        </div-->
     </div>
     <div ng-transclude></div>
 </div>
