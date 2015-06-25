@@ -27,6 +27,8 @@
 .item-cabecalho {
     width: 100%;
     position: absolute;
+    border-radius: 5%;
+
 }
 
 .item-cabecalho figure {    
@@ -42,6 +44,10 @@
 
 .item-cabecalho.item-fechado figure img {
     width: 45%;
+}
+
+.item-cabecalho.item-fechado.item-premiado {
+    background-color: #B0DAB0;
 }
 
 .item-cabecalho.item-aberto figure {

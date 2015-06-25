@@ -119,21 +119,21 @@ var Premiados = (function() {
         verificaPremiado(participantes[i]);
       }
 
-      var b = {},
-      teste = 'Reinaldo';
+//       var b = {},
+//       teste = 'Reinaldo';
 
 
-      for(var i = 6; i--;) {
-        b[teste] = b[teste] ? b[teste] + 1 : i;
-        console.log("\t teste  \t\t", b);
-      }
-      console.log("\n teste  \t\t", b);
+//       for(var i = 6; i--;) {
+//         b[teste] = b[teste] ? b[teste] + 1 : i;
+//         console.log("\t teste  \t\t", b);
+//       }
+//       console.log("\n teste  \t\t", b);
 
 
-     // console.log(participantes.length + "\t Participantes  \t", participantes);
-     // console.log(premiados.length + "\t Premiados  \t\t", premiados);
-     // console.log(normais.length + "\t Normais  \t\t\t", normais);
-     // console.log(rebaixados.length + "\t Rebaixados  \t\t", rebaixados);
+     console.log(participantes.length + "\t Participantes  \t", participantes);
+     console.log(premiados.length + "\t Premiados  \t\t", premiados);
+     console.log(normais.length + "\t Normais  \t\t\t", normais);
+     console.log(rebaixados.length + "\t Rebaixados  \t\t", rebaixados);
     }
   };  
 })();

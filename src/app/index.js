@@ -126,3 +126,14 @@ angular.module('bolao')
             }
         };
     }]);
+
+// angular.module('bolao')
+// .filter('destacar', function() {  
+//    return function(input, param1) {
+//            console.log('\n\n\n\--------------------------------------------------------');
+//             for (var i = 0; i < input.length; i++) {
+//                 console.log(input[i].nome + " -> " + input[i][param1]);
+//             } 
+//       return input;  
+//    };  
+//  });  

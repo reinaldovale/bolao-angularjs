@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="bolao">
+<html>
   <head>
     <meta charset="utf-8">
     <title>bolao</title>
@@ -22,11 +22,11 @@
     <!-- endinject -->
     <!-- endbuild -->
   </head>
-  <body>
+  <body ng-app="bolao" ng-cloak>
   
   <div class="bolao" ng-controller="ControlePrincipal">
 	  <acordeon>
-		  <item ng-repeat="boleiro in boleiros | orderBy:'-placares'| orderBy:'-pontos'" indice="{{$index}}" boleiro="boleiro">
+		  <item ng-repeat="boleiro in boleiros | orderBy:['-pontos','-placares']" indice="{{$index}}" boleiro="boleiro">
 			  <carrossel total-paginas="boleiro.totalRodadas"  boleiro="boleiro">
 				  <pagina ng-repeat="rodada in boleiro.rodadas" conteudo="rodada"> 
 				    <table class="rodada">
