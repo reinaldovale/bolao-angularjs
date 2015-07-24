@@ -47,7 +47,11 @@
 }
 
 .item-cabecalho.item-fechado.item-premiado {
-    background-color: #B0DAB0;
+    background-color: #64B940;
+}
+
+.item-cabecalho.item-fechado.item-rebaixado {
+    background-color: #B53535;
 }
 
 .item-cabecalho.item-aberto figure {
