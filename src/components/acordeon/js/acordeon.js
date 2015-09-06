@@ -11,116 +11,132 @@ angular.module('bolao.acordeon', [])
             
             $scope.itens = [];
             
-            var eu = this,
-            TOTAL_PREMIADOS = 2,
-            minPontoPremiado = 0,
-            minPontoRebaixado = 0,
-            minPlacarRebaixado = 0,
-            premiados = 0,
-            TOTAL_REBAIXADOS = 2,
-            rebaixados = 0,
-            indiceAtual = 0,
-            
-            verificarPremiado = function(itemCorrente) {                
-                if(premiados < TOTAL_PREMIADOS && (minPontoPremiado === 0 || minPontoPremiado >= itemCorrente.boleiro.pontos)) {
-                        itemCorrente.tipo = 'item-premiado';
-                        premiados++;
-                        minPontoPremiado = itemCorrente.boleiro.pontos;
-                }
-                else {
-                    if(minPontoPremiado < itemCorrente.boleiro.pontos) {
-                        angular.forEach($scope.itens, function(item) {
-                                if(item.boleiro.pontos === minPontoPremiado) {
-                                    item.tipo = '';
-                                }
-                        });
-                        minPontoPremiado = itemCorrente.boleiro.pontos;  
-                        itemCorrente.tipo = 'item-premiado';                
-                    }
-                    else {
-                        if(minPontoPremiado === itemCorrente.boleiro.pontos) {
-                            angular.forEach($scope.itens, function(item) {
-                                if(item.boleiro.pontos === minPontoPremiado) {
-                                    if(itemCorrente.boleiro.placares > item.boleiro.placares) {
-                                        item.tipo = '';
-                                        itemCorrente.tipo = 'item-premiado';
-                                    }
-                                    else if(itemCorrente.boleiro.placares === item.boleiro.placares) {
-                                        itemCorrente.tipo = 'item-premiado';
-                                    }
-                                }
-                            });
+            var eu = this, 
+            prm = [], 
+            TOTAL_PREMIADOS = 2, 
+            premiados = 0, 
+            reb = [], 
+            TOTAL_REBAIXADOS = 2, 
+            rebaixados = 0, 
+            indiceAtual = 0, 
+            verificarRebaixado = function(itemCorrente) {
+                if (rebaixados < TOTAL_REBAIXADOS) {
+                    for (var i = 0; i < reb.length; i++) {
+                        if (reb[i].boleiro.pontos === itemCorrente.boleiro.pontos && reb[i].boleiro.placares === itemCorrente.boleiro.placares) {
+                            rebaixados--;
+                            break;
                         }
+                    }
+                    itemCorrente.tipo = 'item-rebaixado';
+                    rebaixados++;
+                    reb.push(itemCorrente);
+                } 
+                else {
+                    var iguais = false;
+                    for (var i = 0; i < reb.length; i++) {
+                        if (reb[i].boleiro.pontos === itemCorrente.boleiro.pontos && reb[i].boleiro.placares === itemCorrente.boleiro.placares) {
+                            iguais = true;
+                            break;
+                        }
+                    }
+                    
+                    if (iguais) {
+                        
+                        itemCorrente.tipo = 'item-premiado';
+                        reb.push(itemCorrente);
+                    } 
+                    else {                        
+                        var maiores = reb.filter(function(item) {
+                            return (item.boleiro.pontos > itemCorrente.boleiro.pontos) || (item.boleiro.pontos === itemCorrente.boleiro.pontos && item.boleiro.placares > itemCorrente.boleiro.placares);
+                        });
+                        if (maiores.length > 0) {
+                            var mPT = maiores[0].boleiro.pontos, 
+                            mPL = maiores[0].boleiro.placares;
+                            for (var i = 1; i < maiores.length; i++) {
+                                if (maiores[i].boleiro.pontos > mPT || (maiores[i].boleiro.pontos === mPT && maiores[i].boleiro.placares > mPL)) {
+                                    mPT = maiores[i].boleiro.pontos;
+                                    mPL = maiores[i].boleiro.placares;
+                                }
+                            }
+                            
+                            reb = reb.filter(function(item) {
+                                var rt = true;
+                                if (item.boleiro.pontos === mPT && item.boleiro.placares === mPL) {
+                                    item.tipo = '';
+                                    rt = false;
+                                }
+                                return rt;
+                            });
+                            itemCorrente.tipo = 'item-rebaixado';
+                            reb.push(itemCorrente);
+                        }
+                    }
+                }
+            }, 
+            
+            verificarPremiado = function(itemCorrente) {
+                if (premiados < TOTAL_PREMIADOS) {
+                    for (var i = 0; i < prm.length; i++) {
+                        if (prm[i].boleiro.pontos === itemCorrente.boleiro.pontos && prm[i].boleiro.placares === itemCorrente.boleiro.placares) {
+                            premiados--;
+                            break;
+                        }
+                    }
+                    itemCorrente.tipo = 'item-premiado';
+                    premiados++;
+                    prm.push(itemCorrente);
+                } 
+                else {
+                    var iguais = false;
+                    for (var i = 0; i < prm.length; i++) {
+                        if (prm[i].boleiro.pontos === itemCorrente.boleiro.pontos && prm[i].boleiro.placares === itemCorrente.boleiro.placares) {
+                            iguais = true;
+                            break;
+                        }
+                    }
+                    
+                    if (iguais) {
+                        itemCorrente.tipo = 'item-premiado';
+                        prm.push(itemCorrente);
+                    } 
+                    else {
+                        var menores = prm.filter(function(item) {
+                            return (item.boleiro.pontos < itemCorrente.boleiro.pontos) || (item.boleiro.pontos === itemCorrente.boleiro.pontos && item.boleiro.placares < itemCorrente.boleiro.placares);
+                        });
+                        if (menores.length > 0) {
+                            var mPT = menores[0].boleiro.pontos, 
+                            mPL = menores[0].boleiro.placares;
+                            for (var i = 1; i < menores.length; i++) {
+                                if (menores[i].boleiro.pontos < mPT || (menores[i].boleiro.pontos === mPT && menores[i].boleiro.placares < mPL)) {
+                                    mPT = menores[i].boleiro.pontos;
+                                    mPL = menores[i].boleiro.placares;
+                                }
+                            }
+                            
+                            prm = prm.filter(function(item) {
+                                var rt = true;
+                                if (item.boleiro.pontos === mPT && item.boleiro.placares === mPL) {
+                                    item.tipo = '';
+                                    verificarRebaixado(item);
+                                    rt = false;
+                                }
+                                return rt;
+                            });
+                            itemCorrente.tipo = 'item-premiado';
+                            prm.push(itemCorrente);
+                        } 
                         else {
-                            itemCorrente.tipo = '';
                             verificarRebaixado(itemCorrente);
                         }
-                    }                    
-                }           
-            },    
-
-            verificarRebaixado = function(itemCorrente) {
-console.log('Entrada: \tPT = \t' + itemCorrente.boleiro.pontos + '\tPL = \t' + itemCorrente.boleiro.placares + '\tTipo = ' + itemCorrente.tipo + '\nminPT = ' + minPontoRebaixado +  '\tminPL = ' + minPlacarRebaixado + '\tRebaixados = ' + rebaixados);                                        
-                if(rebaixados < TOTAL_REBAIXADOS) {
-//console.log('PT = \t' + itemCorrente.boleiro.pontos + '\tPL = \t' + itemCorrente.boleiro.placares + '\tTipo = ' + itemCorrente.tipo + '\nminPT = ' + minPontoRebaixado +  '\tminPL = ' + minPlacarRebaixado + '\tRebaixados = ' + rebaixados);                        
-                    itemCorrente.tipo = 'item-rebaixado';
-                    rebaixados++;                   
-                    if(minPontoRebaixado === 0) { 
-                        minPontoRebaixado = itemCorrente.boleiro.pontos;
-                        minPlacarRebaixado = itemCorrente.boleiro.placares;
                     }
-                    else if(minPontoRebaixado < itemCorrente.boleiro.pontos) {
-                                minPontoRebaixado = itemCorrente.boleiro.pontos;
-                                minPlacarRebaixado = itemCorrente.boleiro.placares;
-                        }
-                    else if(minPontoRebaixado === itemCorrente.boleiro.pontos) {
-                        if(minPlacarRebaixado < itemCorrente.boleiro.placares) {
-                                minPlacarRebaixado = itemCorrente.boleiro.placares;
-                        }
-                        if(minPlacarRebaixado === itemCorrente.boleiro.placares) {
-                                rebaixados--;
-                        }                                               
-                    }
+                
                 }
-                 else if(minPontoRebaixado >= itemCorrente.boleiro.pontos) {  
-//console.log('PT = \t' + itemCorrente.boleiro.pontos + '\tPL = \t' + itemCorrente.boleiro.placares + '\tTipo = ' + itemCorrente.tipo + '\nminPT = ' + minPontoRebaixado +  '\tminPL = ' + minPlacarRebaixado + '\tRebaixados = ' + rebaixados);                    
-                        var rebaixadoSaiu = false,
-                            minPontoRebaixadoTemp = itemCorrente.boleiro.pontos,
-                            minPlacarRebaixadoTemp = itemCorrente.boleiro.placares;
-                            
-                        angular.forEach($scope.itens, function(item) {
-                                if(item.tipo ==='item-rebaixado') {
-                                        if(item.boleiro.pontos === minPontoRebaixado) {
-                                                if(item.boleiro.pontos > itemCorrente.boleiro.pontos || (item.boleiro.pontos === itemCorrente.boleiro.pontos && item.boleiro.placares > itemCorrente.boleiro.placares) ) {
-                                                        item.tipo = '';
-                                                        rebaixadoSaiu = true;
-                                                        itemCorrente.tipo = 'item-rebaixado';
-                                                }                                                                                                     
-                                        }
-                                        if(item.tipo ==='item-rebaixado') {
-                                                                                                
-                                                if(item.boleiro.pontos > minPontoRebaixadoTemp || (item.boleiro.pontos === minPontoRebaixadoTemp && item.boleiro.placares > minPlacarRebaixadoTemp)) {
-                                                        minPontoRebaixadoTemp = item.boleiro.pontos;
-                                                        minPlacarRebaixadoTemp = item.boleiro.placares;
-                                                }
-                                        }
-                                }
-                        });
-                        if(rebaixadoSaiu) {
-                                rebaixados--;
-                        }
-                        minPontoRebaixado = minPontoRebaixadoTemp;
-                        minPlacarRebaixado = minPlacarRebaixadoTemp;            
-                }
-console.log('Saída: \tPT = \t' + itemCorrente.boleiro.pontos + '\tPL = \t' + itemCorrente.boleiro.placares + '\tTipo = ' + itemCorrente.tipo + '\nminPT = ' + minPontoRebaixado +  '\tminPL = ' + minPlacarRebaixado + '\tRebaixados = ' + rebaixados);                                      
-            };        
+            };
             
             eu.adicionarItem = function(item) {
-                item.tipo = 'premiado';
                 verificarPremiado(item);
-                //verificarRebaixado(item);
                 $scope.itens.push(item);
-            };            
+            };
             
             eu.abrir = function(indice) {
                 if (indice === indiceAtual) {
@@ -163,7 +179,7 @@ console.log('Saída: \tPT = \t' + itemCorrente.boleiro.pontos + '\tPL = \t' + it
                     if (typeof rodadas === 'object' && rodadas instanceof Array) {
                         if (!rodadas.length) {
                             scope.boleiro.rodadas.push(BD.pegarRodada(scope.boleiro.id, 1));
-                        }                     
+                        }
                     }
                     acordeonControle.abrir(indice);
                 };

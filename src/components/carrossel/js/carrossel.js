@@ -103,7 +103,7 @@ angular.module('bolao.carrossel', [])
             
             scope.exibir = function() {
                 scope.visivel = true;
-                scope.detalheVisivel = true;
+                scope.detalheVisivel = false;
             };
             
             scope.ocultar = function() {

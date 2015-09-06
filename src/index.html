@@ -27,6 +27,7 @@
   <div class="bolao" ng-controller="ControlePrincipal">
 	  <acordeon>
 		  <item ng-repeat="boleiro in boleiros | orderBy:['-pontos','-placares']" indice="{{$index}}" boleiro="boleiro">
+		  <!--item ng-repeat="boleiro in boleiros" indice="{{$index}}" boleiro="boleiro"-->
 			  <carrossel total-paginas="boleiro.totalRodadas"  boleiro="boleiro">
 				  <pagina ng-repeat="rodada in boleiro.rodadas" conteudo="rodada"> 
 				    <table class="rodada">
