@@ -42,7 +42,7 @@ angular.module('bolao.acordeon', [])
                     
                     if (iguais) {
                         
-                        itemCorrente.tipo = 'item-premiado';
+                        itemCorrente.tipo = 'item-rebaixado';
                         reb.push(itemCorrente);
                     } 
                     else {                        
