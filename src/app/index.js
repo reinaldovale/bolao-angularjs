@@ -13,10 +13,10 @@ angular.module('bolao')
                 gabarito = boleiro;
             } 
             else {
-                return atualizarBoleiros(boleiro);
+                return atualizarBoleiro(boleiro);
             }
         }, 
-        atualizarBoleiros = function(boleiro) {
+        atualizarBoleiro = function(boleiro) {
             //             var rodadas = [], 
             var rodada = null;
             for (var numero = 0; numero < boleiro.rodadas.length; numero++) {
@@ -25,30 +25,23 @@ angular.module('bolao')
                     var jogoBoleiro = rodada.jogos[j];
                     var jogoGabarito = gabarito.rodadas[numero].jogos[j];
                     jogoBoleiro.pontos = calcularPontuacao(jogoBoleiro, jogoGabarito);
-                    
+
+                    if(jogoBoleiro.pontos === 3) {
+                            rodada.placares++;
+                    }                    
                     rodada.pontos += jogoBoleiro.pontos;
-                    //console.log(boleiro.nome, 'Rodada', rodada.id, 'jogo', j, '\n B.mand: ', jogoBoleiro.mandante.gols, 'B.vis: ', jogoBoleiro.visitante.gols, 'G.mand: ', jogoGabarito.mandante.gols, 'G.vis: ', jogoGabarito.visitante.gols, 'pontos: ', calcularPontuacao(jogoBoleiro, jogoGabarito));
+                    
                 }
-            }
-            boleiro.pontos = boleiro.rodadas.reduce(function(pontos, rodada) {
-                return pontos + rodada.pontos;
-            }, 0);
-            
-            for (var i = 0; i < boleiro.rodadas.length; i++) {
-                var jogos = boleiro.rodadas[i].jogos.filter(function(jogo) {
-                    if (jogo.pontos === 3) {
-                        return jogo;
-                    }
-                });
-                
-                boleiro.placares += boleiro.rodadas[i].placares = jogos.length;
-            }
-            var rodadaConsideradas = boleiro.rodadas.filter(function(rodada) {
-                return rodada.pontos > 0;
-            }).length;
-            boleiro.mediaPontos = boleiro.pontos / rodadaConsideradas;
-            boleiro.mediaPlacares = boleiro.placares / rodadaConsideradas;
-            boleiro.totalRodadas = boleiro.rodadas.length;
+                boleiro.pontos = boleiro.pontos + rodada.pontos;
+                boleiro.placares = boleiro.placares + rodada.placares;
+            }           
+
+//             var rodadaConsideradas = boleiro.rodadas.filter(function(rodada) {
+//                 return rodada.pontos > 0;
+//             }).length;
+//             boleiro.mediaPontos = boleiro.pontos / rodadaConsideradas;
+//             boleiro.mediaPlacares = boleiro.placares / rodadaConsideradas;
+             boleiro.totalRodadas = boleiro.rodadas.length;
             //             console.log(boleiro);
             return boleiro;
         }, 
@@ -72,8 +65,6 @@ angular.module('bolao')
         removeRodadas = function(boleiro) {
             
             angular.extend(pegarBoleiroPor(boleiro.id), boleiro);
-            //                 var bo = pegarBoleiroPor(boleiro.id);
-            //                 bo = boleiro;
             boleiro.rodadas = [];
             return boleiro;
         }, 
@@ -84,11 +75,6 @@ angular.module('bolao')
                 }
             });
             return boleiro[0];
-        //             for (var i = 0; i < boleiros.length; i++) {
-        //                 if (boleiros[i].id === id) {
-        //                     return boleiros[i];
-        //                 }
-        //             }            
         }, 
         pegarRodadaPor = function(id, rodadas) {
             for (var i = 0; i < rodadas.length; i++) {
@@ -112,9 +98,6 @@ angular.module('bolao')
                 })
                 .then(function(response) {
                     boleiros = response.data;
-                    //var b = boleiros;
-                    //var b = [];
-                    //angular.copy(boleiros, b);
                     var b = JSON.parse(JSON.stringify(response.data));
                     return b.filter(removeGabarito).map(removeRodadas);
                 });
@@ -126,14 +109,3 @@ angular.module('bolao')
             }
         };
     }]);
-
-// angular.module('bolao')
-// .filter('destacar', function() {  
-//    return function(input, param1) {
-//            console.log('\n\n\n\--------------------------------------------------------');
-//             for (var i = 0; i < input.length; i++) {
-//                 console.log(input[i].nome + " -> " + input[i][param1]);
-//             } 
-//       return input;  
-//    };  
-//  });  
