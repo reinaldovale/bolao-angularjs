@@ -1,0 +1,4 @@
+[
+  {'boleiro' : 'Reinaldo', 'times' : [{'nome' : 'São Paulo', 'pontos' : 100}, {'nome' : 'Flamengo', 'pontos' : 101}]},
+  {'boleiro' : 'João', 'times' : [{'nome' : 'São Paulo', 'pontos' : 100}, {'nome' : 'São Paulo', 'pontos' : 100}]}
+]
