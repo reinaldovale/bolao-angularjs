@@ -1,10 +1,74 @@
 <!doctype html>
-<html ng-app="bolao">
+<html>
   <head>
     <meta charset="utf-8">
-    <title>bolao</title>   
+    <title>Bolão</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="launcher-icon-4x.png">    
+        
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- run `gulp inject` to automatically populate bower styles dependencies -->
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css({.tmp/serve,src}) styles/app.css -->
+    <!-- inject:css -->
+    <!-- css files will be automatically insert here -->
+    <!-- endinject -->
+    <!-- endbuild -->
+
+    <!-- build:js(src) scripts/vendor.js -->
+    <!-- bower:js -->
+    <!-- run `gulp inject` to automatically populate bower script dependencies -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <script src="../bower_components/angular-oauth/src/js/angularOauth.js"></script>
+    <script src="../bower_components/angular-oauth/src/js/googleOauth.js"></script>
   </head>
-  <body>  
-   <script src="ordenacao.js"></script>
+  <body ng-app="bolao" ng-cloak>
+  
+  <div class="bolao item-aberto" ng-controller="ControleAtualizacao">
+	  <carrossel total-paginas="38"  boleiro="gabarito">
+		  <pagina ng-repeat="rodada in gabarito.rodadas" conteudo="rodada"> 
+		  <form ng-submit="atualizar($index+1)">
+			<table class="rodada">
+			  <tr class="cabecalho-pagina">
+				<td colspan="3">Mandante</td>
+				<td colspan="3">Visitante</td>
+			  </tr> 
+			  <tr ng-repeat="jogo in rodada.jogos">
+				  <td class="time-escudo"><img ng-src="assets/images/times/{{jogo._source.mandante}}.png"></td>
+				  <td class="time-nome">{{jogo._source.mandante}}</td>
+				  <td class="time-placar"><input type="number" min="0" ng-model="jogo._source.mandante_gols" ng-click="$event.stopPropagation();"/></td>
+				  <td>x</td>
+				  <td class="time-placar"><input type="number" min="0" ng-model="jogo._source.visitante_gols" ng-click="$event.stopPropagation();"/></td>
+				  <td class="time-nome">{{jogo._source.visitante}}</td>
+				  <td class="time-escudo"><img ng-src="assets/images/times/{{jogo._source.visitante}}.png"></td>				  
+				</tr>
+			</table>
+			<input type="submit" id="submit" value="Atualizar" ng-click="$event.stopPropagation();"/>
+			<div ng-controller="Oauth">
+				<input type="button" value="Logar" ng-click="authenticate();$event.stopPropagation();"/>
+				<input type="checkbox" id="askApproval" ng-model="askApproval" />
+			</div>
+  <label for="askApproval">Always ask me for approval (even if I've already given it)</label>
+		  </pagina>
+	  </carrossel>
+  </div>   
+    <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
+    <!-- inject:js -->
+    <!-- js files will be automatically insert here -->
+    <!-- endinject -->
+
+    <!-- inject:partials -->
+    <!-- angular templates will be automatically converted in js and inserted here -->
+    <!-- endinject -->
+    <!-- endbuild -->
+
   </body>
 </html>
