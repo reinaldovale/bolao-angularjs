@@ -31,6 +31,9 @@
   <body ng-app="bolao" ng-cloak>
   
   <div class="bolao" ng-controller="ControlePrincipal">
+  	  
+  	  <input type="button" value="Administracao" ng-click="telaAdmin();$event.stopPropagation();"/>
+  	  <input type="button" value="Logar" ng-click="authenticate();$event.stopPropagation();"/>
 	  <acordeon>
 		  <item ng-repeat="boleiro in boleiros" boleiro="boleiro" indice="{{$index}}">
 		  <!--item ng-repeat="boleiro in boleiros" indice="{{$index}}" boleiro="boleiro"-->
