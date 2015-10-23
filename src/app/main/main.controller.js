@@ -16,12 +16,7 @@ config(function(TokenProvider) {
     });
 }).
 controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
-    $scope.accessToken = Token.get();
-
-
-})
-.controller('ControlePrincipal', ['$scope', '$http', '$window', 'BD', 'Token', function($scope, $http, $window, BD, Token) {
-        $scope.authenticate = function() {
+    $scope.authenticate = function() {
             var extraParams = $scope.askApproval ? {approval_prompt: 'force'} : {};
             Token.getTokenByPopup(extraParams)
             .then(function(params) {
@@ -46,7 +41,11 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
                 alert("Failed to get token from popup.");
             });
         };
-        
+
+
+})
+.controller('ControlePrincipal', ['$scope', '$http', '$window', 'BD', 'Token', function($scope, $http, $window, BD, Token) {
+                
         $scope.telaAdmin = function() {
             var user = Token.get();
             if (!user) {
