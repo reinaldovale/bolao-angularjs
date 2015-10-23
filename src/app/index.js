@@ -2,12 +2,68 @@
 angular.module('bolao', ['bolao.carrossel', 'bolao.acordeon', 'ngTouch', 'googleOauth']);
 
 angular.module('bolao')
-.factory('BD', ['$http', '$templateCache', function($http, $templateCache) {
+.factory('BD', ['$http', '$templateCache', '$q', function($http, $templateCache, $q) {
     
-    var query_boleiros = {  "fields": [    "boleiro",    "visitante_gols",    "mandante_gols"  ],    "aggs": {    "boleiros": {      "terms": {        "field": "boleiro",        "size": 0,        "order": {          "pontos": "desc",          "placares" : "desc"        }      },      "aggs": {        "pontos": {          "sum": {            "script": "if(doc['gaba_manda'].value==''||doc['gaba_visit'].value==''||doc['mandante_gols'].value==''||doc['visitante_gols'].value==''){0}else if(doc['gaba_manda'].value==doc['mandante_gols'].value&&doc['gaba_visit'].value==doc['visitante_gols'].value){3}else if((doc['gaba_manda'].value==doc['gaba_visit'].value&&doc['mandante_gols'].value==doc['visitante_gols'].value)||(doc['gaba_manda'].value<doc['gaba_visit'].value&&doc['mandante_gols'].value<doc['visitante_gols'].value)||(doc['gaba_manda'].value>doc['gaba_visit'].value&&doc['mandante_gols'].value>doc['visitante_gols'].value)){1}else{0}"          }        },        "placares": {          "sum": {          	"script": "if(doc['gaba_manda'].value==''||doc['gaba_visit'].value==''||doc['mandante_gols'].value==''||doc['visitante_gols'].value==''){0}else if(doc['gaba_manda'].value==doc['mandante_gols'].value&&doc['gaba_visit'].value==doc['visitante_gols'].value){1}else if((doc['gaba_manda'].value==doc['gaba_visit'].value&&doc['mandante_gols'].value==doc['visitante_gols'].value)||(doc['gaba_manda'].value<doc['gaba_visit'].value&&doc['mandante_gols'].value<doc['visitante_gols'].value)||(doc['gaba_manda'].value>doc['gaba_visit'].value&&doc['mandante_gols'].value>doc['visitante_gols'].value)){0}else{0}"          }        }      }    }  },    "size": 0},
-    query_rodada_pelo_id = {  "query": {    "bool": {        "must": [{ "term": { "rodada_id": 2 }},            { "term": { "boleiro": "reinaldo" }}        ]    }  }},
-    query_rodadas_pelo_id = {  "query": {    "bool": {        "must":  { "term": { "rodada_id": 1 }},"must_not": { "term": { "boleiro": "gabarito" }}        }    }  },
-    boleiros,
+    var query_boleiros = {
+        "fields": ["boleiro", "visitante_gols", "mandante_gols"],
+        "aggs": {
+            "boleiros": {
+                "terms": {
+                    "field": "boleiro",
+                    "size": 0,
+                    "order": {
+                        "pontos": "desc",
+                        "placares": "desc"
+                    }
+                },
+                "aggs": {
+                    "pontos": {
+                        "sum": {
+                            "script": "if(doc['gaba_manda'].value==''||doc['gaba_visit'].value==''||doc['mandante_gols'].value==''||doc['visitante_gols'].value==''){0}else if(doc['gaba_manda'].value==doc['mandante_gols'].value&&doc['gaba_visit'].value==doc['visitante_gols'].value){3}else if((doc['gaba_manda'].value==doc['gaba_visit'].value&&doc['mandante_gols'].value==doc['visitante_gols'].value)||(doc['gaba_manda'].value<doc['gaba_visit'].value&&doc['mandante_gols'].value<doc['visitante_gols'].value)||(doc['gaba_manda'].value>doc['gaba_visit'].value&&doc['mandante_gols'].value>doc['visitante_gols'].value)){1}else{0}"
+                        }
+                    },
+                    "placares": {
+                        "sum": {
+                            "script": "if(doc['gaba_manda'].value==''||doc['gaba_visit'].value==''||doc['mandante_gols'].value==''||doc['visitante_gols'].value==''){0}else if(doc['gaba_manda'].value==doc['mandante_gols'].value&&doc['gaba_visit'].value==doc['visitante_gols'].value){1}else if((doc['gaba_manda'].value==doc['gaba_visit'].value&&doc['mandante_gols'].value==doc['visitante_gols'].value)||(doc['gaba_manda'].value<doc['gaba_visit'].value&&doc['mandante_gols'].value<doc['visitante_gols'].value)||(doc['gaba_manda'].value>doc['gaba_visit'].value&&doc['mandante_gols'].value>doc['visitante_gols'].value)){0}else{0}"
+                        }
+                    }
+                }
+            }
+        },
+        "size": 0
+    }, 
+    query_rodada_pelo_id = {
+        "query": {
+            "bool": {
+                "must": [{
+                    "term": {
+                        "rodada_id": 1
+                    }
+                }, {
+                    "term": {
+                        "boleiro": "modelo"
+                    }
+                }]
+            }
+        }
+    }, 
+    query_rodadas_pelo_id = {
+        "query": {
+            "bool": {
+                "must": {
+                    "term": {
+                        "rodada_id": 1
+                    }
+                },
+                "must_not": {
+                    "term": {
+                        "boleiro": "gabarito"
+                    }
+                }
+            }
+        }
+    }, 
+    boleiros, 
     gabarito, 
     apiUrl = 'bd.json', 
     
@@ -95,6 +151,65 @@ angular.module('bolao')
     ;
     
     return {
+        pegarRodadaES: function(idBoleiro, idRodada) {
+            query_rodada_pelo_id.query.bool.must[0].term.rodada_id = idRodada;
+            query_rodada_pelo_id.query.bool.must[1].term.boleiro = idBoleiro;
+            //             query_rodada_pelo_id.query.
+            return $http({
+                method: 'POST',
+                url: 'https://fili-us-east-1.searchly.com/bolao/jogo/_search',
+                headers: {
+                    'Authorization': 'Basic c2l0ZTpjZGFhOTgyYjE4MWM0MTRiZTg3Yzk1ODdhOThkMjg5NA=='
+                },
+                data: query_rodada_pelo_id,
+                cache: $templateCache
+            });
+        },
+        cadastrarBoleiroES: function(boleiro) {
+            var deferred = $q.defer();
+            var rodadas = boleiro.rodadas;
+            if (rodadas === undefined) {
+                boleiro.rodadas = [];
+            }
+            var rodada = {
+                id: 1,
+                jogos: []
+            };
+            
+            this.pegarRodadaES('modelo', rodada.id).then(
+            function(response) {
+                rodada.jogos = response.data.hits.hits;
+                boleiro.rodadas.push(rodada);
+                var modelo = response.data.hits.hits[0]._source;
+                var dados = {
+                    "boleiro": boleiro.key,
+                    "rodada_id": rodada.id,
+                    "rodadas_data": modelo.rodadas_data,
+                    "mandante": modelo.mandante,
+                    "mandante_gols": modelo.mandante_gols,
+                    "visitante": modelo.visitante,
+                    "visitante_gols": modelo.visitante_gols,
+                    "gaba_visit": "",
+                    "gaba_manda": ""
+                };
+                
+                $http({
+                    method: 'POST',
+                    url: 'https://fili-us-east-1.searchly.com/bolao/jogo',
+                    headers: {
+                        'Authorization': 'Basic c2l0ZTpjZGFhOTgyYjE4MWM0MTRiZTg3Yzk1ODdhOThkMjg5NA=='
+                    },
+                    data: dados,
+                    cache: $templateCache
+                }).then(function(response) {
+                    deferred.resolve(boleiro)
+                    
+                }
+                );
+            }
+            );
+            return deferred.promise;
+        },
         pegarBoleirosES: function() {
             return $http({
                 method: 'POST',
@@ -123,24 +238,9 @@ angular.module('bolao')
                 return b.filter(removeGabarito).map(removeRodadas);
             }
             );
-        },
-        
-        pegarRodadaES: function(idBoleiro, idRodada) {
-            query_rodada_pelo_id.query.bool.must[0].term.rodada_id = idRodada;
-            query_rodada_pelo_id.query.bool.must[1].term.boleiro = idBoleiro;
-//             query_rodada_pelo_id.query.
-            return $http({
-                method: 'POST',
-                url: 'https://fili-us-east-1.searchly.com/bolao/jogo/_search',
-                headers: {
-                    'Authorization': 'Basic c2l0ZTpjZGFhOTgyYjE4MWM0MTRiZTg3Yzk1ODdhOThkMjg5NA=='
-                },
-                data: query_rodada_pelo_id,
-                cache: $templateCache
-            });
-        },
+        },        
         pegarRodadasES: function(idRodada) {
-            query_rodadas_pelo_id.query.bool.must.term.rodada_id = idRodada;  
+            query_rodadas_pelo_id.query.bool.must.term.rodada_id = idRodada;
             return $http({
                 method: 'POST',
                 url: 'https://fili-us-east-1.searchly.com/bolao/jogo/_search',
@@ -167,4 +267,5 @@ angular.module('bolao')
             return pegarRodadaPor(idRodada, bo.rodadas);
         }
     };
-}]);
+}
+]);

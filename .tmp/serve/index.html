@@ -35,6 +35,7 @@
   <div class="bolao" ng-controller="ControlePrincipal">
   	  
   	  <input type="button" value="Administracao" ng-click="telaAdmin();$event.stopPropagation();"/>
+  	  <input type="button" value="Cadastrar" ng-click="telaCadastro();$event.stopPropagation();"/>
   	  <input type="button" value="Logar" ng-controller="Oauth" ng-click="authenticate();$event.stopPropagation();"/>
 	  <acordeon>
 		  <item ng-repeat="boleiro in boleiros" boleiro="boleiro" indice="{{$index}}">
