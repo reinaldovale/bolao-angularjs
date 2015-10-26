@@ -4,34 +4,38 @@ angular.module('bolao', ['bolao.carrossel', 'bolao.acordeon', 'ngTouch', 'google
 angular.module('bolao')
 .factory('BD', ['$http', '$templateCache', '$q', function($http, $templateCache, $q) {
     
-    var query_boleiros = {
-        "fields": ["boleiro", "visitante_gols", "mandante_gols"],
-        "aggs": {
-            "boleiros": {
-                "terms": {
-                    "field": "boleiro",
-                    "size": 0,
-                    "order": {
-                        "pontos": "desc",
-                        "placares": "desc"
-                    }
-                },
-                "aggs": {
-                    "pontos": {
-                        "sum": {
-                            "script": "if(doc['gaba_manda'].value==''||doc['gaba_visit'].value==''||doc['mandante_gols'].value==''||doc['visitante_gols'].value==''){0}else if(doc['gaba_manda'].value==doc['mandante_gols'].value&&doc['gaba_visit'].value==doc['visitante_gols'].value){3}else if((doc['gaba_manda'].value==doc['gaba_visit'].value&&doc['mandante_gols'].value==doc['visitante_gols'].value)||(doc['gaba_manda'].value<doc['gaba_visit'].value&&doc['mandante_gols'].value<doc['visitante_gols'].value)||(doc['gaba_manda'].value>doc['gaba_visit'].value&&doc['mandante_gols'].value>doc['visitante_gols'].value)){1}else{0}"
-                        }
-                    },
-                    "placares": {
-                        "sum": {
-                            "script": "if(doc['gaba_manda'].value==''||doc['gaba_visit'].value==''||doc['mandante_gols'].value==''||doc['visitante_gols'].value==''){0}else if(doc['gaba_manda'].value==doc['mandante_gols'].value&&doc['gaba_visit'].value==doc['visitante_gols'].value){1}else if((doc['gaba_manda'].value==doc['gaba_visit'].value&&doc['mandante_gols'].value==doc['visitante_gols'].value)||(doc['gaba_manda'].value<doc['gaba_visit'].value&&doc['mandante_gols'].value<doc['visitante_gols'].value)||(doc['gaba_manda'].value>doc['gaba_visit'].value&&doc['mandante_gols'].value>doc['visitante_gols'].value)){0}else{0}"
-                        }
-                    }
-                }
-            }
+    var query_boleiros = { 
+  "aggs": {    
+     "boleiros": {
+      "terms": {
+        "field": "boleiro.raw",
+        "size": 0,
+        "order": {
+          "pontos": "desc",
+          "placares" : "desc"
+        }
+      },
+      "aggs": {
+        "foto": {
+          "terms" : {
+            "field": "foto.raw"      
+          }
         },
-        "size": 0
-    }, 
+        "pontos": {
+          "sum": {
+            "script": "if(doc['gaba_manda'].value==''||doc['gaba_visit'].value==''||doc['mandante_gols'].value==''||doc['visitante_gols'].value==''){0}else if(doc['gaba_manda'].value==doc['mandante_gols'].value&&doc['gaba_visit'].value==doc['visitante_gols'].value){3}else if((doc['gaba_manda'].value==doc['gaba_visit'].value&&doc['mandante_gols'].value==doc['visitante_gols'].value)||(doc['gaba_manda'].value<doc['gaba_visit'].value&&doc['mandante_gols'].value<doc['visitante_gols'].value)||(doc['gaba_manda'].value>doc['gaba_visit'].value&&doc['mandante_gols'].value>doc['visitante_gols'].value)){1}else{0}"
+          }
+        },
+        "placares": {
+          "sum": {
+          	"script": "if(doc['gaba_manda'].value==''||doc['gaba_visit'].value==''||doc['mandante_gols'].value==''||doc['visitante_gols'].value==''){0}else if(doc['gaba_manda'].value==doc['mandante_gols'].value&&doc['gaba_visit'].value==doc['visitante_gols'].value){1}else if((doc['gaba_manda'].value==doc['gaba_visit'].value&&doc['mandante_gols'].value==doc['visitante_gols'].value)||(doc['gaba_manda'].value<doc['gaba_visit'].value&&doc['mandante_gols'].value<doc['visitante_gols'].value)||(doc['gaba_manda'].value>doc['gaba_visit'].value&&doc['mandante_gols'].value>doc['visitante_gols'].value)){0}else{0}"
+          }
+        }
+      }
+    }
+  },  
+  "size": 0
+}, 
     query_rodada_pelo_id = {
         "query": {
             "bool": {
@@ -183,6 +187,7 @@ angular.module('bolao')
                 var modelo = response.data.hits.hits[0]._source;
                 var dados = {
                     "boleiro": boleiro.key,
+                    "foto": boleiro.foto,
                     "rodada_id": rodada.id,
                     "rodadas_data": modelo.rodadas_data,
                     "mandante": modelo.mandante,
@@ -201,17 +206,15 @@ angular.module('bolao')
                     },
                     data: dados,
                     cache: $templateCache
-                }).then(function(response) {
-                    deferred.resolve(boleiro)
-                    
-                }
-                );
-            }
-            );
+                }).then(function(response) {                    
+                    deferred.resolve(dados);                    
+                });
+            });
             return deferred.promise;
         },
         pegarBoleirosES: function() {
-            return $http({
+            var deferred = $q.defer();           
+            $http({
                 method: 'POST',
                 url: 'https://fili-us-east-1.searchly.com/bolao/jogo/_search',
                 headers: {
@@ -219,7 +222,19 @@ angular.module('bolao')
                 },
                 data: query_boleiros,
                 cache: $templateCache
-            });
+            }).then(function(response) {
+                    var boleiros = [];                   
+                    var array = response.data.aggregations.boleiros.buckets;
+                    boleiros = array.map(function(boleiroES) {
+                        var foto = (boleiroES.foto.buckets.length > 0)?boleiroES.foto.buckets[0].key:'';
+                        return {"nome": boleiroES.key,
+                        "foto":foto,
+                        "pontos": boleiroES.pontos.value,
+                        "placares": boleiroES.placares.value};
+                    });
+                    deferred.resolve(boleiros);                    
+                });
+            return deferred.promise;
         },
         pegarBoleiros: function() {
             return $http({

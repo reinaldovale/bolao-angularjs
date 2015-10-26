@@ -101,12 +101,8 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
         "key": "gabarito"
     };
     
-    BD.pegarBoleirosES().then(function(response) {
-        $scope.boleiros = response
-        .data
-        .aggregations
-        .boleiros
-        .buckets
+    BD.pegarBoleirosES().then(function(boleiros) {
+        $scope.boleiros = boleiros
         .filter(function(boleiro) {
             return boleiro.key != 'gabarito'
         }
