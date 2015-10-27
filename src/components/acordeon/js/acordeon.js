@@ -215,7 +215,7 @@ angular.module('bolao.acordeon', [])
                     jogos: []
                 };
                 
-                BD.pegarRodadaES(scope.boleiro.key, rodada.id).then(
+                BD.pegarRodadaES(scope.boleiro.boleiro, rodada.id).then(
                 function(response) {
                     rodada.jogos = response.data.hits.hits;
                     scope.boleiro.rodadas.push(rodada);

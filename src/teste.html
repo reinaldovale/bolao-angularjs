@@ -52,9 +52,10 @@
 			<input type="submit" id="submit" value="Atualizar" ng-click="$event.stopPropagation();"/>
 			<div ng-controller="Oauth">
 				<input type="button" value="Logar" ng-click="authenticate();$event.stopPropagation();"/>
-				<input type="checkbox" id="askApproval" ng-model="askApproval" />
+				<input type="checkbox" id="askApproval" ng-model="askApproval" />				  				
 			</div>
-  <label for="askApproval">Always ask me for approval (even if I've already given it)</label>
+			<label for="askApproval">Forçar aprovar</label>
+			</form>
 		  </pagina>
 	  </carrossel>
   </div>   

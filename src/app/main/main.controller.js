@@ -26,7 +26,7 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
         .then(function(params) {
             // Success getting token from popup.
             
-            // Verify the token before setting it, to avoid the confused deputy problem.
+            // Verify the token before setting it, to avoid the confused 'deputy' problem.
             Token.verifyAsync(params.access_token).
             then(function(data) {
                 $http.get('https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + params.access_token)
@@ -73,28 +73,31 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
     ;
     
     $scope.telaCadastro = function() {
-        var user = Token.get();
+        var user = Token.get()
+          , 
+        cadastrar = true;
         if (!user) {
             alert('logar primeiro!');
         } 
         else {
             user = JSON.parse(Token.get());
-            var boleiro = {
-                "key": user.name,
-                "pontos": {
-                    "value": 0
-                },
-                "placares": {
-                    "value": 0
-                },
-                "foto": user.picture
-            };
-            BD.cadastrarBoleiroES(boleiro).then(function(response) {
-                boleiro = response;
-               $scope.boleiros.push(boleiro); 
-            });            
+            
+            for (var i = 0; i < $scope.boleiros.length; i++) {
+                if ($scope.boleiros[i].boleiro === user.name) {
+                    alert('Você já está cadastrado!');
+                    cadastrar = false;
+                    break;
+                }
+            }
+            if (cadastrar) {
+                BD.cadastrarBoleiroES(user).then(function(boleiro) {
+                    $scope.boleiros.push(boleiro);
+                }
+                );
+            }
         }
-    };
+    }
+    ;
     
     $scope.boleiros = [];
     $scope.gabarito = {
@@ -104,7 +107,12 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
     BD.pegarBoleirosES().then(function(boleiros) {
         $scope.boleiros = boleiros
         .filter(function(boleiro) {
-            return boleiro.key != 'gabarito'
+            if (boleiro.boleiro === 'gabarito' || boleiro.boleiro === 'modelo') {
+                return false;
+            } 
+            else {
+                return true;
+            }
         }
         );
     }
@@ -126,12 +134,31 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
     }
     );
     
-    $scope.atualizar = function(rodada_id) {
-        console.log($scope.gabarito);
-    }
-}
-])
+    $scope.atualizar = function(boleiro, rodada_id) {
+        var atualizacaoEmLote = '';
+        boleiro.rodadas.filter(function(rodada) {
+            return rodada.id === rodada_id;
+        })[0].jogos.forEach(function(jogo) {
+            atualizacaoEmLote = atualizacaoEmLote + '{ "update": {"_id":"' + jogo._id + '"} }\n{ "doc" : {"visitante_gols" : ' + jogo._source.visitante_gols + ', "mandante_gols": ' + jogo._source.mandante_gols + '}, "detect_noop": true }\n';
+        });        
+        BD.atualizarEmLoteES(atualizacaoEmLote);
+    };
 
+    $scope.somenteLeitura = function(dataJogoStr) {
+        var dataJogo = new Date(Date.parse(dataJogoStr));
+        //TODO: data corrente deverá vim de fonte segura.
+        if(dataJogo <= new Date()) {
+            return false;
+        }
+        else{
+            return true;
+        }
+    };
+    $scope.ehAtualizavel = function(rodada) {
+        var dataJogoStr = rodada.jogos[0]._source.rodadas_data;
+        return !$scope.somenteLeitura(dataJogoStr);
+    };
+}])
 .controller('ControleAtualizacao', ['$scope', 'BD', function($scope, BD) {
     
     BD.pegarRodadaES('gabarito', 1).then(function(response) {
@@ -166,14 +193,11 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
                 angular.forEach(jogosParaAtualizar, function(jogoBoleiro) {
                     if (jogoGabarito._source.mandante === jogoBoleiro._source.mandante) {
                         atualizacaoEmLote = atualizacaoEmLote + '{ "update": {"_id":"' + jogoBoleiro._id + '"} }\n{ "doc" : {"gaba_visit" : ' + jogoGabarito._source.visitante_gols + ', "gaba_manda": ' + jogoGabarito._source.mandante_gols + '}, "detect_noop": true }\n';
-                    
                     }
-                
                 }
                 );
             }
             );
-            
             BD.atualizarEmLoteES(atualizacaoEmLote);
         }
         );

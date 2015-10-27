@@ -30,35 +30,42 @@
     <!-- endbower -->
     <!-- endbuild -->
   </head>
-  <body ng-app="bolao" ng-cloak>
-  
-  <div class="bolao" ng-controller="ControlePrincipal">
-  	  
-  	  <input type="button" value="Administracao" ng-click="telaAdmin();$event.stopPropagation();"/>
-  	  <input type="button" value="Cadastrar" ng-click="telaCadastro();$event.stopPropagation();"/>
-  	  <input type="button" value="Logar" ng-controller="Oauth" ng-click="authenticate();$event.stopPropagation();"/>
+  <body ng-app="bolao" ng-controller="ControlePrincipal" ng-cloak>
+	<menu>
+		<figure>            
+			<img ng-src="launcher-icon-2x.png">
+		</figure>
+		<ul>
+			<li><a ng-controller="Oauth" ng-click="authenticate();$event.stopPropagation();">Login</a></li>
+			<li><a ng-click="telaAdmin();$event.stopPropagation();">Administracao</a></li>
+			<li><a ng-click="telaCadastro();$event.stopPropagation();">Cadastro</a></li>			
+		</ul>
+	</menu>
+ 
+  <div class="bolao">  	  
 	  <acordeon>
 		  <item ng-repeat="boleiro in boleiros" boleiro="boleiro" indice="{{$index}}">
 		  <!--item ng-repeat="boleiro in boleiros" indice="{{$index}}" boleiro="boleiro"-->
 			  <carrossel total-paginas="38"  boleiro="boleiro">
-				  <pagina ng-repeat="rodada in boleiro.rodadas" conteudo="rodada"> 
-				    <table class="rodada">
-				      <tr class="cabecalho-pagina">
-				      	<td colspan="3">Mandante</td>
-				      	<td colspan="3">Visitante</td>
-				      	<td colspan="2">Pontos</td>
-				      </tr> 
-				      <tr ng-repeat="jogo in rodada.jogos">
-						  <td class="time-escudo"><img ng-src="assets/images/times/{{jogo._source.mandante}}.png"></td>
-						  <td class="time-nome">{{jogo._source.mandante}}</td>
-						  <td class="time-placar">{{jogo._source.mandante_gols}}</td>
-						  <td>x</td>
-						  <td class="time-placar">{{jogo._source.visitante_gols}}</td>
-						  <td class="time-nome">{{jogo._source.visitante}}</td>
-						  <td class="time-escudo"><img ng-src="assets/images/times/{{jogo._source.visitante}}.png"></td>
-						  <td class="time-pontos">{{jogo.pontos}}</td>
-						</tr>
-    				</table>
+				  <pagina ng-repeat="rodada in boleiro.rodadas" conteudo="rodada">
+				  	<form ng-submit="atualizar(boleiro, rodada.id)">
+						<table class="rodada">
+						  <tr class="cabecalho-pagina">
+							<td colspan="3">Mandante</td>
+							<td colspan="3">Visitante</td>
+						  </tr> 
+						  <tr ng-repeat="jogo in rodada.jogos">
+							  <td class="time-escudo"><img ng-src="assets/images/times/{{jogo._source.mandante}}.png"></td>
+							  <td class="time-nome">{{jogo._source.mandante}}</td>
+							  <td class="time-placar"><input ng-readonly="somenteLeitura(jogo._source.rodadas_data)" type="number" min="0" ng-model="jogo._source.mandante_gols" ng-click="$event.stopPropagation();"/></td>
+							  <td>x</td>
+							  <td class="time-placar"><input ng-readonly="somenteLeitura(jogo._source.rodadas_data)" type="number" min="0" ng-model="jogo._source.visitante_gols" ng-click="$event.stopPropagation();"/></td>
+							  <td class="time-nome">{{jogo._source.visitante}}</td>
+							  <td class="time-escudo"><img ng-src="assets/images/times/{{jogo._source.visitante}}.png"></td>				  
+							</tr>
+						</table>
+						<input ng-show="ehAtualizavel(rodada)" type="submit" id="submit" value="Atualizar" ng-click="$event.stopPropagation();"/>						
+					</form>
 				  </pagina>
 			  </carrossel>
 		  </item>
@@ -79,6 +86,5 @@
     <!-- angular templates will be automatically converted in js and inserted here -->
     <!-- endinject -->
     <!-- endbuild -->
-
   </body>
 </html>
