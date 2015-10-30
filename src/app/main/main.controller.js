@@ -53,7 +53,17 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
     ;
 }
 )
-.controller('ControlePrincipal', ['$scope', '$http', '$window', 'BD', 'Token', function($scope, $http, $window, BD, Token) {
+.controller('ControlePrincipal', ['$timeout', '$scope', '$http', '$window', 'BD', 'Token', function($timeout, $scope, $http, $window, BD, Token) {
+    
+    //$scope.boleiros = [];
+    $scope.gabarito = {};
+    
+    BD.pegarBoleirosES()
+    .then(function(boleiros) {
+        //         $scope.$apply(iniciar(boleiros));
+        iniciar(boleiros);
+    }
+    );
     
     $scope.telaAdmin = function() {
         var user = Token.get();
@@ -74,7 +84,8 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
     
     $scope.telaCadastro = function() {
         var user = Token.get()
-          , 
+          
+        , 
         cadastrar = true;
         if (!user) {
             alert('logar primeiro!');
@@ -90,8 +101,14 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
                 }
             }
             if (cadastrar) {
-                BD.cadastrarBoleiroES(user).then(function(boleiro) {
-                    $scope.boleiros.push(boleiro);
+                $scope.boleiros = BD.cadastrarBoleiroES(user)
+                .then(function(boleiros) {
+                    $timeout(function() {
+                        iniciar(boleiros);
+                        $scope.$digest();
+                    
+                    }
+                    );
                 }
                 );
             }
@@ -99,83 +116,83 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
     }
     ;
     
-    $scope.boleiros = [];
-    $scope.gabarito = {
-        "key": "gabarito"
-    };
-    
-    BD.pegarBoleirosES().then(function(boleiros) {
+    function iniciar(boleiros) {
         $scope.boleiros = boleiros
         .filter(function(boleiro) {
+            var retorno = true;
             if (boleiro.boleiro === 'gabarito' || boleiro.boleiro === 'modelo') {
-                return false;
-            } 
-            else {
-                return true;
+                retorno = false;
+                if (boleiro.boleiro === 'gabarito') {
+                    $scope.gabarito = boleiro;
+                }
             }
+            return retorno;
         }
         );
     }
-    );
+    ;
     
+    //     var rodadas = $scope.gabarito.rodadas;
+    //     if (rodadas === undefined) {
+    //         $scope.gabarito.rodadas = [];
+    //     }
     
-    var rodadas = $scope.gabarito.rodadas;
-    if (rodadas === undefined) {
-        $scope.gabarito.rodadas = rodadas = [];
-    }
-    
-    var rodada = {
-        id: 1,
-        jogos: []
-    };
-    BD.pegarRodadaES($scope.gabarito.key, rodada.id).then(function(response) {
-        rodada.jogos = response.data.hits.hits;
-        $scope.gabarito.rodadas.push(rodada);
-    }
-    );
+    //     var rodada = {
+    //         id: 1,
+    //         jogos: []
+    //     };
+    //     BD.pegarRodadaES($scope.gabarito.boleiro, rodada.id).then(function(response) {
+    //         rodada.jogos = response.data.hits.hits;
+    //         $scope.gabarito.rodadas.push(rodada);
+    //     }
+    //     );
     
     $scope.atualizar = function(boleiro, rodada_id) {
         var atualizacaoEmLote = '';
         boleiro.rodadas.filter(function(rodada) {
             return rodada.id === rodada_id;
-        })[0].jogos.forEach(function(jogo) {
-            atualizacaoEmLote = atualizacaoEmLote + '{ "update": {"_id":"' + jogo._id + '"} }\n{ "doc" : {"visitante_gols" : ' + jogo._source.visitante_gols + ', "mandante_gols": ' + jogo._source.mandante_gols + '}, "detect_noop": true }\n';
-        });        
+        }
+        )[0].jogos.forEach(function(jogo) {
+            var vistGols = jogo._source.visitante_gols === null ? "\"\"" : jogo._source.visitante_gols,
+                mandGols = jogo._source.mandante_gols === null ? "\"\"" : jogo._source.mandante_gols;
+            atualizacaoEmLote = atualizacaoEmLote + '{ "update": {"_id":"' + jogo._id + '"} }\n{ "doc" : {"visitante_gols" : ' + vistGols + ', "mandante_gols": ' + mandGols + '}, "detect_noop": true }\n';
+        }
+        );
         BD.atualizarEmLoteES(atualizacaoEmLote);
-    };
-
+    }
+    ;
+    
     $scope.somenteLeitura = function(dataJogoStr) {
         var dataJogo = new Date(Date.parse(dataJogoStr));
         //TODO: data corrente deverá vim de fonte segura.
-        if(dataJogo <= new Date()) {
+        var t = dataJogo.getTime() <= new Date().getTime();
+        if (dataJogo.getTime() <= new Date().getTime()) {
+            return true;
+        } 
+        else {
             return false;
         }
-        else{
-            return true;
-        }
-    };
+    }
+    ;
     $scope.ehAtualizavel = function(rodada) {
         var dataJogoStr = rodada.jogos[0]._source.rodadas_data;
         return !$scope.somenteLeitura(dataJogoStr);
-    };
-}])
+    }
+    ;
+}
+])
 .controller('ControleAtualizacao', ['$scope', 'BD', function($scope, BD) {
     
-    BD.pegarRodadaES('gabarito', 1).then(function(response) {
-        var jogos = response.data.hits.hits;
-        
+    BD.pegarRodadaES('gabarito', 1)
+    .then(function(response) {
         if ($scope.gabarito === undefined) {
             $scope.gabarito = {
-                "key": "gabarito"
+                "boleiro": "gabarito"
             };
         }
         if ($scope.gabarito.rodadas === undefined) {
             $scope.gabarito.rodadas = [];
-            var rodada = {
-                id: 1,
-                jogos: jogos
-            };
-            $scope.gabarito.rodadas.push(rodada);
+            $scope.gabarito.rodadas.push(response);
         }
     
     }
@@ -184,15 +201,20 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
         BD.pegarRodadasES(rodada_id).then(function(response) {
             var atualizacaoEmLote = '';
             var jogosParaAtualizar = response.data.hits.hits;
-            var rodadaGabarito = $scope.gabarito.rodadas.filter(function(rodada) {
+            var rodadaGabarito = $scope.gabarito.rodadas
+            .filter(function(rodada) {
                 return rodada.id === rodada_id;
             }
-            );
-            angular.forEach(rodadaGabarito[0].jogos, function(jogoGabarito) {
-                atualizacaoEmLote = atualizacaoEmLote + '{ "update": {"_id":"' + jogoGabarito._id + '"} }\n{ "doc" : {"visitante_gols" : ' + jogoGabarito._source.visitante_gols + ', "mandante_gols": ' + jogoGabarito._source.mandante_gols + '}, "detect_noop": true }\n';
+            )[0];
+            angular.forEach(rodadaGabarito.jogos, function(jogoGabarito) {
+                var gabVistGols = jogoGabarito._source.visitante_gols === null ? "\"\"" : jogoGabarito._source.visitante_gols,
+                gabMandGols = jogoGabarito._source.mandante_gols === null ? "\"\"" : jogoGabarito._source.mandante_gols;
+
+                atualizacaoEmLote = atualizacaoEmLote + '{ "update": {"_id":"' + jogoGabarito._id + '"} }\n{ "doc" : {"visitante_gols" : ' + gabVistGols + ', "mandante_gols": ' + gabMandGols + '}, "detect_noop": true }\n';
                 angular.forEach(jogosParaAtualizar, function(jogoBoleiro) {
+                    
                     if (jogoGabarito._source.mandante === jogoBoleiro._source.mandante) {
-                        atualizacaoEmLote = atualizacaoEmLote + '{ "update": {"_id":"' + jogoBoleiro._id + '"} }\n{ "doc" : {"gaba_visit" : ' + jogoGabarito._source.visitante_gols + ', "gaba_manda": ' + jogoGabarito._source.mandante_gols + '}, "detect_noop": true }\n';
+                        atualizacaoEmLote = atualizacaoEmLote + '{ "update": {"_id":"' + jogoBoleiro._id + '"} }\n{ "doc" : {"gaba_visit" : ' + gabVistGols + ', "gaba_manda": ' + gabMandGols + '}, "detect_noop": true }\n';
                     }
                 }
                 );

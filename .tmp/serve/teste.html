@@ -35,7 +35,7 @@
   <div class="bolao item-aberto" ng-controller="ControleAtualizacao">
 	  <carrossel total-paginas="38"  boleiro="gabarito">
 		  <pagina ng-repeat="rodada in gabarito.rodadas" conteudo="rodada"> 
-		  <form ng-submit="atualizar($index+1)">
+		  <form ng-submit="atualizar(rodada.id)">
 			<table class="rodada">
 			  <tr class="cabecalho-pagina">
 				<td colspan="3">Mandante</td>

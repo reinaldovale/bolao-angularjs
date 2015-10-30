@@ -206,24 +206,21 @@ angular.module('bolao.acordeon', [])
             ;
             
             scope.abrir = function(indice) {
-                var rodadas = scope.boleiro.rodadas;
-                if (rodadas === undefined) {
-                    scope.boleiro.rodadas = rodadas = [];
-                }
-                var rodada = {
-                    id: 1,
-                    jogos: []
-                };
-                
-                BD.pegarRodadaES(scope.boleiro.boleiro, rodada.id).then(
-                function(response) {
-                    rodada.jogos = response.data.hits.hits;
-                    scope.boleiro.rodadas.push(rodada);
-                }
-                );
-                acordeonControle.abrir(indice);
-            }
-            ;
+                    var rodada_id = parseInt(indice) + 1;
+                    scope.boleiro.rodadas = scope.boleiro.rodadas || [];
+                    var rodada = scope.boleiro.rodadas
+                    .filter(function(rodada) {
+                            return rodada.id === rodada_id;
+                    })[0];
+
+                    if(!rodada) {
+                        BD.pegarRodadaES(scope.boleiro.boleiro, rodada_id)
+                        .then(function(response) {
+                            scope.boleiro.rodadas.push(response);
+                        });
+                    }
+                    acordeonControle.abrir(indice);
+            };
             
             scope.ocultar = function() {
                 scope.visivel = false;

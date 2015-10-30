@@ -1,5 +1,5 @@
 'use strict';
-angular.module('bolao.carrossel', []).directive('carrossel', ['BD', '$timeout', function(BD, $timeout) {
+angular.module('bolao.carrossel', []).directive('carrossel', ['BD', '$timeout', '$rootScope', function(BD, $timeout, $rootScope) {
     return {
         restrict: 'E',
         transclude: 'true',
@@ -13,15 +13,22 @@ angular.module('bolao.carrossel', []).directive('carrossel', ['BD', '$timeout', 
             $scope.direcao = 'esquerda';
             $scope.paginas = [];
             var eu = this
-              , paginaAtual = 1
-              , alternarPagina = function(paginaSelecionada) {
-                angular.forEach($scope.paginas, function(pagina) {
-                    if (pagina.conteudo.id === paginaSelecionada) {
-                        pagina.exibir();
-                        return;
+              
+            
+            
+            , 
+            paginaAtual = 1
+              
+            
+            
+            , 
+            alternarPagina = function(paginaSelecionada) {
+                for (var i = 0; i < $scope.paginas.length; i++) {
+                    if ($scope.paginas[i].conteudo.id === paginaSelecionada) {
+                        $scope.paginas[i].exibir();
+                        break;
                     }
                 }
-                );
             }
             ;
             $scope.atualizarPagina = function(paginaSelecionada, direcao) {
@@ -46,40 +53,86 @@ angular.module('bolao.carrossel', []).directive('carrossel', ['BD', '$timeout', 
                 }
                 );
                 if (novaRodada) {
-                    var rodada = {
-                        id: paginaSelecionada,
-                        jogos: []
-                    };
-                    BD.pegarRodadaES($scope.boleiro.key, rodada.id).then(function(response) {
-                        rodada.jogos = response.data.hits.hits;
-                        $scope.boleiro.rodadas.push(rodada);
-                        $timeout(function() {
-                            alternarPagina(paginaSelecionada);
+                    BD.pegarRodadaES($scope.boleiro.boleiro, paginaSelecionada)
+                    .then(function(response) {
+                        if (response.jogos.length === 0) {
+                            BD.cadastrarRodadaES($scope.boleiro, paginaSelecionada)
+                            .then(function(response) {
+                                if (response.jogos.length === 0) {
+                                    BD.pegarRodadaES($scope.boleiro.boleiro, paginaSelecionada)
+                                    .then(function(response) {
+                                        $timeout(function() {
+                                            $scope.boleiro.rodadas.push(response);
+                                            $scope.$digest();
+                                            alternarPagina(paginaSelecionada);
+                                            paginaAtual = paginaSelecionada;
+                                        }
+                                        );
+                                    
+                                    }
+                                    );
+                                } 
+                                else {
+                                    $timeout(function() {
+                                        $scope.boleiro.rodadas.push(response);
+                                        $scope.$digest();
+                                        alternarPagina(paginaSelecionada);
+                                        paginaAtual = paginaSelecionada;
+                                    }
+                                    );
+                                }
+                            }
+                            );
+                        } 
+                        else {
+                            $timeout(function() {
+                                $scope.boleiro.rodadas.push(response);
+                                $scope.$digest();
+                                alternarPagina(paginaSelecionada);
+                                paginaAtual = paginaSelecionada;
+                            }
+                            );
+                        
                         }
-                        , 0);
+                    }
+                    );
+                
+                } 
+                else {
+                    $timeout(function() {
+                        alternarPagina(paginaSelecionada);                        
+                        paginaAtual = paginaSelecionada;
                     }
                     );
                 }
-                $timeout(function() {
-                    alternarPagina(paginaSelecionada);
-                }
-                , 0);
-                paginaAtual = paginaSelecionada;
             }
             ;
+            
             $scope.ehPaginaAtual = function(paginaSelecionada) {
                 return paginaAtual === paginaSelecionada;
             }
             ;
             $scope.proximaPagina = function() {
                 var pagina = paginaAtual
-                  , paginaSelecionada = (pagina < $scope.totalPaginas) ? ++pagina : 1;
+                  
+                
+                
+                
+                
+                
+                , paginaSelecionada = (pagina < $scope.totalPaginas) ? ++pagina : 1;
                 $scope.atualizarPagina(paginaSelecionada, 'direita');
             }
             ;
             $scope.paginaAnterior = function() {
                 var pagina = paginaAtual
-                  , paginaSelecionada = (pagina > 1) ? --pagina : $scope.totalPaginas;
+                  
+                
+                
+                
+                
+                , 
+                paginaSelecionada = (pagina > 1) ? --pagina : $scope.totalPaginas;
                 $scope.atualizarPagina(paginaSelecionada, 'esquerda');
             }
             ;

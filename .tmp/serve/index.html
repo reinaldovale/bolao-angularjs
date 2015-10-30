@@ -54,7 +54,7 @@
 							<td colspan="3">Mandante</td>
 							<td colspan="3">Visitante</td>
 						  </tr> 
-						  <tr ng-repeat="jogo in rodada.jogos">
+						  <tr ng-repeat="jogo in ::rodada.jogos">
 							  <td class="time-escudo"><img ng-src="assets/images/times/{{jogo._source.mandante}}.png"></td>
 							  <td class="time-nome">{{jogo._source.mandante}}</td>
 							  <td class="time-placar"><input ng-readonly="somenteLeitura(jogo._source.rodadas_data)" type="number" min="0" ng-model="jogo._source.mandante_gols" ng-click="$event.stopPropagation();"/></td>
