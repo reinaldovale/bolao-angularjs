@@ -13,7 +13,7 @@
     outline: none;
     cursor: pointer;
     background: url(/components/carrossel/img/blank.gif) no-repeat center center;
-    background-color: black;    
+    background-color: black;
     opacity: 0.1;
     border-radius: 50%;
 }
@@ -44,7 +44,7 @@
     width: 100%;
     text-align: center;
     position: absolute;
-    z-index: 1000;
+    z-index: 1;
     height: 10%;
 }
 
@@ -64,9 +64,9 @@
     position: relative;
     margin-left: 0.4%;
     width: 6.5%;
-/*     height: 8%; */
+    /*     height: 8%; */
     font-size: 90%;
-    padding:0.2%;
+    padding: 0.2%;
     color: #ffd700;
     font-weight: bold;
     background-color: black;
@@ -80,45 +80,44 @@
     color: black;
 }
 
-.paginas {    
+.paginas {
     position: absolute;
     top: 0;
-    text-align:center;
+    text-align: center;
     width: 100%;
     height: 100%;
     overflow: hidden;
+/*     opacity:0.1; */
 }
 
-.pagina {
-    transition: all linear 0.5s;
-    width: 100%;    
+.pagina {    
+    width: 100%;
     position: absolute;
     top: 0;
     height: 100%;
-    overflow: inherit;
-}
-
-.paginas.esquerda .pagina {
-    right: 0;
+    overflow: inherit;    
+    transform: translateX(0);
+    transition: all linear 0.5s;
 }
 
 .pagina.ng-hide {
-    display: block !important;    
-    width: 0;
-/*     z-index:2000; */
+    display: block !important;
 }
 
 .paginas.esquerda .pagina.ng-hide {
-    left: 0;
+    transform: translateX(100%);
+    transition: none;
+
 }
 
-.paginas.direita .pagina.ng-hide { 
-    right:0;
+.paginas.direita .pagina.ng-hide {
+    transform: translateX(-100%);
+    transition: none;
 }
 
 .conteudo {
     overflow-y: scroll;
-    top: 30%;
+    top: 10%;
     position: inherit;
     width: 100%;
     height: 80%;
@@ -127,56 +126,51 @@
 
 /* Detalhes */
 
-.detalhe {        
-    transition: bottom linear 0.5s;    
+.detalhe {
     position: absolute;
-    height: 30%;    
+    height: 30%;
     bottom: 0;
-    overflow: hidden;  
-    width: 100%;      
-    background-color: black;     
+    overflow: hidden;
+    width: 100%;
+    background-color: black;
     opacity: 0.8;
-    color:white;
+    color: white;
+    transition: linear 0.5s;
 }
 
 .detalhe-rodada {
-/*     background-color: black;     */
     border-collapse: collapse;
-    table-layout: initial;  
+    table-layout: initial;
     font-size: 70%;
     width: 100%;
 }
 
 .cabecalho-detalhe-rodada {
     background-color: white;
-    color:black;
+    color: black;
     font-weight: bold;
-    font-size:130%;
+    font-size: 130%;
 }
 
-.detalhe-rodada .esquerda{
-    text-align:left;
+.detalhe-rodada .esquerda {
+    text-align: left;
 }
 
-.detalhe-rodada .direita{
-    text-align:right;
+.detalhe-rodada .direita {
+    text-align: right;
 }
 
-/* .detalhe-rodada td {
-    border:1px solid red;
-} */
-
-.detalhe .titulo { 
+.detalhe .titulo {
     border: 1px solid red;
 }
 
 .detalhe .caixa-texto {
-    width: 25%; 
+    width: 25%;
     height: 30%;
-    z-index: 1005;
+    z-index: 1;
     font-size: 1em;
 }
 
-.detalhe.ocultar {    
-bottom: -30%;    
+.detalhe.ocultar {
+    transform: translateY(100%);
 }

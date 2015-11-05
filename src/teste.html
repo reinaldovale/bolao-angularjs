@@ -42,17 +42,17 @@
 			  <tr ng-repeat="jogo in rodada.jogos">
 				  <td class="time-escudo"><img ng-src="assets/images/times/{{jogo._source.mandante}}.png"></td>
 				  <td class="time-nome">{{jogo._source.mandante}}</td>
-				  <td class="time-placar"><input type="number" min="0" ng-model="jogo._source.mandante_gols" ng-click="$event.stopPropagation();"/></td>
+				  <td class="time-placar"><input type="number" min="0" ng-model="jogo._source.mandante_gols" stop-event="touchend click"/></td>
 				  <td>x</td>
-				  <td class="time-placar"><input type="number" min="0" ng-model="jogo._source.visitante_gols" ng-click="$event.stopPropagation();"/></td>
+				  <td class="time-placar"><input type="number" min="0" ng-model="jogo._source.visitante_gols" stop-event="touchend click"/></td>
 				  <td class="time-nome">{{jogo._source.visitante}}</td>
 				  <td class="time-escudo"><img ng-src="assets/images/times/{{jogo._source.visitante}}.png"></td>				  
 				</tr>
 			</table>
-			<input type="submit" id="submit" value="Atualizar" ng-click="$event.stopPropagation();"/>
+			<input type="submit" id="submit" value="Atualizar" stop-event="touchend click"/>
 			<div ng-controller="Oauth">
-				<input type="button" value="Logar" ng-click="authenticate();$event.stopPropagation();"/>
-				<input type="checkbox" id="askApproval" ng-model="askApproval" />				  				
+				<input type="button" value="Logar" ng-click="authenticate()" stop-event="touchend click"/>
+				<input type="checkbox" id="askApproval" ng-model="askApproval" stop-event="touchend click" />				  				
 			</div>
 			<label for="askApproval">Forçar aprovar</label>
 			</form>

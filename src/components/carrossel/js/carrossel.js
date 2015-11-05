@@ -1,5 +1,6 @@
 'use strict';
-angular.module('bolao.carrossel', []).directive('carrossel', ['BD', '$timeout', '$rootScope', function(BD, $timeout, $rootScope) {
+angular.module('bolao.carrossel', [])
+.directive('carrossel', ['BD', '$timeout', '$rootScope', function(BD, $timeout, $rootScope) {
     return {
         restrict: 'E',
         transclude: 'true',
@@ -12,11 +13,7 @@ angular.module('bolao.carrossel', []).directive('carrossel', ['BD', '$timeout', 
         controller: function($scope) {
             $scope.direcao = 'esquerda';
             $scope.paginas = [];
-            var eu = this
-              
-            
-            
-            , 
+            var eu = this, 
             paginaAtual = 1
               
             
