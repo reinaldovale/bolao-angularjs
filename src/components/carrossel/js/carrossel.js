@@ -13,9 +13,15 @@ angular.module('bolao.carrossel', [])
         controller: function($scope) {
             $scope.direcao = 'esquerda';
             $scope.paginas = [];
-            var eu = this, 
+            var eu = this
+              
+            
+            , 
             paginaAtual = 1
               
+            
+            
+            
             
             
             , 
@@ -51,13 +57,43 @@ angular.module('bolao.carrossel', [])
                 );
                 if (novaRodada) {
                     BD.pegarRodadaES($scope.boleiro.boleiro, paginaSelecionada)
-                    .then(function(response) {
-                        if (response.jogos.length === 0) {
+                    .then(
+                    function(response) {
+                        $timeout(function() {
+                            $scope.boleiro.rodadas.push(response);
+                            $scope.$digest();
+                            alternarPagina(paginaSelecionada);
+                            paginaAtual = paginaSelecionada;
+                        }
+                        );
+                    }
+                    , 
+                    function errorCallback(response) {
+                        console.log(response);
+                        console.log("Tentando novamente...");
+                        BD.pegarRodadaES($scope.boleiro.boleiro, paginaSelecionada)
+                        .then(
+                        function(response) {
+                            $timeout(function() {
+                                $scope.boleiro.rodadas.push(response);
+                                $scope.$digest();
+                                alternarPagina(paginaSelecionada);
+                                paginaAtual = paginaSelecionada;
+                            }
+                            );
+                        
+                        }
+                        , 
+                        function errorCallback(response) {
+                            console.log(response);
+                            console.log("Iniciando um novo cadastro...");
                             BD.cadastrarRodadaES($scope.boleiro, paginaSelecionada)
-                            .then(function(response) {
+                            .then(
+                            function(response) {
                                 if (response.jogos.length === 0) {
                                     BD.pegarRodadaES($scope.boleiro.boleiro, paginaSelecionada)
-                                    .then(function(response) {
+                                    .then(
+                                    function(response) {
                                         $timeout(function() {
                                             $scope.boleiro.rodadas.push(response);
                                             $scope.$digest();
@@ -66,6 +102,11 @@ angular.module('bolao.carrossel', [])
                                         }
                                         );
                                     
+                                    }
+                                    , 
+                                    function errorCallback(response) {
+                                        console.log(response);
+                                        console.log("Busca de rodada após cadastro falhou");
                                     }
                                     );
                                 } 
@@ -79,25 +120,39 @@ angular.module('bolao.carrossel', [])
                                     );
                                 }
                             }
-                            );
-                        } 
-                        else {
-                            $timeout(function() {
-                                $scope.boleiro.rodadas.push(response);
-                                $scope.$digest();
-                                alternarPagina(paginaSelecionada);
-                                paginaAtual = paginaSelecionada;
+                            , 
+                            function errorCallback(response) {
+                                console.log(response);
+                                BD.pegarRodadaES($scope.boleiro.boleiro, paginaSelecionada)
+                                .then(
+                                function(response) {
+                                    $timeout(function() {
+                                        $scope.boleiro.rodadas.push(response);
+                                        $scope.$digest();
+                                        alternarPagina(paginaSelecionada);
+                                        paginaAtual = paginaSelecionada;
+                                    }
+                                    );
+                                
+                                }
+                                , 
+                                function errorCallback(response) {
+                                    console.log(response);
+                                    console.log("Click novamente no número da rodada");
+                                }
+                                );
+                            
                             }
                             );
-                        
                         }
+                        );
                     }
                     );
                 
                 } 
                 else {
                     $timeout(function() {
-                        alternarPagina(paginaSelecionada);                        
+                        alternarPagina(paginaSelecionada);
                         paginaAtual = paginaSelecionada;
                     }
                     );
@@ -117,6 +172,9 @@ angular.module('bolao.carrossel', [])
                 
                 
                 
+                
+                
+                
                 , paginaSelecionada = (pagina < $scope.totalPaginas) ? ++pagina : 1;
                 $scope.atualizarPagina(paginaSelecionada, 'direita');
             }
@@ -124,6 +182,9 @@ angular.module('bolao.carrossel', [])
             $scope.paginaAnterior = function() {
                 var pagina = paginaAtual
                   
+                
+                
+                
                 
                 
                 

@@ -206,7 +206,7 @@ angular.module('bolao.acordeon', [])
             ;
             
             scope.abrir = function(indice) {
-                    var rodada_id = parseInt(indice) + 1;
+                    var rodada_id = 1;
                     scope.boleiro.rodadas = scope.boleiro.rodadas || [];
                     var rodada = scope.boleiro.rodadas
                     .filter(function(rodada) {
@@ -217,6 +217,8 @@ angular.module('bolao.acordeon', [])
                         BD.pegarRodadaES(scope.boleiro.boleiro, rodada_id)
                         .then(function(response) {
                             scope.boleiro.rodadas.push(response);
+                        }, function errorCallback(response) {
+                           console.log(response);
                         });
                     }
                     acordeonControle.abrir(indice);

@@ -113,11 +113,17 @@ header, .main {
     position: absolute;
     width:100%;
     height:100%;
+	/* Não permite a seleção de texto      */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-
 .rodada {
-    background-color: #efe;
+    background-color: #f1c40f;
     border-collapse: collapse;
     width: 100%;
 /*     margin-left: 10%; */
@@ -154,7 +160,7 @@ header, .main {
 .rodada .cabecalho-pagina {
     font-size: 80%;
     font-weight: bold;
-    text-align:right;
+    text-align: center;
     background-color:white;
 }
 

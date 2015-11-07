@@ -15,6 +15,7 @@ angular.module('bolao')
         };
     }
       
+    
     , 
     /*
       Input = {    "MANDANTE":"Palmeiras",    "Placar":"",    "FIELD3":"x",    "FIELD4":"",    "VISITANTE":"Atlético-MG",    "RODADA":"1a rodada",    "DATA":"09/05/2015",    "DIA":"Sáb",    "HORA":"18:30:00",    "Pontos":0  }
@@ -27,12 +28,14 @@ angular.module('bolao')
         for (i = 0; i < modelo.length; i++) {
             var data = modelo[i].DATA.match(/\d{2}/g).concat((modelo[i].HORA.match(/\d{2}/g) || ["00", "00", "00"]))
               
+            
             , 
             dataFinal = new Date(data[2] + data[3] + '-' + data[1] + '-' + data[0] + ' ' + data[4] + ':' + data[5] + ':' + data[6]).toJSON();
             dados += '{ "index" : { "_index" : "bolao", "_type" : "jogo"} }\n{"boleiro": "modelo", "rodada_id": "' + modelo[i].RODADA.match(/\d/g).join("") + '", "rodadas_data": "' + dataFinal + '","mandante": "' + modelo[i].MANDANTE + '","mandante_gols": "", "visitante": "' + modelo[i].VISITANTE + '", "visitante_gols": "", "gaba_visit": "", "gaba_manda": ""}\n';
         }
     }
       
+    
     , 
     query_boleiros = {
         "aggs": {
@@ -66,7 +69,8 @@ angular.module('bolao')
         },
         "size": 0
     }
-      , 
+      
+    , 
     query_rodada_pelo_id = {
         "query": {
             "bool": {
@@ -83,6 +87,7 @@ angular.module('bolao')
         }
     }
       
+    
     , 
     query_rodadas_pelo_id = {
         "query": {
@@ -107,12 +112,11 @@ angular.module('bolao')
     
     return {
         cadastrarRodadaES: function(boleiro, rodada_id) {
-            var self = this
-              
-            , 
+            var self = this, 
             deferred = $q.defer();
             
-            self.pegarRodadaES('modelo', rodada_id).then(
+            self.pegarRodadaES('modelo', rodada_id)
+            .then(
             function(response) {
                 var jogos = response.jogos;
                 
@@ -127,14 +131,32 @@ angular.module('bolao')
                     dados: dados,
                     url: '/_bulk'
                 }))
-                .then(function(response) {
-                    self.pegarRodadaES(boleiro.boleiro, rodada_id)
-                    .then(function(response) {
-                        deferred.resolve(response);
-                    }
-                    );
-                }
-                );
+                .then(
+                function(response) {
+                    $http(defineHttpParametros({
+                        url: '/_flush'
+                    }))
+                    .then(
+                    function(response) {
+                        self.pegarRodadaES(boleiro.boleiro, rodada_id)
+                        .then(
+                        function(response) {
+                            deferred.resolve(response);
+                        },
+                        function errorCallback(response) {
+                            deferred.reject("Servidor falhou ao buscar rodada de ID = " + rodada_id);
+                        })
+                    },
+                    function errorCallback(response) {
+                    deferred.reject("Servidor falhou ao fazer o _flush!");
+                    })
+                },
+                function errorCallback(response) {
+                    deferred.reject("Servidor falhou ao cadastrar rodada!");
+                });
+            }, 
+            function errorCallback(response) {
+                deferred.reject("Servidor falhou ao buscar modelo!");
             }
             );
             return deferred.promise;
@@ -143,14 +165,15 @@ angular.module('bolao')
             var self = this;
             var deferred = $q.defer()
               
+            
             , 
             rodadaPadrao = {
                 id: 1,
                 jogos: []
             };
             
-            self.pegarRodadaES('modelo', rodadaPadrao.id).then(
-            function(response) {
+            self.pegarRodadaES('modelo', rodadaPadrao.id)
+            .then(function(response) {
                 var jogos = response.jogos;
                 
                 var dados = '';
@@ -208,36 +231,75 @@ angular.module('bolao')
             return deferred.promise;
         },
         pegarRodadaES: function(idBoleiro, idRodada) {
-            var deferred = $q.defer();
+            var deferred = $q.defer()
+              , 
+            self = this;
             query_rodada_pelo_id.query.bool.must[0].term.rodada_id = idRodada;
             query_rodada_pelo_id.query.bool.must[1].term['boleiro.raw'] = idBoleiro;
             $http(defineHttpParametros({
                 dados: query_rodada_pelo_id,
                 url: '/jogo/_search'
             }))
-            .then(function(response) {
-                deferred.resolve({
-                    "id": idRodada,
-                    "jogos": response.data.hits.hits
-                });
+            .then(
+            function(response) {
+                if (response.data.hits.hits.length < 10) {
+                    deferred.reject("Servidor não devolveu os jogos, tente novamente");
+                
+                } 
+                else {
+                    deferred.resolve({
+                        "id": idRodada,
+                        "jogos": response.data.hits.hits
+                    });
+                }
+            }
+            , 
+            function errorCallback(response) {
+                deferred.reject("Servidor falhou, tente novamente. Detalhes: " + response);
             }
             );
             return deferred.promise;
         },
-        pegarJogosES: function(idBoleiro, idRodada) {
-            query_rodada_pelo_id.query.bool.must[0].term.rodada_id = idRodada;
-            query_rodada_pelo_id.query.bool.must[1].term['boleiro.raw'] = idBoleiro;
-            return $http(defineHttpParametros({
-                dados: query_rodada_pelo_id,
-                url: '/jogo/_search'
-            }));
-        },
         pegarRodadasES: function(idRodada) {
+            var deferred = $q.defer();
             query_rodadas_pelo_id.query.bool.must.term.rodada_id = idRodada;
-            return $http(defineHttpParametros({
+            $http(defineHttpParametros({
                 dados: query_rodadas_pelo_id,
                 url: '/jogo/_search'
-            }));
+            }))
+            .then(function(response) {
+                if (response.data.hits.total > 10) {
+                    var jogos = response.data.hits.hits
+                      , 
+                    total = response.data.hits.total
+                      , 
+                    passo = 10
+                      , 
+                    promises = [];
+                    
+                    for (var i = passo; i < total; i += passo) {
+                        promises
+                        .push($http(defineHttpParametros({
+                            dados: query_rodadas_pelo_id,
+                            url: '/jogo/_search?from=' + i
+                        })));
+                    }
+                    $q.all(promises)
+                    .then(function(responses) {
+                        angular.forEach(responses, function(response) {
+                            jogos = jogos.concat(response.data.hits.hits);
+                        }
+                        );
+                        deferred.resolve(jogos);
+                    }
+                    );
+                } 
+                else {
+                    deferred.resolve(response.data.hits.hits);
+                }
+            }
+            );
+            return deferred.promise;
         },
         atualizarEmLoteES: function(dados) {
             return $http(defineHttpParametros({
@@ -265,14 +327,39 @@ angular.module('bolao')
     }
 }
 )
-.directive('stopEvent', function () {
+.directive('stopEvent', function() {
     return {
-      restrict: 'A',
-      link: function (scope, element, attr) {
-        element.on(attr.stopEvent, function (e) {
-          e.stopPropagation();
-        });
-      }
+        restrict: 'A',
+        link: function(scope, element, attr) {
+            element.on(attr.stopEvent, function(e) {
+                e.stopPropagation();
+            }
+            );
+        }
     };
-});
-
+}
+)
+.directive('palpite', function() {
+    return {
+        restrict: 'E',
+        transclude: 'true',
+        replace: 'false',
+        templateUrl: 'components/acordeon/diretivas/diretiva-palpite.html',
+        scope: {
+            jogoData: '@',
+            gols: '='
+        },
+        link: function(scope) {
+            var dataJogo = new Date(Date.parse(scope.jogoData));
+            //TODO: data corrente deverá vim de fonte segura.
+            var t = dataJogo.getTime() <= new Date().getTime();
+            if (dataJogo.getTime() <= new Date().getTime()) {
+                scope.somenteLeitura = true;
+            } 
+            else {
+                scope.somenteLeitura = false;
+            }
+        }
+    }
+}
+);

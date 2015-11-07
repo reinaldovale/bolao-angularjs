@@ -19,9 +19,7 @@ config(function(TokenProvider) {
 ).
 controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
     $scope.authenticate = function() {
-        var extraParams = $scope.askApproval ? {
-            approval_prompt: 'force'
-        } : {};
+        var extraParams = $scope.askApproval ? {approval_prompt: 'force'} : {};
         Token.getTokenByPopup(extraParams)
         .then(function(params) {
             // Success getting token from popup.
@@ -198,9 +196,9 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
     }
     );
     $scope.atualizar = function(rodada_id) {
-        BD.pegarRodadasES(rodada_id).then(function(response) {
+        BD.pegarRodadasES(rodada_id).then(function(jogos) {
             var atualizacaoEmLote = '';
-            var jogosParaAtualizar = response.data.hits.hits;
+            var jogosParaAtualizar = jogos;
             var rodadaGabarito = $scope.gabarito.rodadas
             .filter(function(rodada) {
                 return rodada.id === rodada_id;
