@@ -5,6 +5,9 @@
     "angular-touch": "~1.4.7",
     "angular": "~1.4.7",
     "angular-oauth": "1c1f4f1e88",
-    "angular-mocks": "~1.4.7"
+    "angular-mocks": "~1.4.7",
+    "satellizer": "~0.13.0",
+    "angular-toastr": "~1.5.0",
+    "angular-route": "~1.4.7"
   }
 }

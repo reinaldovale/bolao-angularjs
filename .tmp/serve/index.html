@@ -12,6 +12,7 @@
 
     <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="../bower_components/angular-toastr/dist/angular-toastr.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -28,59 +29,31 @@
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../bower_components/angular-touch/angular-touch.js"></script>
     <script src="../bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="../bower_components/satellizer/satellizer.js"></script>
+    <script src="../bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+    <script src="../bower_components/angular-route/angular-route.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
   </head>
   <body ng-app="bolao" ng-controller="ControlePrincipal" ng-cloak>
-	<menu>
-		<figure>            
-			<img ng-src="launcher-icon-2x.png">
-		</figure>
-		<ul>
-			<li><a ng-controller="Oauth" ng-click="authenticate();$event.stopPropagation();">Login</a></li>
-			<li><a ng-click="telaAdmin();$event.stopPropagation();">Administracao</a></li>
-			<li><a ng-click="telaCadastro();$event.stopPropagation();">Cadastro</a></li>			
-		</ul>
-	</menu>
- 
-  <div class="bolao">  	  
-	  <acordeon>
-		  <item ng-repeat="boleiro in boleiros" boleiro="boleiro" indice="{{$index}}">
-			  <carrossel total-paginas="38"  boleiro="boleiro">
-				  <pagina ng-repeat="rodada in boleiro.rodadas" conteudo="rodada">
-				  	<form ng-submit="atualizar(boleiro, rodada.id)">
-						<table class="rodada">
-						  <tr class="cabecalho-pagina">
-							<td colspan="3">Mandante</td>
-							<td></td>
-							<td colspan="3">Visitante</td>
-						  </tr> 
-						  <tr ng-repeat="jogo in ::rodada.jogos">
-							  <td class="time-escudo"><img ng-src="assets/images/times/{{jogo._source.mandante}}.png"></td>
-							  <td class="time-nome">{{jogo._source.mandante}}</td>
-							  <td class="time-placar"><palpite jogo-data="{{jogo._source.rodadas_data}}" gols="jogo._source.mandante_gols"></td>
-							  <td>x</td>
-							  <td class="time-placar"><palpite jogo-data="{{jogo._source.rodadas_data}}" gols="jogo._source.visitante_gols"></td>
-							  <td class="time-nome">{{jogo._source.visitante}}</td>
-							  <td class="time-escudo"><img ng-src="assets/images/times/{{jogo._source.visitante}}.png"></td>				  
-							</tr>
-						</table>
-						<input ng-show="ehAtualizavel(rodada)" type="submit" id="submit" value="Atualizar" stop-event="touchend click"/>						
-					</form>
-				  </pagina>
-			  </carrossel>
-		  </item>
-	  </acordeon>
-  </div>   
+  <div ng-include="'parcial/menu.html'"></div>
+  <div ng-view></div>  
     <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
     <!-- inject:js -->
     <script src="components/carrossel/js/carrossel.js"></script>
     <script src="components/acordeon/js/acordeon.js"></script>
     <script src="app/index.js"></script>
     <script src="components/navbar/navbar.controller.js"></script>
+    <script src="app/servicos/conta.js"></script>
+    <script src="app/servicos/boleiros.js"></script>
     <script src="app/main/main.controller.js"></script>
     <script src="app/main/googleOauth.js"></script>
     <script src="app/main/angularOauth.js"></script>
+    <script src="app/controle/seguranca.js"></script>
+    <script src="app/controle/perfil.js"></script>
+    <script src="app/controle/menu.js"></script>
+    <script src="app/config/rotas.js"></script>
+    <script src="app/config/oauth.js"></script>
     <!-- endinject -->
 
     <!-- inject:partials -->

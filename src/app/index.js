@@ -1,13 +1,15 @@
 'use strict';
-angular.module('bolao', ['bolao.carrossel', 'bolao.acordeon', 'ngTouch', 'googleOauth']);
+angular.module('bolao', ['bolao.carrossel', 'bolao.acordeon', 'ngTouch', 'ngRoute', 'googleOauth', 'toastr', 'satellizer']);
 
 angular.module('bolao')
 .factory('BD', ['$http', '$templateCache', '$q', function($http, $templateCache, $q) {
+     var boleiros = [];
     var defineHttpParametros = function(parametros) {
         return {
             method: parametros.method ? parametros.method : 'POST',
             url: parametros.url ? 'https://fili-us-east-1.searchly.com/bolao' + parametros.url : 'https://fili-us-east-1.searchly.com/bolao/jogo',
             data: parametros.dados ? parametros.dados : '',
+            skipAuthorization: true,
             headers: {
                 'Authorization': 'Basic c2l0ZTpjZGFhOTgyYjE4MWM0MTRiZTg3Yzk1ODdhOThkMjg5NA=='
             },
@@ -111,6 +113,9 @@ angular.module('bolao')
     };
     
     return {
+        pegarBoleiros: function() {
+            return boleiros;
+        },
         cadastrarRodadaES: function(boleiro, rodada_id) {
             var self = this, 
             deferred = $q.defer();
@@ -212,8 +217,7 @@ angular.module('bolao')
                 dados: query_boleiros,
                 url: '/jogo/_search'
             }))
-            .then(function(response) {
-                var boleiros = [];
+            .then(function(response) {               
                 var array = response.data.aggregations.boleiros.buckets;
                 boleiros = array.map(function(boleiroES) {
                     var foto = (boleiroES.foto.buckets.length > 0) ? boleiroES.foto.buckets[0].key : '';
@@ -226,6 +230,9 @@ angular.module('bolao')
                 }
                 );
                 deferred.resolve(boleiros);
+            },
+            function errorCallback(erro) {
+                deferred.reject("Servidor falhou, tente novamente. Detalhes: " + erro.data.error);
             }
             );
             return deferred.promise;
@@ -310,23 +317,6 @@ angular.module('bolao')
     };
 }
 ])
-.directive('menu', function() {
-    return {
-        restrict: 'E',
-        transclude: 'true',
-        replace: 'false',
-        templateUrl: 'components/acordeon/diretivas/diretiva-menu.html',
-        scope: 'true',
-        controller: function($scope) {
-            $scope.menuActive = '';
-            $scope.abrir = function() {
-                $scope.menuActive = $scope.menuActive === '' ? 'menu-active' : '';
-            }
-            ;
-        }
-    }
-}
-)
 .directive('stopEvent', function() {
     return {
         restrict: 'A',

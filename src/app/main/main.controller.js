@@ -1,75 +1,30 @@
 'use strict';
 
-angular.module('bolao').
-config(function(TokenProvider) {
-    // Demo configuration for the "angular-oauth demo" project on Google.
-    // Log in at will!
-    
-    // Sorry about this way of getting a relative URL, powers that be.
-    //     var baseUrl = document.URL.replace('example/demo.html', '');
-    var baseUrl = document.URL.replace('teste.html', '');
-    
-    TokenProvider.extendConfig({
-        clientId: '1041203641186-p7ift3msto8too87sqtkbq3so9j6qcp0.apps.googleusercontent.com',
-        redirectUri: baseUrl + 'oauth2callback.html',
-        // allow lunching demo from a mirror
-        scopes: ["https://www.googleapis.com/auth/userinfo.email"]
-    });
-}
-).
-controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
-    $scope.authenticate = function() {
-        var extraParams = $scope.askApproval ? {approval_prompt: 'force'} : {};
-        Token.getTokenByPopup(extraParams)
-        .then(function(params) {
-            // Success getting token from popup.
-            
-            // Verify the token before setting it, to avoid the confused 'deputy' problem.
-            Token.verifyAsync(params.access_token).
-            then(function(data) {
-                $http.get('https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + params.access_token)
-                .success(function(user) {
-                    //$rootScope.$apply(function() {
-                    user.accessToken = params.access_token;
-                    Token.set(JSON.stringify(user));
-                    //});
-                }
-                );
-            }
-            , function() {
-                alert("Failed to verify token.")
-            }
-            );
-        
-        }
-        , function() {
-            // Failure getting token from popup.
-            alert("Failed to get token from popup.");
-        }
-        );
-    }
-    ;
-}
-)
-.controller('ControlePrincipal', ['$timeout', '$scope', '$http', '$window', 'BD', 'Token', function($timeout, $scope, $http, $window, BD, Token) {
-    
-    //$scope.boleiros = [];
+angular.module('bolao')
+.controller('ControlePrincipal', ['$auth', '$timeout', '$rootScope', '$scope', '$http', '$window', 'BD', 'toastr', 'Conta', function($auth, $timeout, $rootScope, $scope, $http, $window, BD, toastr, Conta) {
     $scope.gabarito = {};
     
     BD.pegarBoleirosES()
     .then(function(boleiros) {
-        //         $scope.$apply(iniciar(boleiros));
+        iniciar(boleiros);
+    }, 
+    function errorCallback(erro) {
+        toastr.error(erro);
+    }
+    );
+    
+    $rootScope.$on('novoUsuario', function(ev, boleiros) {
         iniciar(boleiros);
     }
     );
     
     $scope.telaAdmin = function() {
-        var user = Token.get();
+        var user = $auth.getToken();
         if (!user) {
             alert('logar primeiro!');
         } 
         else {
-            user = JSON.parse(Token.get());
+            user = JSON.parse($auth.getToken());
             if (user.name === 'Reinaldo Vale') {
                 $window.location.href = 'teste.html';
             } 
@@ -79,41 +34,6 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
         }
     }
     ;
-    
-    $scope.telaCadastro = function() {
-        var user = Token.get()
-          
-        , 
-        cadastrar = true;
-        if (!user) {
-            alert('logar primeiro!');
-        } 
-        else {
-            user = JSON.parse(Token.get());
-            
-            for (var i = 0; i < $scope.boleiros.length; i++) {
-                if ($scope.boleiros[i].boleiro === user.name) {
-                    alert('Você já está cadastrado!');
-                    cadastrar = false;
-                    break;
-                }
-            }
-            if (cadastrar) {
-                $scope.boleiros = BD.cadastrarBoleiroES(user)
-                .then(function(boleiros) {
-                    $timeout(function() {
-                        iniciar(boleiros);
-                        $scope.$digest();
-                    
-                    }
-                    );
-                }
-                );
-            }
-        }
-    }
-    ;
-    
     function iniciar(boleiros) {
         $scope.boleiros = boleiros
         .filter(function(boleiro) {
@@ -151,8 +71,11 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
             return rodada.id === rodada_id;
         }
         )[0].jogos.forEach(function(jogo) {
-            var vistGols = jogo._source.visitante_gols === null ? "\"\"" : jogo._source.visitante_gols,
-                mandGols = jogo._source.mandante_gols === null ? "\"\"" : jogo._source.mandante_gols;
+            var vistGols = jogo._source.visitante_gols === null  ? "\"\"" : jogo._source.visitante_gols
+              
+            
+            , 
+            mandGols = jogo._source.mandante_gols === null  ? "\"\"" : jogo._source.mandante_gols;
             atualizacaoEmLote = atualizacaoEmLote + '{ "update": {"_id":"' + jogo._id + '"} }\n{ "doc" : {"visitante_gols" : ' + vistGols + ', "mandante_gols": ' + mandGols + '}, "detect_noop": true }\n';
         }
         );
@@ -205,9 +128,12 @@ controller('Oauth', function($rootScope, $scope, $window, $http, Token) {
             }
             )[0];
             angular.forEach(rodadaGabarito.jogos, function(jogoGabarito) {
-                var gabVistGols = jogoGabarito._source.visitante_gols === null ? "\"\"" : jogoGabarito._source.visitante_gols,
-                gabMandGols = jogoGabarito._source.mandante_gols === null ? "\"\"" : jogoGabarito._source.mandante_gols;
-
+                var gabVistGols = jogoGabarito._source.visitante_gols === null  ? "\"\"" : jogoGabarito._source.visitante_gols
+                  
+                
+                , 
+                gabMandGols = jogoGabarito._source.mandante_gols === null  ? "\"\"" : jogoGabarito._source.mandante_gols;
+                
                 atualizacaoEmLote = atualizacaoEmLote + '{ "update": {"_id":"' + jogoGabarito._id + '"} }\n{ "doc" : {"visitante_gols" : ' + gabVistGols + ', "mandante_gols": ' + gabMandGols + '}, "detect_noop": true }\n';
                 angular.forEach(jogosParaAtualizar, function(jogoBoleiro) {
                     
