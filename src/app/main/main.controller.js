@@ -7,14 +7,20 @@ angular.module('bolao')
     BD.pegarBoleirosES()
     .then(function(boleiros) {
         iniciar(boleiros);
-    }, 
+    }
+    , 
     function errorCallback(erro) {
         toastr.error(erro);
     }
     );
     
     $rootScope.$on('novoUsuario', function(ev, boleiros) {
-        iniciar(boleiros);
+        $timeout(function() {
+            iniciar(boleiros);
+            $scope.$digest();
+        
+        }
+        );
     }
     );
     
@@ -74,6 +80,7 @@ angular.module('bolao')
             var vistGols = jogo._source.visitante_gols === null  ? "\"\"" : jogo._source.visitante_gols
               
             
+            
             , 
             mandGols = jogo._source.mandante_gols === null  ? "\"\"" : jogo._source.mandante_gols;
             atualizacaoEmLote = atualizacaoEmLote + '{ "update": {"_id":"' + jogo._id + '"} }\n{ "doc" : {"visitante_gols" : ' + vistGols + ', "mandante_gols": ' + mandGols + '}, "detect_noop": true }\n';
@@ -130,6 +137,7 @@ angular.module('bolao')
             angular.forEach(rodadaGabarito.jogos, function(jogoGabarito) {
                 var gabVistGols = jogoGabarito._source.visitante_gols === null  ? "\"\"" : jogoGabarito._source.visitante_gols
                   
+                
                 
                 , 
                 gabMandGols = jogoGabarito._source.mandante_gols === null  ? "\"\"" : jogoGabarito._source.mandante_gols;
