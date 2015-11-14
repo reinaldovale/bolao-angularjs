@@ -25,28 +25,29 @@ angular.module('bolao')
         else {
             usuario = JSON.parse(usuario);
 
-            var boleiros = BD.pegarBoleiros();
+            BD.pegarBoleiros()
+            .then(function(boleiros) {
             
-            for (var i = 0; i < boleiros.length; i++) {
-                if (boleiros[i].boleiro === usuario.name) {
-                    toastr.warning('Você já está cadastrado!');
-                    cadastrar = false;
-                    break;
+                for (var i = 0; i < boleiros.length; i++) {
+                    if (boleiros[i].boleiro === usuario.name) {
+                        toastr.warning('Você já está cadastrado!');
+                        cadastrar = false;
+                        break;
+                    }
                 }
-            }
-            if (cadastrar) {
-                boleiros = BD.cadastrarBoleiroES(usuario)
-                .then(function(boleiros) {
-                    $rootScope.$emit('novoUsuario', boleiros);
-                    toastr.success('Cadastrado com sucesso!');
-                    $location.path('/');
-                },
-                function errorCallback(response) {
-                    toastr.error(response.data.message, response.status);
-                });
-            }
-        }
-        
+                if (cadastrar) {
+                    boleiros = BD.cadastrarBoleiroES(usuario)
+                    .then(function(boleiros) {
+                        $rootScope.$emit('novoUsuario', boleiros);
+                        toastr.success('Cadastrado com sucesso!');
+                        $location.path('/');
+                    },
+                    function errorCallback(response) {
+                        toastr.error(response.data.message, response.status);
+                    });
+                }            
+            });
+        }        
     };
 }
 );

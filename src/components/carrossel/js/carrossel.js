@@ -1,6 +1,6 @@
 'use strict';
 angular.module('bolao.carrossel', [])
-.directive('carrossel', ['BD', '$timeout', '$rootScope', function(BD, $timeout, $rootScope) {
+.directive('carrossel', function(BD, $timeout, $rootScope) {
     return {
         restrict: 'E',
         transclude: 'true',
@@ -204,7 +204,7 @@ angular.module('bolao.carrossel', [])
         }
     };
 }
-]).directive('pagina', function() {
+).directive('pagina', function() {
     return {
         require: '^carrossel',
         restrict: 'E',

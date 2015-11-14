@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('bolao')
-.controller('ControlePrincipal', ['$auth', '$timeout', '$rootScope', '$scope', '$http', '$window', 'BD', 'toastr', 'Conta', function($auth, $timeout, $rootScope, $scope, $http, $window, BD, toastr, Conta) {
+.controller('ControlePrincipal', function($auth, $timeout, $rootScope, $scope, $http, $window, BD, toastr, Conta) {
     $scope.gabarito = {};
     
-    BD.pegarBoleirosES()
+    BD.pegarBoleiros()
     .then(function(boleiros) {
         iniciar(boleiros);
     }
@@ -15,10 +15,10 @@ angular.module('bolao')
     );
     
     $rootScope.$on('novoUsuario', function(ev, boleiros) {
-        $timeout(function() {
-            iniciar(boleiros);
+        $timeout(function() {            
+            $scope.boleiros = [];            
             $scope.$digest();
-        
+            iniciar(boleiros);        
         }
         );
     }
@@ -40,7 +40,13 @@ angular.module('bolao')
         }
     }
     ;
-    function iniciar(boleiros) {
+    function iniciar(boleiros) {       
+        if(!$scope.boleiros) {
+            $scope.boleiros = [];
+        }
+        while ($scope.boleiros.length > 0) {
+            a.pop();
+        }
         $scope.boleiros = boleiros
         .filter(function(boleiro) {
             var retorno = true;
@@ -51,8 +57,10 @@ angular.module('bolao')
                 }
             }
             return retorno;
-        }
-        );
+        });
+
+        var t = 0;
+        
     }
     ;
     
@@ -108,8 +116,8 @@ angular.module('bolao')
     }
     ;
 }
-])
-.controller('ControleAtualizacao', ['$scope', 'BD', function($scope, BD) {
+)
+.controller('ControleAtualizacao', function($scope, BD) {
     
     BD.pegarRodadaES('gabarito', 1)
     .then(function(response) {
@@ -158,4 +166,4 @@ angular.module('bolao')
     }
     ;
 }
-]);
+);

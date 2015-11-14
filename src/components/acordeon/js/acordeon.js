@@ -1,6 +1,6 @@
 'use strict';
 angular.module('bolao.acordeon', [])
-.directive('acordeon', function() {
+.directive('acordeon', function($timeout, $rootScope) {
     return {
         restrict: 'E',
         transclude: 'true',
@@ -10,30 +10,54 @@ angular.module('bolao.acordeon', [])
         controller: function($scope) {
             
             $scope.itens = [];
+//             $scope.$watch('boleiros', function(locations) {
+//                   $scope.itens = [];
+//             });
+            
+            $rootScope.$on('novoUsuario', function(ev, boleiros) {
+                 $scope.itens = [];
+            }
+            );
             
             var eu = this
               
+            
+            
             , 
             prm = []
               
+            
+            
             , 
             TOTAL_PREMIADOS = 2
               
+            
+            
             , 
             premiados = 0
               
+            
+            
             , 
             reb = []
               
+            
+            
             , 
             TOTAL_REBAIXADOS = 2
               
+            
+            
             , 
             rebaixados = 0
               
+            
+            
             , 
             indiceAtual = 0
               
+            
+            
             , 
             verificarRebaixado = function(itemCorrente) {
                 if (rebaixados < TOTAL_REBAIXADOS) {
@@ -69,6 +93,8 @@ angular.module('bolao.acordeon', [])
                         if (maiores.length > 0) {
                             var mPT = maiores[0].boleiro.pontos
                               
+                            
+                            
                             , 
                             mPL = maiores[0].boleiro.placares;
                             for (var i = 1; i < maiores.length; i++) {
@@ -94,6 +120,8 @@ angular.module('bolao.acordeon', [])
                 }
             }
               
+            
+            
             , 
             
             verificarPremiado = function(itemCorrente) {
@@ -129,6 +157,8 @@ angular.module('bolao.acordeon', [])
                         if (menores.length > 0) {
                             var mPT = menores[0].boleiro.pontos
                               
+                            
+                            
                             , 
                             mPL = menores[0].boleiro.placares;
                             for (var i = 1; i < menores.length; i++) {
@@ -182,11 +212,12 @@ angular.module('bolao.acordeon', [])
                 indiceAtual = indice;
             }
             ;
+        
         }
     };
 }
 )
-.directive('item', ['BD', function(BD) {
+.directive('item', function(BD) {
     return {
         require: '^acordeon',
         restrict: 'E',
@@ -206,23 +237,27 @@ angular.module('bolao.acordeon', [])
             ;
             
             scope.abrir = function(indice) {
-                    var rodada_id = 1;
-                    scope.boleiro.rodadas = scope.boleiro.rodadas || [];
-                    var rodada = scope.boleiro.rodadas
-                    .filter(function(rodada) {
-                            return rodada.id === rodada_id;
-                    })[0];
-
-                    if(!rodada) {
-                        BD.pegarRodadaES(scope.boleiro.boleiro, rodada_id)
-                        .then(function(response) {
-                            scope.boleiro.rodadas.push(response);
-                        }, function errorCallback(response) {
-                           console.log(response);
-                        });
+                var rodada_id = 1;
+                scope.boleiro.rodadas = scope.boleiro.rodadas || [];
+                var rodada = scope.boleiro.rodadas
+                .filter(function(rodada) {
+                    return rodada.id === rodada_id;
+                }
+                )[0];
+                
+                if (!rodada) {
+                    BD.pegarRodadaES(scope.boleiro.boleiro, rodada_id)
+                    .then(function(response) {
+                        scope.boleiro.rodadas.push(response);
                     }
-                    acordeonControle.abrir(indice);
-            };
+                    , function errorCallback(response) {
+                        console.log(response);
+                    }
+                    );
+                }
+                acordeonControle.abrir(indice);
+            }
+            ;
             
             scope.ocultar = function() {
                 scope.visivel = false;
@@ -235,4 +270,4 @@ angular.module('bolao.acordeon', [])
         templateUrl: 'components/acordeon/diretivas/diretiva-item.html'
     };
 }
-]);
+);

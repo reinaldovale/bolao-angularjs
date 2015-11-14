@@ -2,8 +2,8 @@
 angular.module('bolao', ['bolao.carrossel', 'bolao.acordeon', 'ngTouch', 'ngRoute', 'googleOauth', 'toastr', 'satellizer']);
 
 angular.module('bolao')
-.factory('BD', ['$http', '$templateCache', '$q', function($http, $templateCache, $q) {
-     var boleiros = [];
+.factory('BD', ['$http', '$templateCache', '$q', '$timeout', function($http, $templateCache, $q, $timeout) {
+    var boleiros = [];
     var defineHttpParametros = function(parametros) {
         return {
             method: parametros.method ? parametros.method : 'POST',
@@ -18,6 +18,8 @@ angular.module('bolao')
     }
       
     
+    
+    
     , 
     /*
       Input = {    "MANDANTE":"Palmeiras",    "Placar":"",    "FIELD3":"x",    "FIELD4":"",    "VISITANTE":"Atlético-MG",    "RODADA":"1a rodada",    "DATA":"09/05/2015",    "DIA":"Sáb",    "HORA":"18:30:00",    "Pontos":0  }
@@ -31,12 +33,16 @@ angular.module('bolao')
             var data = modelo[i].DATA.match(/\d{2}/g).concat((modelo[i].HORA.match(/\d{2}/g) || ["00", "00", "00"]))
               
             
+            
+            
             , 
             dataFinal = new Date(data[2] + data[3] + '-' + data[1] + '-' + data[0] + ' ' + data[4] + ':' + data[5] + ':' + data[6]).toJSON();
             dados += '{ "index" : { "_index" : "bolao", "_type" : "jogo"} }\n{"boleiro": "modelo", "rodada_id": "' + modelo[i].RODADA.match(/\d/g).join("") + '", "rodadas_data": "' + dataFinal + '","mandante": "' + modelo[i].MANDANTE + '","mandante_gols": "", "visitante": "' + modelo[i].VISITANTE + '", "visitante_gols": "", "gaba_visit": "", "gaba_manda": ""}\n';
         }
     }
       
+    
+    
     
     , 
     query_boleiros = {
@@ -72,6 +78,8 @@ angular.module('bolao')
         "size": 0
     }
       
+    
+    
     , 
     query_rodada_pelo_id = {
         "query": {
@@ -89,6 +97,8 @@ angular.module('bolao')
         }
     }
       
+    
+    
     
     , 
     query_rodadas_pelo_id = {
@@ -113,11 +123,36 @@ angular.module('bolao')
     };
     
     return {
-        pegarBoleiros: function() {
-            return boleiros;
+        pegarBoleiros: function(fonte) {
+            var self = this
+              , 
+            deferred = $q.defer();
+            if (boleiros.length === 0 || (fonte && fonte.remoto)) {
+                self.pegarBoleirosES()
+                .then(
+                function(response) {
+                    $timeout(function() {
+                        boleiros = response;
+                        deferred.resolve(boleiros);
+                    }
+                    );
+                
+                }
+                , 
+                function errorCallback(response) {
+                    deferred.reject("Servidor falhou ao buscar rodada de ID = " + rodada_id);
+                }
+                );
+            } 
+            else {
+                deferred.resolve(boleiros);
+            }
+            return deferred.promise;
         },
         cadastrarRodadaES: function(boleiro, rodada_id) {
-            var self = this, 
+            var self = this
+              
+            , 
             deferred = $q.defer();
             
             self.pegarRodadaES('modelo', rodada_id)
@@ -147,19 +182,26 @@ angular.module('bolao')
                         .then(
                         function(response) {
                             deferred.resolve(response);
-                        },
+                        }
+                        , 
                         function errorCallback(response) {
                             deferred.reject("Servidor falhou ao buscar rodada de ID = " + rodada_id);
-                        })
-                    },
+                        }
+                        )
+                    }
+                    , 
                     function errorCallback(response) {
-                    deferred.reject("Servidor falhou ao fazer o _flush!");
-                    })
-                },
+                        deferred.reject("Servidor falhou ao fazer o _flush!");
+                    }
+                    )
+                }
+                , 
                 function errorCallback(response) {
                     deferred.reject("Servidor falhou ao cadastrar rodada!");
-                });
-            }, 
+                }
+                );
+            }
+            , 
             function errorCallback(response) {
                 deferred.reject("Servidor falhou ao buscar modelo!");
             }
@@ -169,9 +211,7 @@ angular.module('bolao')
         cadastrarBoleiroES: function(user) {
             var self = this;
             var deferred = $q.defer()
-              
-            
-            , 
+              , 
             rodadaPadrao = {
                 id: 1,
                 jogos: []
@@ -198,7 +238,9 @@ angular.module('bolao')
                         url: '/_flush'
                     }))
                     .then(function(response) {
-                        self.pegarBoleirosES()
+                        self.pegarBoleiros({
+                            remoto: true
+                        })
                         .then(function(response) {
                             deferred.resolve(response);
                         }
@@ -217,7 +259,7 @@ angular.module('bolao')
                 dados: query_boleiros,
                 url: '/jogo/_search'
             }))
-            .then(function(response) {               
+            .then(function(response) {
                 var array = response.data.aggregations.boleiros.buckets;
                 boleiros = array.map(function(boleiroES) {
                     var foto = (boleiroES.foto.buckets.length > 0) ? boleiroES.foto.buckets[0].key : '';
@@ -230,7 +272,8 @@ angular.module('bolao')
                 }
                 );
                 deferred.resolve(boleiros);
-            },
+            }
+            , 
             function errorCallback(erro) {
                 deferred.reject("Servidor falhou, tente novamente. Detalhes: " + erro.data.error);
             }
@@ -239,7 +282,9 @@ angular.module('bolao')
         },
         pegarRodadaES: function(idBoleiro, idRodada) {
             var deferred = $q.defer()
-              , 
+              
+            
+            , 
             self = this;
             query_rodada_pelo_id.query.bool.must[0].term.rodada_id = idRodada;
             query_rodada_pelo_id.query.bool.must[1].term['boleiro.raw'] = idBoleiro;
@@ -277,11 +322,17 @@ angular.module('bolao')
             .then(function(response) {
                 if (response.data.hits.total > 10) {
                     var jogos = response.data.hits.hits
-                      , 
+                      
+                    
+                    , 
                     total = response.data.hits.total
-                      , 
+                      
+                    
+                    , 
                     passo = 10
-                      , 
+                      
+                    
+                    , 
                     promises = [];
                     
                     for (var i = passo; i < total; i += passo) {

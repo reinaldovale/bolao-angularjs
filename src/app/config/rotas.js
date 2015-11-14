@@ -3,10 +3,14 @@ angular.module("bolao")
 	$routeProvider.when("/", {
 		templateUrl: "app/parcial/inicio.html",
 		controller: "ControlePrincipal"	
-	});
-	$routeProvider.when("/adm", {
+	})
+	.when("/adm", {
 		templateUrl: "app/parcial/teste.html",
 		controller: "ControleAtualizacao"
-	});	
-	$routeProvider.otherwise({redirectTo: "/"});
+	})
+	.otherwise({
+    template: "This route isn't set!"
+  	});
+// 	$routeProvider.otherwise({redirectTo: "/"});
+
 });
