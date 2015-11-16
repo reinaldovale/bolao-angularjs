@@ -9,21 +9,21 @@ angular.module('bolao.acordeon', [])
         scope: 'true',
         controller: function($scope) {
             
-            $scope.itens = [];
+//             itens = [];
 //             $scope.$watch('boleiros', function(locations) {
-//                   $scope.itens = [];
+//                   itens = [];
 //             });
             
-            $rootScope.$on('novoUsuario', function(ev, boleiros) {
-                 $scope.itens = [];
-            }
-            );
-            
-            var eu = this
-              
-            
-            
-            , 
+//             $rootScope.$on('novoUsuario', function(ev, boleiros) {
+//                  itens = [];
+//             }
+//             );
+
+//             verificarRebaixado();
+                
+
+            var eu = this,
+            itens = [],
             prm = []
               
             
@@ -192,22 +192,22 @@ angular.module('bolao.acordeon', [])
             
             eu.adicionarItem = function(item) {
                 verificarPremiado(item);
-                $scope.itens.push(item);
+                itens.push(item);
             }
             ;
             
             eu.abrir = function(indice) {
                 if (indice === indiceAtual) {
-                    if ($scope.itens[indiceAtual].visivel) {
-                        $scope.itens[indice].ocultar();
+                    if (itens[indiceAtual].visivel) {
+                        itens[indice].ocultar();
                     } 
                     else {
-                        $scope.itens[indice].exibir();
+                        itens[indice].exibir();
                     }
                 } 
                 else {
-                    $scope.itens[indiceAtual].ocultar();
-                    $scope.itens[indice].exibir();
+                    itens[indiceAtual].ocultar();
+                    itens[indice].exibir();
                 }
                 indiceAtual = indice;
             }

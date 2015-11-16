@@ -1,5 +1,5 @@
 angular.module('bolao')
-.controller('PerfilCtrl', function($rootScope, $scope, $auth, $location, toastr, Conta, BD, SatellizerStorage) {
+.controller('PerfilCtrl', function($scope, $auth, $location, toastr, Conta, BD, SatellizerStorage) {
     $scope.getPerfil = function() {
         Conta.getPerfil()
         .then(function(response) {
@@ -37,8 +37,7 @@ angular.module('bolao')
                 }
                 if (cadastrar) {
                     boleiros = BD.cadastrarBoleiroES(usuario)
-                    .then(function(boleiros) {
-                        $rootScope.$emit('novoUsuario', boleiros);
+                    .then(function(boleiro) {
                         toastr.success('Cadastrado com sucesso!');
                         $location.path('/');
                     },

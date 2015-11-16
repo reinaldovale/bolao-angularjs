@@ -1,5 +1,5 @@
 'use strict';
-angular.module('bolao', ['bolao.carrossel', 'bolao.acordeon', 'ngTouch', 'ngRoute', 'googleOauth', 'toastr', 'satellizer']);
+angular.module('bolao', ['bolao.carrossel', 'bolao.acordeon', 'ngTouch', 'ngRoute', 'toastr', 'satellizer']);
 
 angular.module('bolao')
 .factory('BD', ['$http', '$templateCache', '$q', '$timeout', function($http, $templateCache, $q, $timeout) {
@@ -238,13 +238,14 @@ angular.module('bolao')
                         url: '/_flush'
                     }))
                     .then(function(response) {
-                        self.pegarBoleiros({
-                            remoto: true
-                        })
-                        .then(function(response) {
-                            deferred.resolve(response);
-                        }
-                        );
+                        var novoBoleiro = {
+                        "boleiro": user.name,
+                        "foto": user.picture,
+                        "pontos": 0,
+                        "placares": 0
+                        };
+                        boleiros.push(novoBoleiro);
+                        deferred.resolve(novoBoleiro);
                     }
                     );
                 }
@@ -258,7 +259,7 @@ angular.module('bolao')
             $http(defineHttpParametros({
                 dados: query_boleiros,
                 url: '/jogo/_search'
-            }))
+            }))                    
             .then(function(response) {
                 var array = response.data.aggregations.boleiros.buckets;
                 boleiros = array.map(function(boleiroES) {
