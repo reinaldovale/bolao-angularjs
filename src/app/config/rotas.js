@@ -1,5 +1,5 @@
 angular.module("bolao")
-.config(function ($routeProvider, $httpProvider) {
+.config(function ($routeProvider, $httpProvider, $locationProvider) {
 	$routeProvider.when("/", {
 		templateUrl: "app/parcial/inicio.html",
 		controller: "ControlePrincipal"	
@@ -12,5 +12,6 @@ angular.module("bolao")
 //     template: "This route isn't set!"
 //   	});
 	$routeProvider.otherwise({redirectTo: "/"});
-	$httpProvider.useApplyAsync(true);
+	$locationProvider.html5Mode(true);
+// 	$httpProvider.useApplyAsync(true);
 });

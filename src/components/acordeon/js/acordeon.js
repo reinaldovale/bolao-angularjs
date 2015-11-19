@@ -217,7 +217,7 @@ angular.module('bolao.acordeon', [])
     };
 }
 )
-.directive('item', function(BD) {
+.directive('item', function(BD, $window, $timeout) {
     return {
         require: '^acordeon',
         restrict: 'E',
@@ -233,10 +233,14 @@ angular.module('bolao.acordeon', [])
             scope.exibir = function() {
                 scope.visivel = true;
                 scope.situacao = 'item-aberto';
+                $timeout(function() {
+                    element[0].scrollIntoView();        
+                }, 500);
+                
             }
             ;
             
-            scope.abrir = function(indice) {
+            scope.abrir = function(indice) {                
                 var rodada_id = 1;
                 scope.boleiro.rodadas = scope.boleiro.rodadas || [];
                 var rodada = scope.boleiro.rodadas
