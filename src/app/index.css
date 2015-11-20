@@ -108,8 +108,6 @@ header, .main {
     transform: translateX(50%);
 }
 
-
-
 .bolao {
     position: absolute;
     width:100%;
@@ -121,7 +119,7 @@ header, .main {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
+} 
 
 .rodada {
     background-color: #f1c40f;
