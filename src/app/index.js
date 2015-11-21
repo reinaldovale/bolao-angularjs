@@ -1,5 +1,5 @@
 'use strict';
-angular.module('bolao', ['bolao.carrossel', 'bolao.acordeon', 'ngTouch', 'ngRoute', 'toastr', 'satellizer']);
+angular.module('bolao', ['bolao.carrossel', 'bolao.acordeon', 'ngTouch', 'ngRoute', 'toastr', 'satellizer', 'ngMaterial']);
 
 angular.module('bolao')
 .factory('BD', ['$http', '$templateCache', '$q', '$timeout', function($http, $templateCache, $q, $timeout) {

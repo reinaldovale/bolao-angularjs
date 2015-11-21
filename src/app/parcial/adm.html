@@ -1,0 +1,58 @@
+<nav>       	
+	<ul layout="row" layout-wrap layout-align="center center" >
+		<li flex="2" class="ponto" ng-repeat="pagina in (0|number:38 - 2 ) track by $index">
+		{{$index + 1}}
+		</li>
+	</ul>
+</nav>   
+<session layout="column" class="jogos">
+	<header layout="row">
+	  <div flex="40" class="dois">
+		Mandante
+	  </div>
+		<div flex="20">
+		Placar
+	  </div>
+	  <div flex="40" class="dois" >
+		Visitante
+	  </div>
+	</header>
+	<article layout="row" ng-repeat="jogo in gabarito.rodadas[0].jogos">
+	  <div flex="15" class="um" >
+		<img ng-src="assets/images/times/{{jogo._source.mandante}}.png">
+	  </div>
+	  <div flex="20" class="dois" >
+		{{jogo._source.mandante}}
+	  </div>
+      <div flex="10" class="um" >
+		{{jogo._source.mandante_gols}}
+	  </div>
+	  <div flex="10">
+		x
+	  </div>
+	  <div flex="10" class="dois" >
+		{{jogo._source.visitante_gols}}
+	  </div>
+		<div flex="20" class="um" >
+		{{jogo._source.visitante}}
+	  </div>	  
+	  <div flex="15" class="dois" >
+		<img ng-src="assets/images/times/{{jogo._source.visitante}}.png">
+	  </div>
+	</article>
+</session>
+<footer>
+	<header layout="row">
+		<div flex>Número: </div>
+		<div flex>Total de Pontos: </div>
+		<div flex>Data: </div>
+		<div flex>Total de Placares: </div>
+	</header>
+	<session>
+		<div>{{conteudo.id}}</div>
+		<div>{{conteudo.pontos}}</div>		  
+		<div>{{conteudo.data  | date : 'dd/MM/yyyy'}}</div>			  
+		<div>{{conteudo.placares}}</div>
+	</session>	
+	<a href="/">Início</a>
+</footer>

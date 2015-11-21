@@ -17,12 +17,15 @@
     <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="../bower_components/angular-toastr/dist/angular-toastr.css" />
+    <link rel="stylesheet" href="../bower_components/angular-material/angular-material.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:css({.tmp/serve,src}) styles/app.css -->
     <!-- inject:css -->
     <link rel="stylesheet" href="app/index.css">
+    <link rel="stylesheet" href="components/css/adm.css">
+    <link rel="stylesheet" href="components/css/menu.css">
     <link rel="stylesheet" href="components/acordeon/css/styles.css">
     <link rel="stylesheet" href="components/carrossel/css/styles.css">
     <!-- endinject -->
@@ -36,18 +39,19 @@
     <script src="../bower_components/satellizer/satellizer.js"></script>
     <script src="../bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
     <script src="../bower_components/angular-route/angular-route.js"></script>
+    <script src="../bower_components/angular-animate/angular-animate.js"></script>
+    <script src="../bower_components/angular-aria/angular-aria.js"></script>
+    <script src="../bower_components/angular-material/angular-material.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
   </head>
   <body ng-app="bolao" ng-cloak>
-  <div ng-include="'app/parcial/menu.html'"></div>
   <div ng-view></div>  
     <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
     <!-- inject:js -->
     <script src="components/carrossel/js/carrossel.js"></script>
     <script src="components/acordeon/js/acordeon.js"></script>
     <script src="app/index.js"></script>
-    <script src="components/navbar/navbar.controller.js"></script>
     <script src="app/servicos/conta.js"></script>
     <script src="app/servicos/boleiros.js"></script>
     <script src="app/main/main.controller.js"></script>

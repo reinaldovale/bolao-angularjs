@@ -4,7 +4,7 @@ angular.module('bolao.acordeon', [])
     return {
         restrict: 'E',
         transclude: 'true',
-        replace: 'true',
+        replace: 'false',
         templateUrl: 'components/acordeon/diretivas/diretiva-acordeon.html',
         scope: 'true',
         controller: function($scope) {
@@ -222,7 +222,7 @@ angular.module('bolao.acordeon', [])
         require: '^acordeon',
         restrict: 'E',
         transclude: 'true',
-        replace: 'true',
+        replace: 'false',
         scope: {
             boleiro: '=',
             indice: '@'

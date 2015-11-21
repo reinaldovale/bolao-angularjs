@@ -6,107 +6,74 @@
 /* Isto é necessário para não haver rolagens horizontais quando movermos os elementos */
 html, body {overflow-x: hidden;}
 
-header {
-    background: #f49c14;
-    padding: 2%;
-    overflow: hidden;
-}
+/*
+        Force full width & height.
 
-header h1 {
-    display: inline-block;
-    vertical-align: middle;
-    text-align: center;
-    width: 80%;
-    font-size: 1.2em;
-}
-h1 a {color: #FFF; text-decoration: none;}
+        If this block is removed, the layout height/length will be determined by
+        the amount of content in the page. That might result in a page which has
+        a footer only a few inches from the top of the viewport, or one which
+        scrolls beyond the viewport.
 
-.menu-anchor {
-    width: 32px;
-    height: 32px;
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-    text-indent: -9999px;
-    overflow: hidden;
-    cursor: pointer;
-    background: #FFF;
-/*     z-index: 10000; */
-}
-
-.menu-anchor:before {
-    content: "";
-    display: block;
-    margin: 7px auto;
-    width: 70%;
-    height: 0.25em;
-    background: #f49c14;
-    box-shadow: 0 .45em 0 0 #f49c14, 0 .9em 0 0 #f49c14;
-}
-
-.menu-active .menu-anchor {background: #d55401}
-
-.menu-main {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    width: 50%;
+        This forces the layout to always be full screen regardless of how much,
+        or how little, content is in place. Neither is "right" or "wrong", there
+        are valid cases for each. I just want to be clear what's controlling the
+        page/viewport height.
+      */
+html, body, .viewport {
+    width: 100%;
     height: 100%;
-    padding-top: 10px;
-    background: #d55401;
-    box-shadow: inset -5px -10px 10px 0 rgba(0,0,0,.3)
+    margin: 0;
 }
 
-.menu-main li a {
-    display: block;
-    border-bottom: 1px solid rgba(255,255,255,.3);
-    margin: 0 10px;
-    padding: 10px;
-    color: #FFF;
-    text-decoration: none;
+/* items flex/expand vertically */
+.vbox {
+    display: flex;    
+    flex-direction: column;
 }
 
-.menu-main li a:hover {
-    background: #FFF;
-    color: #d55401;
+/* items flex/expand horizontally */
+.hbox {
+    display: flex;
+    flex-direction: column;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.conteiner-itens {
+    flex: 0.2;
+}
+
+.item-aberto {
+    flex: 10;
+}
+
+.item-fechado {
+    flex: 0.2;
 }
 
 
-/*
-    Aqui você esconde o menu para fora da tela 
-    O valor é exatamente a largura da sidebar
-*/
-.menu-main {
-    transform: translateX(-100%);   
-    transition: all .25s linear;
-}
 
-/*
-    Essa é a posição original do HEADER e do MAIN
-*/
-header, .main {
-    -webkit-transform: translateX(0);
-    -moz-transform: translateX(0);
-    -ms-transform: translateX(0);
-    transform: translateX(0);
-    -webkit-transition: all .25s linear;
-    -moz-transition: all .25s linear;
-    -ms-transition: all .25s linear;
-    transition: all .25s linear;
-}
 
-/*
-   Com a classe menu-active na tag HTML
-*/
-.menu-active .menu-main {
-    transform: translateX(0);
-}
 
-.menu-active header, 
-.menu-active .main {
-    transform: translateX(50%);
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .bolao {
     position: absolute;

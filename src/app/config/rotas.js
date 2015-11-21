@@ -5,7 +5,7 @@ angular.module("bolao")
 		controller: "ControlePrincipal"	
 	})
 	.when("/adm", {
-		templateUrl: "app/parcial/teste.html",
+		templateUrl: "app/parcial/adm.html",
 		controller: "AdmCtrl"
 	});
 // 	.otherwise({

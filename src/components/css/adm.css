@@ -1,0 +1,47 @@
+.ponto {
+    display: inline-block;
+/*     font-size: 90%; */
+    padding: 0.2%;
+    color: #ffd700;
+    font-weight: bold;
+    background-color: black;
+    border-radius: 50%;
+    text-align:center;
+}
+
+.ponto:hover {
+    border-color: black;
+    background-color: #ffd700;
+    color: black;
+}
+
+.jogos {
+    text-align:center;
+}
+
+img {
+    background-size: cover;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.um {
+    background-color: green;
+
+}
+.dois {
+    background-color: #f1c40f;
+}

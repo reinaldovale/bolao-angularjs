@@ -1,5 +1,6 @@
 angular.module('bolao')
-.controller('AdmCtrl', function($scope, $auth, $location, toastr, Conta, BD, SatellizerStorage) {    
+.controller('AdmCtrl', function($scope, $auth, $location, toastr, Conta, BD, SatellizerStorage) {
+        
     BD.pegarRodadaES('gabarito', 1)
     .then(function(response) {
         if ($scope.gabarito === undefined) {
