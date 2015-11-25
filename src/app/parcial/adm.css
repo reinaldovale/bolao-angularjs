@@ -1,0 +1,108 @@
+/* .adm > nav, */
+.adm > nav > div,
+.adm > header,
+/*.adm > header > div, */
+.adm > .jogos,
+/* .adm > .jogos > .jogo, */
+.adm > .jogos > .jogo > div,
+.adm > footer {
+/*     border: 1px solid black;
+    padding: 0.1em;
+    margin: 0.1em;
+    border-radius: 0.25em; */
+}
+
+/* ====================================================== */
+
+body > div {
+    height: inherit;
+}
+
+.adm {
+    text-align:center;    
+    display: flex;
+    flex-direction: column;
+    height: inherit; 
+}
+
+.adm > nav {    
+    display:flex; 
+    flex-flow:row wrap;    
+    justify-content: center;
+    align-items:center;
+    flex:3;    
+}
+
+.adm > nav > div {    
+    width: 5%;
+    overflow:hidden;
+    border-radius: 1em;
+    border: 1px solid #ffd700;
+    padding: 0.1em;
+    margin: 0.1em;
+    color: #ffd700;
+    font-weight: bold;
+    background-color: black;
+}
+
+.adm > nav > div:hover {
+    border-color: black;
+    background-color: #ffd700;
+    color: black;
+}
+
+.adm > header, 
+.adm > footer {
+    display:flex;
+    flex:1;
+    justify-content: space-around;
+    border-top: dotted;
+}
+
+.adm > header > div, 
+.adm > footer > div {
+    margin: auto;
+}
+
+.adm > .jogos {
+    display: flex;
+    flex-flow:row wrap;
+    flex:15;
+    overflow-y:scroll;
+}
+
+.adm > .jogos .jogo {
+    display:flex;
+    width:100%;
+}
+
+.adm > .jogos .jogo div {
+    overflow:hidden;
+    margin: auto;
+    border: 1px solid black;
+    border-radius: 0.25em;
+    flex:7;    
+}
+
+.adm > .jogos > .jogo .placar {
+    border:none;
+    flex:1;        
+}
+
+.adm > .jogos > .jogo > .escudo {
+     border:none;
+}
+
+.adm > .jogos > .jogo > .escudo > img {
+/*     display:none; */
+        max-width:50%;
+}
+
+/* @media (max-width: 500px) {
+    .adm
+    div,
+    article div img {
+        max-width:50%;        
+        font-size: 70%;
+    }
+} */

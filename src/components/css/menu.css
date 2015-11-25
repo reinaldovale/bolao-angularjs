@@ -1,19 +1,19 @@
-header {
+.menu header {
     background: #f49c14;
     padding: 2%;
     overflow: hidden;
 }
 
-header h1 {
+.menu header h1 {
     display: inline-block;
     vertical-align: middle;
     text-align: center;
     width: 80%;
     font-size: 1.2em;
 }
-h1 a {color: #FFF; text-decoration: none;}
+.menu h1 a {color: #FFF; text-decoration: none;}
 
-.menu-anchor {
+.menu .menu-anchor {
     width: 32px;
     height: 32px;
     display: inline-block;
@@ -26,7 +26,7 @@ h1 a {color: #FFF; text-decoration: none;}
 /*     z-index: 10000; */
 }
 
-.menu-anchor:before {
+.menu .menu-anchor:before {
     content: "";
     display: block;
     margin: 7px auto;
@@ -36,9 +36,9 @@ h1 a {color: #FFF; text-decoration: none;}
     box-shadow: 0 .45em 0 0 #f49c14, 0 .9em 0 0 #f49c14;
 }
 
-.menu-active .menu-anchor {background: #d55401}
+.menu .menu-active .menu-anchor {background: #d55401}
 
-.menu-main {
+.menu .menu-main {
     position: fixed;
     top: 0;
     left: 0;
@@ -50,7 +50,7 @@ h1 a {color: #FFF; text-decoration: none;}
     box-shadow: inset -5px -10px 10px 0 rgba(0,0,0,.3)
 }
 
-.menu-main li a {
+.menu .menu-main li a {
     display: block;
     border-bottom: 1px solid rgba(255,255,255,.3);
     margin: 0 10px;
@@ -59,7 +59,7 @@ h1 a {color: #FFF; text-decoration: none;}
     text-decoration: none;
 }
 
-.menu-main li a:hover {
+.menu .menu-main li a:hover {
     background: #FFF;
     color: #d55401;
 }
@@ -69,7 +69,7 @@ h1 a {color: #FFF; text-decoration: none;}
     Aqui você esconde o menu para fora da tela 
     O valor é exatamente a largura da sidebar
 */
-.menu-main {
+.menu .menu-main {
     transform: translateX(-100%);   
     transition: all .25s linear;
 }
@@ -77,7 +77,7 @@ h1 a {color: #FFF; text-decoration: none;}
 /*
     Essa é a posição original do HEADER e do MAIN
 */
-header, .main {
+.menu header, .main {
     -webkit-transform: translateX(0);
     -moz-transform: translateX(0);
     -ms-transform: translateX(0);
@@ -91,11 +91,11 @@ header, .main {
 /*
    Com a classe menu-active na tag HTML
 */
-.menu-active .menu-main {
+.menu .menu-active .menu-main {
     transform: translateX(0);
 }
 
-.menu-active header, 
-.menu-active .main {
+.menu .menu-active header, 
+.menu .menu-active .main {
     transform: translateX(50%);
 }

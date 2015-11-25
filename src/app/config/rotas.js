@@ -7,6 +7,10 @@ angular.module("bolao")
 	.when("/adm", {
 		templateUrl: "app/parcial/adm.html",
 		controller: "AdmCtrl"
+	})
+	.when("/adm-flex", {
+		templateUrl: "app/parcial/adm-flex.html",
+		controller: "AdmCtrl"
 	});
 // 	.otherwise({
 //     template: "This route isn't set!"

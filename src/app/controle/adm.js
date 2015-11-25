@@ -11,6 +11,7 @@ angular.module('bolao')
         if ($scope.gabarito.rodadas === undefined) {
             $scope.gabarito.rodadas = [];
             $scope.gabarito.rodadas.push(response);
+            var t;
         }
     
     }

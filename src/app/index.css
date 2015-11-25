@@ -1,10 +1,5 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-
 /* Isto é necessário para não haver rolagens horizontais quando movermos os elementos */
-html, body {overflow-x: hidden;}
+/* html, body {overflow-x: hidden;} */
 
 /*
         Force full width & height.
@@ -19,11 +14,11 @@ html, body {overflow-x: hidden;}
         are valid cases for each. I just want to be clear what's controlling the
         page/viewport height.
       */
-html, body, .viewport {
+/* html, body, .viewport {
     width: 100%;
     height: 100%;
     margin: 0;
-}
+} */
 
 /* items flex/expand vertically */
 .vbox {
