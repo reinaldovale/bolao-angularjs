@@ -1,15 +1,9 @@
-.viewport {
-    width: 100%;
-    height: 100%;
-    /*     background-color:red; */
-}
-
-
-.adm {
-    text-align: center;
+.adm {    
     display: flex;
     flex-direction: column;
+     flex: 1;    
     height: inherit;
+    text-align: center;
 }
 
 .adm > nav {
@@ -18,7 +12,7 @@
     justify-content: center;
     align-items: center;
     flex: 2;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .adm > nav > div {
@@ -59,7 +53,7 @@
     display: flex;
     flex-flow: row wrap;
     flex: 10;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .adm > .jogos .jogo {
@@ -96,16 +90,7 @@
 @media (min-width: 800px) {
     .viewport > .adm {
         width:50%;
-        margin-left: 25%;
-        /*         background-color:red; */
+        margin-left: 25%; 
     }
 }
 
-/* @media (max-width: 500px) {
-    .adm
-    div,
-    article div img {
-        max-width:50%;        
-        font-size: 70%;
-    }
-} */

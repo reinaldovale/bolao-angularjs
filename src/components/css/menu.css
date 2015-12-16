@@ -1,3 +1,7 @@
+.menu {
+    overflow-x: hidden;
+}
+
 .menu header {
     background: #f49c14;
     padding: 2%;
@@ -48,6 +52,12 @@
     padding-top: 10px;
     background: #d55401;
     box-shadow: inset -5px -10px 10px 0 rgba(0,0,0,.3)
+
+
+}
+
+.menu .menu-main ul { 
+    padding: 0;
 }
 
 .menu .menu-main li a {
