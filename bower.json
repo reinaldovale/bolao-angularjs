@@ -2,13 +2,12 @@
   "name": "bolao",
   "version": "0.0.0",
   "dependencies": {
-    "angular-touch": "~1.4.7",
-    "angular": "~1.4.7",
-    "angular-oauth": "1c1f4f1e88",
-    "angular-mocks": "~1.4.7",
+    "angular-touch": "~1.5.3",
+    "angular": "~1.5.3",
+    "angular-mocks": "~1.5.3",
     "satellizer": "~0.13.0",
     "angular-toastr": "~1.5.0",
-    "angular-route": "~1.4.7",
-    "angular-material": "~0.11.4"
+    "angular-route": "~1.5.3",
+    "material-design-lite": "^1.1.3"
   }
 }
